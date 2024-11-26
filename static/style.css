@@ -58,6 +58,11 @@ body {
   overflow-y: auto;
 }
 
+.left-sidebar,
+.right-sidebar {
+  width: 250px; /* Garantir a mesma largura */
+}
+
 .left-sidebar {
   left: 0;
 }
@@ -81,26 +86,33 @@ body {
   margin-right: auto;
 }
 
+/* Estilização do link "Mecum" */
 .sidebar h1 {
+  text-align: center; /* Centraliza o conteúdo dentro do h1 */
+}
+
+.sidebar h1 a.home-link {
+  /* Propriedades de Fonte Específicas */
   font-family: 'Lora', serif;
   font-weight: 700;
   font-size: 48px;
   margin: 0;
   line-height: 1;
-}
 
-/* Estilização do link "Mecum" */
-.sidebar h1 a.home-link {
+  /* Propriedades Existentes */
   color: var(--text-color); /* Herda a cor do texto definida nas variáveis de tema */
-  text-decoration: none; /* Remove a sublinhado padrão dos links */
+  text-decoration: none; /* Remove o sublinhado padrão dos links */
   display: inline-block;
-  width: 100%;
+  transition: color 0.3s; /* Transição suave para a cor no hover */
 }
 
 .sidebar h1 a.home-link:hover,
 .sidebar h1 a.home-link:focus {
-  text-decoration: none; /* Garante que não haja sublinhado no hover */
-  color: var(--button-background-hover); /* Altera a cor ao passar o mouse */
+  /* Mantém a remoção do sublinhado no hover/focus */
+  text-decoration: none;
+
+  /* Altera a cor ao passar o mouse */
+  color: var(--button-background-hover);
 }
 
 .sidebar input[type="text"] {
@@ -130,7 +142,7 @@ body {
 .sidebar-button {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-start; /* Mantém o alinhamento à esquerda */
   gap: 8px;
   width: 100%;
   padding: 10px 15px;
@@ -140,18 +152,29 @@ body {
   cursor: pointer;
   color: var(--text-color);
   border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
 }
 
+/* Hover e Focus States */
 .sidebar-button:hover,
 .sidebar-button:focus {
   background-color: var(--button-background-hover);
   outline: none;
 }
 
+/* Estilização específica para SVGs dentro de sidebar-button */
+.sidebar-button svg {
+  width: 20px; /* Ajuste o tamanho conforme necessário */
+  height: 20px;
+  flex-shrink: 0; /* Impede que o ícone diminua de tamanho */
+  color: inherit; /* Herda a cor do texto */
+  transition: color 0.3s;
+}
+
 /* Realce para o botão selecionado */
 .sidebar-button.selected {
-  background-color: var(--button-background-hover);
-  font-weight: bold;
+    background-color: var(--button-background-hover);
+    font-weight: bold;
 }
 
 .icon {
@@ -196,46 +219,73 @@ a:focus {
   text-decoration: underline;
 }
 
-/* Estilos para Hierarquia de Cabeçalhos */
-h1 {
+/* Estilos para Hierarquia de Cabeçalhos dentro de .main-content */
+.main-content h1 {
     font-size: 32px;
     margin-bottom: 20px;
+    text-align: center; /* Centralizado */
 }
 
-h2 {
+.main-content h2 {
     font-size: 28px;
     margin-top: 20px;
     margin-bottom: 10px;
+    text-align: center; /* Centralizado */
 }
 
-h3 {
+.main-content h3 {
     font-size: 24px;
     margin-top: 15px;
     margin-bottom: 8px;
+    text-align: center; /* Centralizado */
 }
 
-h4 {
+.main-content h4 {
     font-size: 20px;
     margin-top: 10px;
     margin-bottom: 6px;
+    text-align: center; /* Centralizado */
 }
 
-h5 {
+.main-content h5 {
     font-size: 18px;
     margin-top: 8px;
     margin-bottom: 4px;
+    text-align: center; /* Centralizado */
 }
 
-h6 {
+.main-content h6 {
     font-size: 16px;
     margin-top: 6px;
     margin-bottom: 2px;
+    text-align: center; /* Centralizado */
 }
 
 /* Estilo comum para os parágrafos */
-p {
+.main-content p {
     margin-bottom: 15px;
     line-height: 1.6;
+    text-align: left; /* Alinhado à esquerda por padrão */
+}
+
+/* Alinhamento e recuo para Ementa */
+.p-ementa {
+    text-align: left;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    max-width: 50%; /* Ajuste conforme necessário */
+}
+
+/* Preâmbulo */
+.preambulo-subtitle {
+    font-size: 28px; /* h2 */
+    text-align: center;
+    font-weight: 600;
+}
+
+.preambulo-content {
+    text-align: left;
+    margin-top: 10px;
 }
 
 /* Loader */
@@ -287,18 +337,24 @@ p {
         position: relative;
         height: auto;
     }
-    
+
     .left-sidebar,
     .right-sidebar {
         display: none; /* Ou transforme em um menu dropdown */
     }
-    
+
     .main-content {
         margin: 0;
         padding: 15px;
     }
-    
+
     .sidebar-button {
         padding: 10px;
+    }
+
+    .p-ementa {
+        margin-left: 0;
+        transform: none;
+        max-width: 100%;
     }
 }

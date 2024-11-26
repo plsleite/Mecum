@@ -83,15 +83,11 @@ def get_law(law_id):
             identifier = row[2]
             content = row[3]
             path = row[4]
-            # Formatar o título com base no type e identifier
-            if identifier:
-                title = f"{section_type} {identifier}"
-            else:
-                title = section_type
             # Adicionar seção se o conteúdo existir
             if content:
                 law['sections'].append({
-                    "title": title,
+                    "type": section_type,
+                    "identifier": identifier,
                     "content": content,
                     "path": path
                 })

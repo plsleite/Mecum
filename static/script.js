@@ -35,11 +35,86 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayLawContent(data) {
         let htmlContent = `<h1>${data.name}</h1>`;
         data.sections.forEach(section => {
-            const pathParts = section.path.split('.');
-            const depth = pathParts.length;
-            const headingLevel = Math.min(depth + 1, 6); // h2 a h6
-            const headingTag = `h${headingLevel}`;
-            htmlContent += `<${headingTag}>${section.title}</${headingTag}><p>${section.content}</p>`;
+            const type = section.type;
+            const identifier = section.identifier ? ` ${section.identifier}` : '';
+            const content = section.content;
+            const path = section.path;
+
+            switch(type) {
+                case 'Epígrafe':
+                    // Exibir epígrafe como h2, centralizado, sem a palavra 'Epígrafe'
+                    htmlContent += `<h2>${content}</h2>`;
+                    break;
+                case 'Ementa':
+                    // Exibir ementa como parágrafo alinhado à esquerda com recuo
+                    htmlContent += `<p class="p-ementa">${content}</p>`;
+                    break;
+                case 'Preâmbulo':
+                    // Exibir 'Preâmbulo' como h2, centralizado, seguido do conteúdo
+                    htmlContent += `<h2 class="preambulo-subtitle">Preâmbulo</h2>`;
+                    htmlContent += `<p class="preambulo-content">${content}</p>`;
+                    break;
+                case 'Disposições Preliminares':
+                case 'Disposições Gerais':
+                case 'Disposições Finais':
+                case 'Disposições Transitórias':
+                    // Exibir como h2, centralizado
+                    htmlContent += `<h2>${type}</h2>`;
+                    break;
+                case 'Parte':
+                    // Exibir 'Parte' seguido do identifier como h3, centralizado
+                    htmlContent += `<h3>Parte${identifier}</h3>`;
+                    break;
+                case 'Livro':
+                    // Exibir 'Livro' seguido do identifier e conteúdo como h4, centralizado
+                    htmlContent += `<h4>Livro${identifier} - ${content}</h4>`;
+                    break;
+                case 'Título':
+                    // Exibir 'Título' seguido do identifier e conteúdo como h4, centralizado
+                    htmlContent += `<h4>Título${identifier} - ${content}</h4>`;
+                    break;
+                case 'Capítulo':
+                    // Exibir 'Capítulo' seguido do identifier e conteúdo como h5, centralizado
+                    htmlContent += `<h5>Capítulo${identifier} - ${content}</h5>`;
+                    break;
+                case 'Seção':
+                    // Exibir 'Seção' seguido do identifier e conteúdo como h5, centralizado
+                    htmlContent += `<h5>Seção${identifier} - ${content}</h5>`;
+                    break;
+                case 'Subseção':
+                    // Exibir 'Subseção' seguido do identifier e conteúdo como h6, centralizado
+                    htmlContent += `<h6>Subseção${identifier} - ${content}</h6>`;
+                    break;
+                case 'Artigo':
+                    // Exibir 'Artigo' seguido do identifier e conteúdo como h6, alinhado à esquerda
+                    htmlContent += `<h6>Art. ${identifier}</h6><p>${content}</p>`;
+                    break;
+                case 'Parágrafo':
+                    // Exibir '§' seguido do identifier e conteúdo como p, alinhado à esquerda
+                    htmlContent += `<p>§ ${identifier} ${content}</p>`;
+                    break;
+                case 'Inciso':
+                    // Exibir 'Inciso' seguido do identifier e conteúdo como li dentro de ul
+                    htmlContent += `<ul><li>${identifier}. ${content}</li></ul>`;
+                    break;
+                case 'Alínea':
+                    // Exibir 'Alínea' seguido do identifier e conteúdo como li dentro de ul
+                    htmlContent += `<ul type="a"><li>${identifier}) ${content}</li></ul>`;
+                    break;
+                case 'Item':
+                    // Exibir 'Item' seguido do identifier e conteúdo como li dentro de ul
+                    htmlContent += `<ul type="1"><li>${identifier}. ${content}</li></ul>`;
+                    break;
+                case 'Data de Promulgação':
+                case 'Data de Publicação':
+                    // Exibir como p, centralizado
+                    htmlContent += `<p><strong>${type}:</strong> ${content}</p>`;
+                    break;
+                default:
+                    // Para tipos não especificados, exibir como parágrafo alinhado à esquerda
+                    htmlContent += `<p>${content}</p>`;
+                    break;
+            }
         });
         lawContent.innerHTML = htmlContent;
     }
@@ -47,7 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Manipular clique nos botões de leis
     lawButtons.forEach(button => {
         button.addEventListener('click', () => {
-            const lawName = button.textContent.trim();
             const lawId = button.dataset.lawId;
 
             // Adicionar classe 'selected' ao botão clicado e remover dos outros
