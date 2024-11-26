@@ -1,0 +1,207 @@
+/* Variáveis de Tema */
+:root {
+  --background-color: #fff;
+  --text-color: #000;
+  --sidebar-background: #f9f9f9;
+  --button-background-hover: #e0e0e0;
+  --button-border-color: #ccc;
+  --input-background: #fff;
+  --input-text-color: #000;
+  --highlight-color: #ff0;
+  /* Outras variáveis */
+}
+
+body.dark-theme {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --sidebar-background: #1e1e1e;
+  --button-background-hover: #333333;
+  --button-border-color: #555555;
+  --input-background: #1e1e1e;
+  --input-text-color: #ffffff;
+  --highlight-color: #555555;
+  /* Outras variáveis */
+}
+
+/* Transições Suaves */
+* {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 20px 0 0 0;
+  font-family: 'Inter', sans-serif;
+  position: relative;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: var(--sidebar-background);
+  padding: 20px;
+  box-sizing: border-box;
+  position: fixed;
+  top: 20px;
+  bottom: 0;
+  overflow-y: auto;
+}
+
+.left-sidebar {
+  left: 0;
+}
+
+.right-sidebar {
+  right: 0;
+}
+
+.main-content {
+  max-width: calc(100% - 500px);
+  margin: 0 auto;
+  padding: 8px 20px 20px 20px;
+  box-sizing: border-box;
+  position: relative;
+  min-height: calc(100vh - 20px);
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.top-bar h2 {
+  font-weight: 300;
+  font-size: 32px;
+  margin: 0;
+  line-height: 1;
+}
+
+.content {
+  margin-top: 20px;
+  font-weight: 300;
+  font-size: 17px;
+  max-width: 70ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sidebar h1 {
+  font-family: 'Lora', serif;
+  font-weight: 700;
+  font-size: 48px;
+  margin: 0;
+  line-height: 1;
+}
+
+.sidebar input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  font-size: 12px;
+  box-sizing: border-box;
+  margin-top: 20px;
+  background-color: var(--input-background);
+  color: var(--input-text-color);
+  border: 1px solid var(--button-border-color);
+}
+
+#law-buttons {
+  margin-top: 20px;
+}
+
+/* Estilo comum para todos os botões das barras laterais */
+.sidebar-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 5px;
+  background-color: transparent;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+.sidebar-button:hover {
+  background-color: var(--button-background-hover);
+}
+
+.icon {
+  flex-shrink: 0;
+  color: var(--text-color);
+  transition: color 0.3s, opacity 0.3s;
+}
+
+#theme-toggle-btn:active,
+#login-btn:active {
+  transform: scale(0.95);
+}
+
+.search-text input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  font-size: 12px;
+  box-sizing: border-box;
+  background-color: var(--input-background);
+  color: var(--input-text-color);
+  border: 1px solid var(--button-border-color);
+  margin-top: 20px;
+}
+
+.theme-toggle {
+  margin-top: 5px;
+}
+
+.login-button {
+  margin-bottom: 5px;
+}
+
+/* Ajuste para Links */
+a {
+  color: var(--text-color);
+}
+
+/* Estilos para Hierarquia de Cabeçalhos */
+h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 28px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-size: 24px;
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
+
+h4 {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 6px;
+}
+
+h5 {
+    font-size: 18px;
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+h6 {
+    font-size: 16px;
+    margin-top: 6px;
+    margin-bottom: 2px;
+}
+
+/* Estilo comum para os parágrafos */
+p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
