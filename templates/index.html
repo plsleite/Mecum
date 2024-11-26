@@ -9,45 +9,41 @@
 </head>
 <body>
     <!-- Barra Lateral Esquerda -->
-    <div class="sidebar left-sidebar">
-        <h1>Mecum</h1>
+    <aside class="sidebar left-sidebar">
+        <h1><a href="/" class="home-link">Mecum</a></h1>
+        <label for="search-laws" class="visually-hidden">Pesquisar leis</label>
         <input type="text" id="search-laws" placeholder="Pesquisar leis...">
-        <div id="law-buttons">
-            <button class="sidebar-button law-button" data-law-id="1">Constituição Federal</button>
-            <button class="sidebar-button law-button" data-law-id="2">Código Civil</button>
-            <button class="sidebar-button law-button" data-law-id="3">Código de Processo Civil</button>
-            <button class="sidebar-button law-button" data-law-id="4">Código Penal</button>
-            <button class="sidebar-button law-button" data-law-id="5">Código de Processo Penal</button>
-        </div>
-    </div>
+        <ul id="law-buttons">
+            <li><button class="sidebar-button law-button" data-law-id="1">Constituição Federal</button></li>
+            <li><button class="sidebar-button law-button" data-law-id="2">Código Civil</button></li>
+            <li><button class="sidebar-button law-button" data-law-id="3">Código de Processo Civil</button></li>
+            <li><button class="sidebar-button law-button" data-law-id="4">Código Penal</button></li>
+            <li><button class="sidebar-button law-button" data-law-id="5">Código de Processo Penal</button></li>
+        </ul>
+    </aside>
 
     <!-- Conteúdo Principal -->
-    <div class="main-content">
-        <!-- Barra Superior -->
-        <div class="top-bar">
-            <h2 id="law-title">Selecione uma lei</h2>
-        </div>
+    <main class="main-content">
         <!-- Conteúdo da Lei -->
-        <div class="content" id="law-content">
+        <section class="content" id="law-content">
             <p>Bem-vindo ao Mecum. Por favor, selecione uma lei para visualizar seu conteúdo.</p>
-        </div>
-    </div>
+        </section>
+    </main>
 
     <!-- Barra Lateral Direita -->
-    <div class="sidebar right-sidebar">
+    <aside class="sidebar right-sidebar">
         <!-- Botão de Login -->
         <div class="login-button">
             <button id="login-btn" class="sidebar-button">Login</button>
         </div>
         <!-- Botão de Alternância de Tema -->
         <div class="theme-toggle">
-            <button id="theme-toggle-btn" class="sidebar-button" aria-label="Alternar tema">
-                <!-- Ícone de Lua (Tema Escuro) -->
+            <button id="theme-toggle-btn" class="sidebar-button" aria-label="Alternar tema" aria-pressed="false">
+                <!-- Ícones -->
                 <svg id="theme-icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-moon">
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                 </svg>
-                <!-- Ícone de Sol (Tema Claro) -->
-                <svg id="theme-icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sun" style="display: none;">
+                <svg id="theme-icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sun hidden">
                     <circle cx="12" cy="12" r="5"></circle>
                     <line x1="12" y1="1" x2="12" y2="3"></line>
                     <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -63,9 +59,10 @@
         </div>
         <!-- Campo de Busca no Texto da Lei -->
         <div class="search-text">
+            <label for="search-text" class="visually-hidden">Buscar no texto da lei</label>
             <input type="text" id="search-text" placeholder="Buscar no texto da lei...">
         </div>
-    </div>
+    </aside>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
