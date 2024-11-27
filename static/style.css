@@ -8,7 +8,8 @@
   --input-background: #fff;
   --input-text-color: #000;
   --highlight-color: #ff0;
-  /* Outras variáveis */
+  --initial-element-color: #333; /* Cor suave para elementos iniciais no tema claro */
+  /* Outros tamanhos e cores podem ser adicionados conforme necessário */
 }
 
 body.dark-theme {
@@ -20,7 +21,8 @@ body.dark-theme {
   --input-background: #1e1e1e;
   --input-text-color: #ffffff;
   --highlight-color: #555555;
-  /* Outras variáveis */
+  --initial-element-color: #ccc; /* Cor suave para elementos iniciais no tema escuro */
+  /* Outros tamanhos e cores podem ser adicionados conforme necessário */
 }
 
 /* Transições Suaves */
@@ -173,8 +175,8 @@ body {
 
 /* Realce para o botão selecionado */
 .sidebar-button.selected {
-    background-color: var(--button-background-hover);
-    font-weight: bold;
+  background-color: var(--button-background-hover);
+  font-weight: bold;
 }
 
 .icon {
@@ -221,157 +223,208 @@ a:focus {
 
 /* Estilos para Hierarquia de Cabeçalhos dentro de .main-content */
 .main-content h1 {
-    font-size: 32px;
-    margin-bottom: 20px;
-    text-align: center; /* Centralizado */
+  font-size: 32px;
+  margin-bottom: 20px;
+  text-align: center; /* Centralizado */
 }
 
 .main-content h2 {
-    font-size: 28px;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    text-align: center; /* Centralizado */
+  font-size: 28px;
+  text-align: center; /* Centralizado */
+  margin-top: 20px;    /* Espaçamento superior maior para hierarquia mais alta */
+  margin-bottom: 20px; /* Espaçamento inferior maior para hierarquia mais alta */
+}
+
+.main-content h3 {
+  font-size: 24px;
+  text-align: center; /* Centralizado */
+  margin-top: 18px;    /* Espaçamento superior menor */
+  margin-bottom: 18px; /* Espaçamento inferior menor */
+}
+
+.main-content h4 {
+  font-size: 20px;
+  text-align: center; /* Centralizado */
+  margin-top: 16px;    /* Espaçamento ainda menor */
+  margin-bottom: 16px;
+}
+
+.main-content h5 {
+  font-size: 18px;
+  text-align: center; /* Centralizado */
+  margin-top: 14px;    /* Espaçamento menor */
+  margin-bottom: 14px;
+}
+
+.main-content h6 {
+  font-size: 16px;
+  text-align: center; /* Centralizado */
+  margin-top: 12px;    /* Espaçamento menor */
+  margin-bottom: 12px;
 }
 
 /* Estilização específica para Epígrafe */
 .main-content h2.epigrafe {
-    font-weight: 300; /* Peso mais leve */
-    font-size: 24px; /* Tamanho de fonte menor para menor destaque */
-    color: var(--text-color); /* Mantém a consistência de cores */
-    text-align: center; /* Centralizado */
-    margin-top: 20px;
-    margin-bottom: 10px;
+  font-weight: 300; /* Peso mais leve */
+  font-size: 24px; /* Tamanho de fonte menor para menor destaque */
+  color: var(--text-color); /* Mantém a consistência de cores */
+  text-align: center; /* Centralizado */
+  margin-top: 10px; /* Ajustado para espaçamento uniforme */
+  margin-bottom: 10px;
 }
 
 /* Outros Cabeçalhos */
-.main-content h3 {
-    font-size: 24px;
-    margin-top: 15px;
-    margin-bottom: 8px;
-    text-align: center; /* Centralizado */
-}
-
-.main-content h4 {
-    font-size: 20px;
-    margin-top: 10px;
-    margin-bottom: 6px;
-    text-align: center; /* Centralizado */
-}
-
-.main-content h5 {
-    font-size: 18px;
-    margin-top: 8px;
-    margin-bottom: 4px;
-    text-align: center; /* Centralizado */
-}
-
+.main-content h2,
+.main-content h3,
+.main-content h4,
+.main-content h5,
 .main-content h6 {
-    font-size: 16px;
-    margin-top: 6px;
-    margin-bottom: 2px;
-    text-align: center; /* Centralizado */
+  /* As margens já estão definidas individualmente acima */
 }
 
 /* Estilo comum para os parágrafos */
 .main-content p {
-    margin-bottom: 15px;
-    line-height: 1.6;
-    text-align: left; /* Alinhado à esquerda por padrão */
-    font-weight: normal; /* Remover negrito, caso esteja aplicado */
+  margin-bottom: 15px;
+  line-height: 1.6;
+  text-align: left; /* Alinhado à esquerda por padrão */
+  font-weight: normal; /* Remover negrito, caso esteja aplicado */
 }
 
 /* Especificamente para <strong> dentro de parágrafos */
 .main-content p strong {
-    font-weight: bold; /* Garantir negrito */
+  font-weight: bold; /* Garantir negrito */
+  color: var(--initial-element-color); /* Aplicar cor suave */
+}
+
+/* Classes de indentação baseadas na profundidade */
+.indent-level-2 {
+  margin-left: 20px;
+}
+
+.indent-level-3 {
+  margin-left: 40px;
+}
+
+.indent-level-4 {
+  margin-left: 60px;
+}
+
+.indent-level-5 {
+  margin-left: 80px;
+}
+
+.indent-level-6 {
+  margin-left: 100px;
 }
 
 /* Alinhamento e recuo para Ementa */
 .p-ementa {
-    text-align: left;
-    margin-left: 50%;
-    transform: translateX(-50%);
-    max-width: 50%; /* Ajuste conforme necessário */
+  text-align: left;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  max-width: 50%; /* Ajuste conforme necessário */
 }
 
 /* Preâmbulo */
 .preambulo-subtitle {
-    font-size: 28px; /* h2 */
-    text-align: center;
-    font-weight: 600;
+  font-size: 28px; /* h2 */
+  text-align: center;
+  font-weight: 600;
 }
 
 .preambulo-content {
-    text-align: left;
-    margin-top: 10px;
+  text-align: left;
+  margin-top: 10px;
 }
 
 /* Loader */
 .loader {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
 .spinner {
-    border: 4px solid var(--button-background-hover);
-    border-top: 4px solid var(--text-color);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
-    margin-bottom: 10px;
+  border: 4px solid var(--button-background-hover);
+  border-top: 4px solid var(--text-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* Temporarily Message */
 .temporary-message {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 5px;
-    animation: fadeOut 3s forwards;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  animation: fadeOut 3s forwards;
 }
 
 @keyframes fadeOut {
-    0% { opacity: 1; }
-    80% { opacity: 1; }
-    100% { opacity: 0; }
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
-    .sidebar {
-        width: 100%;
-        position: relative;
-        height: auto;
-    }
+  .sidebar {
+    width: 100%;
+    position: relative;
+    height: auto;
+  }
 
-    .left-sidebar,
-    .right-sidebar {
-        display: none; /* Ou transforme em um menu dropdown */
-    }
+  .left-sidebar,
+  .right-sidebar {
+    display: none; /* Ou transforme em um menu dropdown */
+  }
 
-    .main-content {
-        margin: 0;
-        padding: 15px;
-    }
+  .main-content {
+    margin: 0;
+    padding: 15px;
+  }
 
-    .sidebar-button {
-        padding: 10px;
-    }
+  .sidebar-button {
+    padding: 10px;
+  }
 
-    .p-ementa {
-        margin-left: 0;
-        transform: none;
-        max-width: 100%;
-    }
+  .p-ementa {
+    margin-left: 0;
+    transform: none;
+    max-width: 100%;
+  }
+
+  /* Ajustar as indentations para telas menores */
+  .indent-level-2,
+  .indent-level-3,
+  .indent-level-4,
+  .indent-level-5,
+  .indent-level-6 {
+    margin-left: 10px;
+  }
+}
+
+/* Redução do espaçamento entre incisos */
+.main-content p.inciso {
+  margin-bottom: 5px; /* Reduzido de 10px para 5px */
+  margin-top: 5px;    /* Adicionado para manter consistência */
+}
+
+/* Destaque suave para elementos iniciais nos temas claro e escuro */
+.main-content p.artigo strong,
+.main-content p.paragrafo strong {
+  color: var(--initial-element-color);
 }

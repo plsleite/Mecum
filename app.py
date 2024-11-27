@@ -23,7 +23,7 @@ def get_db_connection():
 # Rota para a página principal
 @app.route("/")
 def index():
-    return render_template("index.html")  # Certifique-se de que o arquivo HTML está em "templates/index.html"
+    return render_template("index.html") # Certifique-se de que o arquivo HTML está em "templates/index.html"
 
 @app.route('/api/laws/<int:law_id>', methods=['GET'])
 def get_law(law_id):
@@ -32,43 +32,43 @@ def get_law(law_id):
     try:
         # Consulta SQL recursiva para ordenar hierarquicamente com display_order padronizado
         cur.execute("""
-            WITH RECURSIVE section_tree AS (
-                SELECT
-                    s.id,
-                    s.law_id,
-                    s.parent_id,
-                    s.type,
-                    s.identifier,
-                    s.content,
-                    s.display_order,
-                    1 AS depth,
-                    LPAD(s.display_order::text, 2, '0') AS path
-                FROM sections s
-                WHERE s.law_id = %s AND s.parent_id IS NULL
+        WITH RECURSIVE section_tree AS (
+            SELECT
+                s.id,
+                s.law_id,
+                s.parent_id,
+                s.type,
+                s.identifier,
+                s.content,
+                s.display_order,
+                1 AS depth,
+                LPAD(s.display_order::text, 2, '0') AS path
+            FROM sections s
+            WHERE s.law_id = %s AND s.parent_id IS NULL
 
-                UNION ALL
+            UNION ALL
 
-                SELECT
-                    s.id,
-                    s.law_id,
-                    s.parent_id,
-                    s.type,
-                    s.identifier,
-                    s.content,
-                    s.display_order,
-                    st.depth + 1,
-                    st.path || '.' || LPAD(s.display_order::text, 2, '0') AS path
-                FROM sections s
-                JOIN section_tree st ON s.parent_id = st.id
-                WHERE s.law_id = %s
-            )
-            SELECT l.name, st.type, st.identifier, st.content, st.path
-            FROM laws l
-            JOIN section_tree st ON l.id = st.law_id
-            WHERE l.id = %s
-            ORDER BY st.path;
+            SELECT
+                s.id,
+                s.law_id,
+                s.parent_id,
+                s.type,
+                s.identifier,
+                s.content,
+                s.display_order,
+                st.depth + 1,
+                st.path || '.' || LPAD(s.display_order::text, 2, '0') AS path
+            FROM sections s
+            JOIN section_tree st ON s.parent_id = st.id
+            WHERE s.law_id = %s
+        )
+        SELECT l.name, st.type, st.identifier, st.content, st.path
+        FROM laws l
+        JOIN section_tree st ON l.id = st.law_id
+        WHERE l.id = %s
+        ORDER BY st.path;
         """, (law_id, law_id, law_id))
-        
+
         result = cur.fetchall()
     except psycopg2.Error as e:
         print(f"Erro na consulta SQL: {e}")
@@ -76,7 +76,7 @@ def get_law(law_id):
     finally:
         cur.close()
         conn.close()
-    
+
     # Organizar a resposta para o frontend
     if result:
         law = {
