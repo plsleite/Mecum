@@ -231,35 +231,35 @@ a:focus {
 .main-content h2 {
   font-size: 28px;
   text-align: center; /* Centralizado */
-  margin-top: 20px;    /* Espaçamento superior maior para hierarquia mais alta */
-  margin-bottom: 20px; /* Espaçamento inferior maior para hierarquia mais alta */
+  margin-top: 20px;    /* Maior espaçamento superior */
+  margin-bottom: 20px; /* Maior espaçamento inferior */
 }
 
 .main-content h3 {
   font-size: 24px;
   text-align: center; /* Centralizado */
-  margin-top: 18px;    /* Espaçamento superior menor */
-  margin-bottom: 18px; /* Espaçamento inferior menor */
+  margin-top: 18px;    /* Espaçamento um pouco menor */
+  margin-bottom: 18px; /* Espaçamento um pouco menor */
 }
 
 .main-content h4 {
   font-size: 20px;
   text-align: center; /* Centralizado */
-  margin-top: 16px;    /* Espaçamento ainda menor */
+  margin-top: 16px;    /* Espaçamento menor */
   margin-bottom: 16px;
 }
 
 .main-content h5 {
   font-size: 18px;
   text-align: center; /* Centralizado */
-  margin-top: 14px;    /* Espaçamento menor */
+  margin-top: 14px;    /* Espaçamento ainda menor */
   margin-bottom: 14px;
 }
 
 .main-content h6 {
   font-size: 16px;
   text-align: center; /* Centralizado */
-  margin-top: 12px;    /* Espaçamento menor */
+  margin-top: 12px;    /* Menor espaçamento */
   margin-bottom: 12px;
 }
 
@@ -271,15 +271,6 @@ a:focus {
   text-align: center; /* Centralizado */
   margin-top: 10px; /* Ajustado para espaçamento uniforme */
   margin-bottom: 10px;
-}
-
-/* Outros Cabeçalhos */
-.main-content h2,
-.main-content h3,
-.main-content h4,
-.main-content h5,
-.main-content h6 {
-  /* As margens já estão definidas individualmente acima */
 }
 
 /* Estilo comum para os parágrafos */
@@ -415,6 +406,12 @@ a:focus {
   .indent-level-6 {
     margin-left: 10px;
   }
+
+  /* Ajustar o container fixed headers */
+  #fixed-headers {
+    left: 0;
+    right: 0;
+  }
 }
 
 /* Redução do espaçamento entre incisos */
@@ -427,4 +424,45 @@ a:focus {
 .main-content p.artigo strong,
 .main-content p.paragrafo strong {
   color: var(--initial-element-color);
+}
+
+/* Estilos para Sticky Headers */
+#fixed-headers {
+  position: fixed;
+  top: 0;
+  left: 270px; /* Ajuste conforme a largura da barra lateral esquerda */
+  right: 270px; /* Ajuste conforme a largura da barra lateral direita */
+  background-color: var(--sidebar-background);
+  padding: 10px 0;
+  box-shadow: none; /* Removido para visual clean */
+  z-index: 1000;
+  display: flex;
+  flex-direction: column; /* Empilhar verticalmente */
+  gap: 5px; /* Espaçamento reduzido entre headers */
+  /* Removido max-height e overflow-y para barra expansível */
+  /* Garantir que a barra não tenha rolagem */
+}
+
+.fixed-header {
+  background-color: transparent; /* Fundo transparente */
+  color: var(--text-color);
+  padding: 8px 15px; /* Padding similar aos sidebar buttons */
+  border-radius: 0; /* Removido bordas arredondadas */
+  font-size: 14px; /* Fonte menor */
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  border: none; /* Removido qualquer borda */
+  box-shadow: none; /* Removido qualquer sombra */
+  text-align: left; /* Alinhado à esquerda */
+}
+
+.fixed-header:hover {
+  background-color: var(--button-background-hover); /* Mudança de fundo no hover */
+  color: var(--text-color); /* Mantém a cor do texto */
+}
+
+/* Adicional: Foco nos sticky headers para acessibilidade */
+.fixed-header:focus {
+  outline: 2px solid var(--button-background-hover);
 }

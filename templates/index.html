@@ -1,78 +1,81 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Mecum</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <!-- Fontes Inter e Lora -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;800&family=Lora:wght@700&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Adicionado para responsividade -->
+  <meta charset="UTF-8">
+  <title>Mecum</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!-- Fontes Inter e Lora -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;800&family=Lora:wght@700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Adicionado para responsividade -->
 </head>
 <body>
-    <!-- Barra Lateral Esquerda -->
-    <aside class="sidebar left-sidebar">
-        <h1><a href="/" class="home-link">Mecum</a></h1>
-        <label for="search-laws" class="visually-hidden">Pesquisar leis</label>
-        <input type="text" id="search-laws" placeholder="Buscar leis...">
-        <ul id="law-buttons">
-            <li><button class="sidebar-button law-button" data-law-id="1">Constituição Federal</button></li>
-            <li><button class="sidebar-button law-button" data-law-id="2">Código Civil</button></li>
-            <li><button class="sidebar-button law-button" data-law-id="3">Código de Processo Civil</button></li>
-            <li><button class="sidebar-button law-button" data-law-id="4">Código Penal</button></li>
-            <li><button class="sidebar-button law-button" data-law-id="5">Código de Processo Penal</button></li>
-            <!-- Adicione mais leis conforme necessário -->
-        </ul>
-    </aside>
+  <!-- Barra Lateral Esquerda -->
+  <aside class="sidebar left-sidebar">
+    <h1><a href="/" class="home-link">Mecum</a></h1>
+    <label for="search-laws" class="visually-hidden">Pesquisar leis</label>
+    <input type="text" id="search-laws" placeholder="Buscar leis...">
+    <ul id="law-buttons">
+      <li><button class="sidebar-button law-button" data-law-id="1">Constituição Federal</button></li>
+      <li><button class="sidebar-button law-button" data-law-id="2">Código Civil</button></li>
+      <li><button class="sidebar-button law-button" data-law-id="3">Código de Processo Civil</button></li>
+      <li><button class="sidebar-button law-button" data-law-id="4">Código Penal</button></li>
+      <li><button class="sidebar-button law-button" data-law-id="5">Código de Processo Penal</button></li>
+      <!-- Adicione mais leis conforme necessário -->
+    </ul>
+  </aside>
 
-    <!-- Conteúdo Principal -->
-    <main class="main-content">
-        <!-- Conteúdo da Lei -->
-        <section class="content" id="law-content">
-            <p>Bem-vindo ao Mecum. Por favor, selecione uma lei para visualizar seu conteúdo.</p>
-        </section>
-    </main>
+  <!-- Conteúdo Principal -->
+  <main class="main-content">
+    <!-- Container para Sticky Headers -->
+    <div id="fixed-headers"></div>
 
-    <!-- Barra Lateral Direita -->
-    <aside class="sidebar right-sidebar">
-        <!-- Botão de Login com Ícone SVG Inline -->
-        <div class="login-button">
-            <button id="login-btn" class="sidebar-button" aria-label="Login">
-                <!-- SVG do Ícone de Pessoa -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                    <path fill-rule="evenodd" d="M8 9a5 5 0 0 0-4.546 2.916A7.002 7.002 0 0 1 8 14a7.002 7.002 0 0 1 4.546-2.084A5 5 0 0 0 8 9z"/>
-                </svg>
-                Login
-            </button>
-        </div>
-        <!-- Botão de Alternância de Tema -->
-        <div class="theme-toggle">
-            <button id="theme-toggle-btn" class="sidebar-button" aria-label="Alternar tema" aria-pressed="false">
-                <!-- Ícones -->
-                <svg id="theme-icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-moon">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                </svg>
-                <svg id="theme-icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sun hidden">
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
-                <span id="theme-text">Tema escuro</span>
-            </button>
-        </div>
-        <!-- Campo de Busca no Texto da Lei -->
-        <div class="search-text">
-            <label for="search-text" class="visually-hidden">Buscar no texto da lei</label>
-            <input type="text" id="search-text" placeholder="Buscar conteúdo da lei...">
-        </div>
-    </aside>
+    <!-- Conteúdo da Lei -->
+    <section class="content" id="law-content">
+      <p>Bem-vindo ao Mecum. Por favor, selecione uma lei para visualizar seu conteúdo.</p>
+    </section>
+  </main>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <!-- Barra Lateral Direita -->
+  <aside class="sidebar right-sidebar">
+    <!-- Botão de Login com Ícone SVG Inline -->
+    <div class="login-button">
+      <button id="login-btn" class="sidebar-button" aria-label="Login">
+        <!-- SVG do Ícone de Pessoa -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+          <path fill-rule="evenodd" d="M8 9a5 5 0 0 0-4.546 2.916A7.002 7.002 0 0 1 8 14a7.002 7.002 0 0 1 4.546-2.084A5 5 0 0 0 8 9z"/>
+        </svg>
+        Login
+      </button>
+    </div>
+    <!-- Botão de Alternância de Tema -->
+    <div class="theme-toggle">
+      <button id="theme-toggle-btn" class="sidebar-button" aria-label="Alternar tema" aria-pressed="false">
+        <!-- Ícones -->
+        <svg id="theme-icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-moon">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg id="theme-icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sun hidden">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <span id="theme-text">Tema escuro</span>
+      </button>
+    </div>
+    <!-- Campo de Busca no Texto da Lei -->
+    <div class="search-text">
+      <label for="search-text" class="visually-hidden">Buscar no texto da lei</label>
+      <input type="text" id="search-text" placeholder="Buscar conteúdo da lei...">
+    </div>
+  </aside>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
