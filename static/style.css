@@ -233,6 +233,17 @@ a:focus {
     text-align: center; /* Centralizado */
 }
 
+/* Estilização específica para Epígrafe */
+.main-content h2.epigrafe {
+    font-weight: 300; /* Peso mais leve */
+    font-size: 24px; /* Tamanho de fonte menor para menor destaque */
+    color: var(--text-color); /* Mantém a consistência de cores */
+    text-align: center; /* Centralizado */
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Outros Cabeçalhos */
 .main-content h3 {
     font-size: 24px;
     margin-top: 15px;
@@ -266,6 +277,12 @@ a:focus {
     margin-bottom: 15px;
     line-height: 1.6;
     text-align: left; /* Alinhado à esquerda por padrão */
+    font-weight: normal; /* Remover negrito, caso esteja aplicado */
+}
+
+/* Especificamente para <strong> dentro de parágrafos */
+.main-content p strong {
+    font-weight: bold; /* Garantir negrito */
 }
 
 /* Alinhamento e recuo para Ementa */

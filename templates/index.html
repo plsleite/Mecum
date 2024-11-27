@@ -6,13 +6,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <!-- Fontes Inter e Lora -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;800&family=Lora:wght@700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Adicionado para responsividade -->
 </head>
 <body>
     <!-- Barra Lateral Esquerda -->
     <aside class="sidebar left-sidebar">
         <h1><a href="/" class="home-link">Mecum</a></h1>
         <label for="search-laws" class="visually-hidden">Pesquisar leis</label>
-        <input type="text" id="search-laws" placeholder="Pesquisar leis...">
+        <input type="text" id="search-laws" placeholder="Buscar leis...">
         <ul id="law-buttons">
             <li><button class="sidebar-button law-button" data-law-id="1">Constituição Federal</button></li>
             <li><button class="sidebar-button law-button" data-law-id="2">Código Civil</button></li>
@@ -68,7 +69,7 @@
         <!-- Campo de Busca no Texto da Lei -->
         <div class="search-text">
             <label for="search-text" class="visually-hidden">Buscar no texto da lei</label>
-            <input type="text" id="search-text" placeholder="Buscar no texto da lei...">
+            <input type="text" id="search-text" placeholder="Buscar conteúdo da lei...">
         </div>
     </aside>
 

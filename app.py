@@ -1,17 +1,22 @@
 from flask import Flask, jsonify, render_template
 import psycopg2
 from psycopg2 import sql
+import os
+from dotenv import load_dotenv
 
 app = Flask(__name__)
+
+# Carrega as variáveis de ambiente do arquivo .env
+load_dotenv()
 
 # Função para conectar ao banco de dados
 def get_db_connection():
     conn = psycopg2.connect(
-        dbname="mecum_db",
-        user="postgres",
-        password="vademecum",
-        host="localhost",
-        port="5432"
+        dbname=os.getenv("DB_NAME", "mecum_db"),
+        user=os.getenv("DB_USER", "postgres"),
+        password=os.getenv("DB_PASSWORD", "vademecum"),
+        host=os.getenv("DB_HOST", "localhost"),
+        port=os.getenv("DB_PORT", "5432")
     )
     return conn
 
