@@ -98,7 +98,8 @@ def get_law(law_id):
                 })
         return jsonify(law)
     else:
-        return jsonify({"error": "Law not found"}), 404
+        return jsonify({"error": "Lei não encontrada"}), 404
 
 if __name__ == "__main__":
+    # Em produção, use um servidor WSGI adequado como Gunicorn e desative o modo debug
     app.run(debug=True)

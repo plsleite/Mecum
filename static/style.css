@@ -2,27 +2,25 @@
 :root {
   --background-color: #fff;
   --text-color: #000;
-  --sidebar-background: #f9f9f9;
+  --sidebar-background: #f9f9f9; /* Cor de fundo das barras laterais */
   --button-background-hover: #e0e0e0;
   --button-border-color: #ccc;
   --input-background: #fff;
   --input-text-color: #000;
   --highlight-color: #ff0;
   --initial-element-color: #333; /* Cor suave para elementos iniciais no tema claro */
-  /* Outros tamanhos e cores podem ser adicionados conforme necessário */
 }
 
 body.dark-theme {
   --background-color: #121212;
   --text-color: #ffffff;
-  --sidebar-background: #1e1e1e;
+  --sidebar-background: #1e1e1e; /* Cor de fundo das barras laterais no tema escuro */
   --button-background-hover: #333333;
   --button-border-color: #555555;
   --input-background: #1e1e1e;
   --input-text-color: #ffffff;
   --highlight-color: #555555;
   --initial-element-color: #ccc; /* Cor suave para elementos iniciais no tema escuro */
-  /* Outros tamanhos e cores podem ser adicionados conforme necessário */
 }
 
 /* Transições Suaves */
@@ -34,7 +32,7 @@ body {
   background-color: var(--background-color);
   color: var(--text-color);
   margin: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', sans-serif; /* Fonte "Inter" para todo o corpo */
   position: relative;
 }
 
@@ -51,7 +49,7 @@ body {
 /* Sidebars */
 .sidebar {
   width: 250px;
-  background-color: var(--sidebar-background);
+  background-color: var(--sidebar-background); /* Mesma cor para todas as barras laterais */
   padding: 20px;
   box-sizing: border-box;
   position: fixed;
@@ -73,19 +71,26 @@ body {
   right: 0;
 }
 
+/* Centralização do Conteúdo Principal */
 .main-content {
-  margin: 0 270px; /* Ajustado para incluir padding e margem */
+  /* Ajuste para centralizar o conteúdo principal */
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: flex-start; /* Alinha no topo */
   padding: 20px;
   box-sizing: border-box;
   min-height: 100vh;
+  margin-left: 250px; /* Espaço para a barra lateral esquerda */
+  margin-right: 250px; /* Espaço para a barra lateral direita */
 }
 
+/* Container da Lei para Centralização e Tamanho */
 .content {
   font-weight: 300;
   font-size: 17px;
-  max-width: 70ch;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 70ch; /* Define o comprimento da linha para 70 caracteres */
+  width: 100%; /* Garante que ocupe 100% do container */
+  margin: 0 auto; /* Centraliza horizontalmente */
 }
 
 /* Estilização do link "Mecum" */
@@ -94,10 +99,11 @@ body {
 }
 
 .sidebar h1 a.home-link {
+  /* Aplicação da Fonte Lobster */
+  font-family: 'Lobster', cursive;
+  
   /* Propriedades de Fonte Específicas */
-  font-family: 'Lora', serif;
-  font-weight: 700;
-  font-size: 48px;
+  font-size: 58px;
   margin: 0;
   line-height: 1;
 
@@ -155,6 +161,10 @@ body {
   color: var(--text-color);
   border-radius: 4px;
   transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar-button:focus {
+  outline: 2px solid var(--button-background-hover);
 }
 
 /* Hover e Focus States */
@@ -222,58 +232,48 @@ a:focus {
 }
 
 /* Estilos para Hierarquia de Cabeçalhos dentro de .main-content */
-.main-content h1 {
-  font-size: 32px;
-  margin-bottom: 20px;
-  text-align: center; /* Centralizado */
-}
-
-.main-content h2 {
-  font-size: 28px;
-  text-align: center; /* Centralizado */
-  margin-top: 20px;    /* Maior espaçamento superior */
-  margin-bottom: 20px; /* Maior espaçamento inferior */
-}
-
-.main-content h3 {
-  font-size: 24px;
-  text-align: center; /* Centralizado */
-  margin-top: 18px;    /* Espaçamento um pouco menor */
-  margin-bottom: 18px; /* Espaçamento um pouco menor */
-}
-
-.main-content h4 {
-  font-size: 20px;
-  text-align: center; /* Centralizado */
-  margin-top: 16px;    /* Espaçamento menor */
-  margin-bottom: 16px;
-}
-
-.main-content h5 {
-  font-size: 18px;
-  text-align: center; /* Centralizado */
-  margin-top: 14px;    /* Espaçamento ainda menor */
-  margin-bottom: 14px;
-}
-
+.main-content h2,
+.main-content h3,
+.main-content h4,
+.main-content h5,
 .main-content h6 {
-  font-size: 16px;
-  text-align: center; /* Centralizado */
-  margin-top: 12px;    /* Menor espaçamento */
-  margin-bottom: 12px;
+  /* Mesma cor de fundo das barras laterais */
+  background-color: var(--sidebar-background);
+  color: var(--text-color); /* Ajustado para usar var(--text-color) */
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+
+  /* Mesma Tamanho de Fonte para Todos os Headers */
+  font-size: 1.2em; /* Definido um tamanho de fonte uniforme */
+  font-weight: 700; /* Peso em negrito */
+  font-family: 'Inter', sans-serif; /* Fonte "Inter" para todos os headers */
+
+  /* Removido display: flex e align-items: center */
 }
 
-/* Estilização específica para Epígrafe */
+/* Remover qualquer background-color adicional ou sobreposição */
 .main-content h2.epigrafe {
-  font-weight: 300; /* Peso mais leve */
-  font-size: 24px; /* Tamanho de fonte menor para menor destaque */
-  color: var(--text-color); /* Mantém a consistência de cores */
+  /* font-weight: 300; Removido para herdar font-weight: 700 */
+  font-size: 1.2em; /* Tamanho de fonte igual aos demais headers */
   text-align: center; /* Centralizado */
   margin-top: 10px; /* Ajustado para espaçamento uniforme */
   margin-bottom: 10px;
+  background-color: var(--sidebar-background); /* Garantir mesma cor de fundo */
+  font-weight: 700; /* Adicionado para negrito */
+
+  /* Removido display: flex e align-items: center */
 }
 
-/* Estilo comum para os parágrafos */
+/* Container interno para o texto do header */
+.main-content .header-text {
+  display: inline-block; /* Permite que margin-left funcione corretamente */
+}
+
+/* Parágrafo padrão */
 .main-content p {
   margin-bottom: 15px;
   line-height: 1.6;
@@ -281,30 +281,29 @@ a:focus {
   font-weight: normal; /* Remover negrito, caso esteja aplicado */
 }
 
-/* Especificamente para <strong> dentro de parágrafos */
 .main-content p strong {
   font-weight: bold; /* Garantir negrito */
   color: var(--initial-element-color); /* Aplicar cor suave */
 }
 
 /* Classes de indentação baseadas na profundidade */
-.indent-level-2 {
+.indent-level-2 .header-text {
   margin-left: 20px;
 }
 
-.indent-level-3 {
+.indent-level-3 .header-text {
   margin-left: 40px;
 }
 
-.indent-level-4 {
+.indent-level-4 .header-text {
   margin-left: 60px;
 }
 
-.indent-level-5 {
+.indent-level-5 .header-text {
   margin-left: 80px;
 }
 
-.indent-level-6 {
+.indent-level-6 .header-text {
   margin-left: 100px;
 }
 
@@ -318,9 +317,10 @@ a:focus {
 
 /* Preâmbulo */
 .preambulo-subtitle {
-  font-size: 28px; /* h2 */
+  font-size: 1.2em; /* h2 - mesmo tamanho de fonte */
   text-align: center;
-  font-weight: 600;
+  font-weight: 700; /* Peso em negrito */
+  background-color: var(--sidebar-background); /* Mesma cor de fundo */
 }
 
 .preambulo-content {
@@ -399,11 +399,11 @@ a:focus {
   }
 
   /* Ajustar as indentations para telas menores */
-  .indent-level-2,
-  .indent-level-3,
-  .indent-level-4,
-  .indent-level-5,
-  .indent-level-6 {
+  .indent-level-2 .header-text,
+  .indent-level-3 .header-text,
+  .indent-level-4 .header-text,
+  .indent-level-5 .header-text,
+  .indent-level-6 .header-text {
     margin-left: 10px;
   }
 
@@ -411,6 +411,19 @@ a:focus {
   #fixed-headers {
     left: 0;
     right: 0;
+    width: 100%;
+    transform: none;
+  }
+
+  /* Headers na área de conteúdo */
+  .main-content h2,
+  .main-content h3,
+  .main-content h4,
+  .main-content h5,
+  .main-content h6 {
+    font-size: 1em; /* Ajuste de tamanho para telas menores */
+    padding: 8px 12px;
+    background-color: var(--sidebar-background); /* Mesma cor de fundo */
   }
 }
 
@@ -430,21 +443,21 @@ a:focus {
 #fixed-headers {
   position: fixed;
   top: 0;
-  left: 270px; /* Ajuste conforme a largura da barra lateral esquerda */
-  right: 270px; /* Ajuste conforme a largura da barra lateral direita */
-  background-color: var(--sidebar-background);
+  left: 50%; /* Centraliza horizontalmente */
+  transform: translateX(-50%); /* Centraliza horizontalmente */
+  width: 70ch; /* Mesma largura da área de conteúdo da lei */
+  background-color: var(--sidebar-background); /* Mesma cor de fundo das barras laterais */
   padding: 10px 0;
   box-shadow: none; /* Removido para visual clean */
   z-index: 1000;
   display: flex;
   flex-direction: column; /* Empilhar verticalmente */
   gap: 5px; /* Espaçamento reduzido entre headers */
-  /* Removido max-height e overflow-y para barra expansível */
   /* Garantir que a barra não tenha rolagem */
 }
 
 .fixed-header {
-  background-color: transparent; /* Fundo transparente */
+  background-color: var(--sidebar-background); /* Mesma cor de fundo das barras laterais */
   color: var(--text-color);
   padding: 8px 15px; /* Padding similar aos sidebar buttons */
   border-radius: 0; /* Removido bordas arredondadas */
@@ -465,4 +478,43 @@ a:focus {
 /* Adicional: Foco nos sticky headers para acessibilidade */
 .fixed-header:focus {
   outline: 2px solid var(--button-background-hover);
+}
+
+/* Garantir que headers não mudem de cor ao passar o mouse */
+.main-content h2,
+.main-content h3,
+.main-content h4,
+.main-content h5,
+.main-content h6 {
+  background-color: var(--sidebar-background) !important;
+}
+
+/* Evitar mudanças de cor nos headers durante hover */
+.main-content h2:hover,
+.main-content h3:hover,
+.main-content h4:hover,
+.main-content h5:hover,
+.main-content h6:hover {
+  background-color: var(--sidebar-background) !important;
+}
+
+/* Estilos de Indentação para Headers */
+.main-content .grouping-header.indent-level-2 .header-text {
+  margin-left: 20px;
+}
+
+.main-content .grouping-header.indent-level-3 .header-text {
+  margin-left: 40px;
+}
+
+.main-content .grouping-header.indent-level-4 .header-text {
+  margin-left: 60px;
+}
+
+.main-content .grouping-header.indent-level-5 .header-text {
+  margin-left: 80px;
+}
+
+.main-content .grouping-header.indent-level-6 .header-text {
+  margin-left: 100px;
 }

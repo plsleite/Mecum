@@ -23,13 +23,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3000);
   }
 
-  // Filtrar botões de leis com base na pesquisa
+  // Filtrar botões de leis com base na pesquisa com debounce
+  let debounceTimer;
   searchLawsInput.addEventListener('input', () => {
-    const query = searchLawsInput.value.toLowerCase();
-    lawButtons.forEach(button => {
-      const text = button.textContent.toLowerCase();
-      button.parentElement.style.display = text.includes(query) ? 'block' : 'none';
-    });
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      const query = searchLawsInput.value.toLowerCase();
+      lawButtons.forEach(button => {
+        const text = button.textContent.toLowerCase();
+        button.parentElement.style.display = text.includes(query) ? 'block' : 'none';
+      });
+    }, 300); // Delay de 300ms
   });
 
   // Função para determinar a profundidade com base no path
@@ -48,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Função para exibir o conteúdo da lei
   function displayLawContent(data) {
-    let htmlContent = `<h1>${data.name}</h1>`;
+    let htmlContent = ``; // Removido o h1 com o nome da lei
 
     data.sections.forEach(section => {
       const type = section.type;
@@ -67,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
       switch(type) {
         case 'Epígrafe':
           groupingId = generateId(type, '');
-          htmlContent += `<h2 id="${groupingId}" class="grouping-header epigrafe">${content}</h2>`;
+          htmlContent += `<h2 id="${groupingId}" class="grouping-header epigrafe ${indentClass}"><span class="header-text">${content}</span></h2>`;
           break;
         case 'Ementa':
           // Ementa não é um agrupamento, mantemos como parágrafo
@@ -75,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
           break;
         case 'Preâmbulo':
           groupingId = generateId(type, '');
-          htmlContent += `<h2 id="${groupingId}" class="grouping-header preambulo-subtitle">Preâmbulo</h2>`;
+          htmlContent += `<h2 id="${groupingId}" class="grouping-header preambulo-subtitle ${indentClass}"><span class="header-text">Preâmbulo</span></h2>`;
           htmlContent += `<p class="preambulo-content">${content}</p>`;
           break;
         case 'Disposições Preliminares':
@@ -83,31 +87,31 @@ document.addEventListener('DOMContentLoaded', () => {
         case 'Disposições Finais':
         case 'Disposições Transitórias':
           groupingId = generateId(type, '');
-          htmlContent += `<h2 id="${groupingId}" class="grouping-header">${type}</h2>`;
+          htmlContent += `<h2 id="${groupingId}" class="grouping-header ${indentClass}"><span class="header-text">${type}</span></h2>`;
           break;
         case 'Parte':
           groupingId = generateId(type, identifier);
-          htmlContent += `<h3 id="${groupingId}" class="grouping-header">Parte ${identifier}</h3>`;
+          htmlContent += `<h3 id="${groupingId}" class="grouping-header ${indentClass}"><span class="header-text">Parte ${identifier}</span></h3>`;
           break;
         case 'Livro':
           groupingId = generateId(type, identifier);
-          htmlContent += `<h4 id="${groupingId}" class="grouping-header">Livro ${identifier} - ${content}</h4>`;
+          htmlContent += `<h4 id="${groupingId}" class="grouping-header ${indentClass}"><span class="header-text">Livro ${identifier} - ${content}</span></h4>`;
           break;
         case 'Título':
           groupingId = generateId(type, identifier);
-          htmlContent += `<h4 id="${groupingId}" class="grouping-header">Título ${identifier} - ${content}</h4>`;
+          htmlContent += `<h4 id="${groupingId}" class="grouping-header ${indentClass}"><span class="header-text">Título ${identifier} - ${content}</span></h4>`;
           break;
         case 'Capítulo':
           groupingId = generateId(type, identifier);
-          htmlContent += `<h5 id="${groupingId}" class="grouping-header">Capítulo ${identifier} - ${content}</h5>`;
+          htmlContent += `<h5 id="${groupingId}" class="grouping-header ${indentClass}"><span class="header-text">Capítulo ${identifier} - ${content}</span></h5>`;
           break;
         case 'Seção':
           groupingId = generateId(type, identifier);
-          htmlContent += `<h5 id="${groupingId}" class="grouping-header">Seção ${identifier} - ${content}</h5>`;
+          htmlContent += `<h5 id="${groupingId}" class="grouping-header ${indentClass}"><span class="header-text">Seção ${identifier} - ${content}</span></h5>`;
           break;
         case 'Subseção':
           groupingId = generateId(type, identifier);
-          htmlContent += `<h6 id="${groupingId}" class="grouping-header">Subseção ${identifier} - ${content}</h6>`;
+          htmlContent += `<h6 id="${groupingId}" class="grouping-header ${indentClass}"><span class="header-text">Subseção ${identifier} - ${content}</span></h6>`;
           break;
         case 'Artigo':
           // Exibir "Art. identifier content" como parágrafo alinhado à esquerda e sem negrito, com 'Art. identifier' em negrito
@@ -226,9 +230,13 @@ document.addEventListener('DOMContentLoaded', () => {
     showTemporaryMessage('Função de login ainda não implementada.');
   });
 
-  // Pesquisa no texto da lei
+  // Pesquisa no texto da lei com debounce
+  let searchDebounceTimer;
   searchTextInput.addEventListener('input', () => {
-    showTemporaryMessage('Função de busca no texto da lei ainda não implementada.');
+    clearTimeout(searchDebounceTimer);
+    searchDebounceTimer = setTimeout(() => {
+      showTemporaryMessage('Função de busca no texto da lei ainda não implementada.');
+    }, 300); // Delay de 300ms
   });
 
   // Função para definir o tema
@@ -283,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lastFive = activeHeaders.slice(-5);
 
     lastFive.forEach(header => {
-      const headerText = header.textContent.trim();
+      const headerText = header.querySelector('.header-text').textContent.trim();
       const headerId = header.id;
       const headerTag = header.tagName.toLowerCase();
       let depth = 0;
@@ -317,7 +325,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Atualizar os Sticky Headers ao rolar a página
-  window.addEventListener('scroll', updateStickyHeaders);
+  window.addEventListener('scroll', () => {
+    requestAnimationFrame(updateStickyHeaders);
+  });
+
   // Atualizar os Sticky Headers ao redimensionar a janela
-  window.addEventListener('resize', updateStickyHeaders);
+  window.addEventListener('resize', () => {
+    requestAnimationFrame(updateStickyHeaders);
+  });
 });

@@ -4,17 +4,23 @@
   <meta charset="UTF-8">
   <title>Mecum</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <!-- Fontes Inter e Lora -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;800&family=Lora:wght@700&display=swap" rel="stylesheet">
+  
+  <!-- Fonte Inter (para o restante do site) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Fonte Lobster (para o título "Mecum") -->
+  <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Adicionado para responsividade -->
 </head>
 <body>
   <!-- Barra Lateral Esquerda -->
-  <aside class="sidebar left-sidebar">
+  <aside class="sidebar left-sidebar" role="complementary" aria-label="Barra Lateral Esquerda">
     <h1><a href="/" class="home-link">Mecum</a></h1>
     <label for="search-laws" class="visually-hidden">Pesquisar leis</label>
-    <input type="text" id="search-laws" placeholder="Buscar leis...">
-    <ul id="law-buttons">
+    <input type="text" id="search-laws" placeholder="Buscar leis..." aria-describedby="search-laws-desc">
+    <span id="search-laws-desc" class="visually-hidden">Digite para filtrar as leis disponíveis</span>
+    <ul id="law-buttons" role="navigation" aria-label="Lista de Leis">
       <li><button class="sidebar-button law-button" data-law-id="1">Constituição Federal</button></li>
       <li><button class="sidebar-button law-button" data-law-id="2">Código Civil</button></li>
       <li><button class="sidebar-button law-button" data-law-id="3">Código de Processo Civil</button></li>
@@ -25,9 +31,9 @@
   </aside>
 
   <!-- Conteúdo Principal -->
-  <main class="main-content">
+  <main class="main-content" role="main">
     <!-- Container para Sticky Headers -->
-    <div id="fixed-headers"></div>
+    <div id="fixed-headers" aria-label="Headers Fixos"></div>
 
     <!-- Conteúdo da Lei -->
     <section class="content" id="law-content">
@@ -36,7 +42,7 @@
   </main>
 
   <!-- Barra Lateral Direita -->
-  <aside class="sidebar right-sidebar">
+  <aside class="sidebar right-sidebar" role="complementary" aria-label="Barra Lateral Direita">
     <!-- Botão de Login com Ícone SVG Inline -->
     <div class="login-button">
       <button id="login-btn" class="sidebar-button" aria-label="Login">
@@ -72,7 +78,8 @@
     <!-- Campo de Busca no Texto da Lei -->
     <div class="search-text">
       <label for="search-text" class="visually-hidden">Buscar no texto da lei</label>
-      <input type="text" id="search-text" placeholder="Buscar conteúdo da lei...">
+      <input type="text" id="search-text" placeholder="Buscar conteúdo da lei..." aria-describedby="search-text-desc">
+      <span id="search-text-desc" class="visually-hidden">Digite para buscar no conteúdo da lei atual</span>
     </div>
   </aside>
 
