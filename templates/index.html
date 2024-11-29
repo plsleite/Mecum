@@ -10,7 +10,7 @@
   <!-- Fonte Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Ícones Font Awesome (corrigido o atributo 'integrity') -->
+  <!-- Ícones Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -18,6 +18,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+  <!-- Sentinela para Intersection Observer -->
+  <div id="sentinel"></div>
+
   <!-- Barra Lateral Esquerda -->
   <aside class="sidebar left-sidebar" role="complementary" aria-label="Barra Lateral Esquerda">
     <h1><a href="/" class="home-link">Mecum</a></h1>
@@ -36,17 +39,15 @@
 
   <!-- Conteúdo Principal -->
   <main class="main-content" role="main">
-    <!-- Container para Headers Fixos -->
-    <div id="fixed-headers-container"></div>
-
     <!-- Conteúdo da Lei -->
     <section class="content" id="law-content">
-      <p>Seja bem-vindo ao Mecum!</p>
-      <p>Buscamos proporcionar uma consulta estética e funcionalmente agradável da legislação brasileira.</p>
+      <p>Seja bem-vindo! =]</p>
+      <p>O Mecum é a sua ferramenta elegante e funcional de consulta da legislação brasileira.</p>
       <p>Selecione uma lei na barra lateral esquerda para visualizar seu conteúdo.</p>
-      <p>Use o mecanismo de busca para encontrar facilmente o trecho que procura.</p>
+      <p>Use o mecanismo de busca na barra lateral direita para encontrar o trecho que procura.</p>
       <p>Faça anotações ou marcações no texto da lei.</p>
-      <p>Crie uma conta para salvar seus dados e compartilhar o conteúdo criado!</p>
+      <p>Crie uma conta para salvar suas anotações e marcações.</p>
+      <p>Compartilhe suas anotações e marcações com amigos!</p>
     </section>
   </main>
 

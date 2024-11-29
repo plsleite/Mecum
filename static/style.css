@@ -48,6 +48,16 @@ body {
   overflow: hidden;
 }
 
+/* Sentinela */
+#sentinel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px; /* Altura mínima para detecção */
+  pointer-events: none; /* Não interfere em interações */
+}
+
 /* Sidebars */
 .sidebar {
   width: 250px;
@@ -229,30 +239,50 @@ a:focus {
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: space-between; /* Espaço entre o texto e o ícone */
   transition: background-color 0.3s, color 0.3s;
+  position: sticky;
+  z-index: 100; /* Base z-index */
 }
 
 .grouping-header:hover {
   background-color: var(--button-background-hover);
 }
 
-/* Header Text */
-.header-text {
-  flex-grow: 1;
+/* Classe indicando que o header está sticky */
+.grouping-header.is-sticky {
+  background-color: var(--button-background-hover);
 }
 
-/* Ícone de Expansão */
-.expand-icon {
-  margin-left: auto;
-  transition: transform 0.3s ease, color 0.3s ease;
+/* Posicionamento Sticky para Acumular Headers */
+.grouping-header:nth-of-type(1) {
+  top: 0px;
+  z-index: 105; /* Superior */
 }
 
-.collapsed .expand-icon {
-  transform: rotate(0deg);
+.grouping-header:nth-of-type(2) {
+  top: 40px; /* Altura do primeiro header */
+  z-index: 104;
 }
 
-.expanded .expand-icon {
-  transform: rotate(90deg);
+.grouping-header:nth-of-type(3) {
+  top: 80px; /* Altura cumulativa */
+  z-index: 103;
+}
+
+.grouping-header:nth-of-type(4) {
+  top: 120px;
+  z-index: 102;
+}
+
+.grouping-header:nth-of-type(5) {
+  top: 160px;
+  z-index: 101;
+}
+
+.grouping-header:nth-of-type(n+6) {
+  top: 200px; /* Empurra os anteriores para cima */
+  z-index: 100;
 }
 
 /* Indentação */
@@ -387,49 +417,29 @@ a:focus {
   .indent-level-6 .header-text {
     margin-left: 10px;
   }
-}
 
-/* Estilos para Headers Fixos */
-#fixed-headers-container {
-  position: fixed;
-  top: 0;
-  left: 250px; /* Ajuste conforme a largura da sidebar esquerda */
-  right: 250px; /* Ajuste conforme a largura da sidebar direita */
-  z-index: 1000;
-}
+  /* Ajuste das posições sticky para dispositivos móveis */
+  .grouping-header:nth-of-type(1) {
+    top: 0px;
+  }
 
-.fixed-header {
-  background-color: var(--sidebar-background);
-  color: var(--text-color);
-  padding: 8px 15px;
-  border-bottom: 1px solid var(--button-border-color);
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  height: 40px;
-  transition: all 0.3s ease;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-}
+  .grouping-header:nth-of-type(2) {
+    top: 35px;
+  }
 
-.fixed-header.shrink {
-  height: 30px;
-  font-size: 12px;
-  padding: 5px 10px;
-}
+  .grouping-header:nth-of-type(3) {
+    top: 70px;
+  }
 
-.fixed-header:not(:last-child) {
-  border-bottom: none;
-}
+  .grouping-header:nth-of-type(4) {
+    top: 105px;
+  }
 
-.fixed-header .header-text {
-  flex-grow: 1;
-}
+  .grouping-header:nth-of-type(5) {
+    top: 140px;
+  }
 
-/* Transições Suaves para Headers */
-.grouping-header.shrink {
-  height: 30px;
-  font-size: 14px;
-  padding: 5px 10px;
+  .grouping-header:nth-of-type(n+6) {
+    top: 175px;
+  }
 }

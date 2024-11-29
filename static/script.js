@@ -12,11 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const lawCache = {};
   let currentLawId = null;
 
-  // Sticky Headers
-  const fixedHeadersContainer = document.getElementById('fixed-headers-container');
-  const maxFixedHeaders = 5;
-  const fixedHeaders = [];
-
   // Função para mostrar mensagens temporárias
   function showTemporaryMessage(message) {
     const msgDiv = document.createElement('div');
@@ -59,6 +54,19 @@ document.addEventListener('DOMContentLoaded', () => {
   function displayLawContent(data) {
     let htmlContent = ``;
 
+    // Definir os tipos que são considerados como filhos que requerem ícone de seta
+    const childTypes = new Set(['Artigo', 'Inciso', 'Parágrafo', 'Alínea', 'Item']);
+
+    // Preprocessar para determinar quais headers têm filhos relevantes
+    const pathsWithChildren = new Set();
+    data.sections.forEach(section => {
+      data.sections.forEach(child => {
+        if (child.path.startsWith(section.path + '.') && child.path !== section.path && childTypes.has(child.type)) {
+          pathsWithChildren.add(section.path);
+        }
+      });
+    });
+
     data.sections.forEach(section => {
       const type = section.type;
       let identifier = section.identifier ? section.identifier : '';
@@ -73,12 +81,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Gerar um ID único para cada agrupamento
       let groupingId = '';
+      let headerText = '';
+      let hasChildren = pathsWithChildren.has(path);
+
       switch(type) {
         case 'Epígrafe':
           groupingId = generateId(type, '');
-          htmlContent += `<div id="${groupingId}" class="grouping-header epigrafe ${indentClass} expanded" data-type="${type}">
+          // 'Epígrafe' nunca contém artigos, portanto, sem ícone de seta
+          htmlContent += `<div id="${groupingId}" class="grouping-header epigrafe ${indentClass}" data-type="${type}">
             <span class="header-text">${content}</span>
-            <i class="fas fa-chevron-right expand-icon"></i>
           </div>`;
           break;
         case 'Ementa':
@@ -86,9 +97,9 @@ document.addEventListener('DOMContentLoaded', () => {
           break;
         case 'Preâmbulo':
           groupingId = generateId(type, '');
-          htmlContent += `<div id="${groupingId}" class="grouping-header preambulo-subtitle ${indentClass} expanded" data-type="${type}">
+          // 'Preâmbulo' também não possui filhos
+          htmlContent += `<div id="${groupingId}" class="grouping-header preambulo-subtitle ${indentClass}" data-type="${type}">
             <span class="header-text">Preâmbulo</span>
-            <i class="fas fa-chevron-right expand-icon"></i>
           </div>`;
           htmlContent += `<p class="preambulo-content">${content}</p>`;
           break;
@@ -97,51 +108,58 @@ document.addEventListener('DOMContentLoaded', () => {
         case 'Disposições Finais':
         case 'Disposições Transitórias':
           groupingId = generateId(type, '');
-          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} expanded" data-type="${type}">
-            <span class="header-text">${type}</span>
-            <i class="fas fa-chevron-right expand-icon"></i>
+          headerText = `${type}`;
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : ''}" data-type="${type}">
+            <span class="header-text">${headerText}</span>
+            ${hasChildren ? '<i class="fas fa-chevron-right expand-icon"></i>' : ''}
           </div>`;
           break;
         case 'Parte':
           groupingId = generateId(type, identifier);
-          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} expanded" data-type="${type}">
-            <span class="header-text">Parte ${identifier}</span>
-            <i class="fas fa-chevron-right expand-icon"></i>
+          headerText = `Parte ${identifier}`;
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : ''}" data-type="${type}">
+            <span class="header-text">${headerText}</span>
+            ${hasChildren ? '<i class="fas fa-chevron-right expand-icon"></i>' : ''}
           </div>`;
           break;
         case 'Livro':
           groupingId = generateId(type, identifier);
-          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} expanded" data-type="${type}">
-            <span class="header-text">Livro ${identifier} - ${content}</span>
-            <i class="fas fa-chevron-right expand-icon"></i>
+          headerText = `Livro ${identifier} - ${content}`;
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : ''}" data-type="${type}">
+            <span class="header-text">${headerText}</span>
+            ${hasChildren ? '<i class="fas fa-chevron-right expand-icon"></i>' : ''}
           </div>`;
           break;
         case 'Título':
           groupingId = generateId(type, identifier);
-          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} expanded" data-type="${type}">
-            <span class="header-text">Título ${identifier} - ${content}</span>
-            <i class="fas fa-chevron-right expand-icon"></i>
+          headerText = `Título ${identifier} - ${content}`;
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : ''}" data-type="${type}">
+            <span class="header-text">${headerText}</span>
+            ${hasChildren ? '<i class="fas fa-chevron-right expand-icon"></i>' : ''}
           </div>`;
           break;
         case 'Capítulo':
           groupingId = generateId(type, identifier);
-          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} expanded" data-type="${type}">
-            <span class="header-text">Capítulo ${identifier} - ${content}</span>
-            <i class="fas fa-chevron-right expand-icon"></i>
+          headerText = `Capítulo ${identifier} - ${content}`;
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : ''}" data-type="${type}">
+            <span class="header-text">${headerText}</span>
+            ${hasChildren ? '<i class="fas fa-chevron-right expand-icon"></i>' : ''}
           </div>`;
           break;
         case 'Seção':
           groupingId = generateId(type, identifier);
-          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} expanded" data-type="${type}">
-            <span class="header-text">Seção ${identifier} - ${content}</span>
-            <i class="fas fa-chevron-right expand-icon"></i>
+          headerText = `Seção ${identifier} - ${content}`;
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : ''}" data-type="${type}">
+            <span class="header-text">${headerText}</span>
+            ${hasChildren ? '<i class="fas fa-chevron-right expand-icon"></i>' : ''}
           </div>`;
           break;
         case 'Subseção':
           groupingId = generateId(type, identifier);
-          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} expanded" data-type="${type}">
-            <span class="header-text">Subseção ${identifier} - ${content}</span>
-            <i class="fas fa-chevron-right expand-icon"></i>
+          headerText = `Subseção ${identifier} - ${content}`;
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : ''}" data-type="${type}">
+            <span class="header-text">${headerText}</span>
+            ${hasChildren ? '<i class="fas fa-chevron-right expand-icon"></i>' : ''}
           </div>`;
           break;
         case 'Artigo':
@@ -182,8 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     lawContent.innerHTML = htmlContent;
 
-    // Inicializar os observadores
-    initStickyHeaders();
+    // Inicializar os eventos dos grouping headers
     initGroupingHeaderEvents();
   }
 
@@ -203,10 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Desabilitar todos os botões durante o carregamento
       lawButtons.forEach(btn => btn.disabled = true);
-
-      // Limpar headers fixos
-      fixedHeadersContainer.innerHTML = '';
-      fixedHeaders.length = 0;
 
       // Mostra o loader
       lawContent.innerHTML = `
@@ -294,82 +307,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setTheme(newTheme);
   });
 
-  // Inicializar os observadores de sticky headers
-  function initStickyHeaders() {
-    const groupingHeaders = document.querySelectorAll('.grouping-header');
-
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: [0, 1]
-    };
-
-    groupingHeaders.forEach(header => {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.intersectionRatio < 1 && entry.boundingClientRect.top <= 0) {
-            // Header atingiu o topo, fixar
-            addFixedHeader(entry.target);
-          } else {
-            // Header saiu do topo, remover
-            removeFixedHeader(entry.target);
-          }
-        });
-      }, observerOptions);
-
-      observer.observe(header);
-    });
-  }
-
-  // Adicionar header fixo
-  function addFixedHeader(header) {
-    const existingIndex = fixedHeaders.findIndex(item => item.originalHeader === header);
-
-    if (existingIndex === -1) {
-      // Clonar o header
-      const clonedHeader = header.cloneNode(true);
-      clonedHeader.classList.add('fixed-header', 'shrink');
-      clonedHeader.addEventListener('click', () => {
-        header.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-
-      // Adicionar ao container
-      fixedHeadersContainer.appendChild(clonedHeader);
-
-      // Adicionar à lista de headers fixos
-      fixedHeaders.push({ originalHeader: header, clonedHeader });
-
-      // Limitar a cinco headers
-      if (fixedHeaders.length > maxFixedHeaders) {
-        // Remover o primeiro
-        const removed = fixedHeaders.shift();
-        fixedHeadersContainer.removeChild(removed.clonedHeader);
-      }
-
-      // Atualizar posições
-      updateFixedHeadersPosition();
-    }
-  }
-
-  // Remover header fixo
-  function removeFixedHeader(header) {
-    const index = fixedHeaders.findIndex(item => item.originalHeader === header);
-    if (index !== -1) {
-      const removed = fixedHeaders.splice(index, 1)[0];
-      fixedHeadersContainer.removeChild(removed.clonedHeader);
-
-      // Atualizar posições
-      updateFixedHeadersPosition();
-    }
-  }
-
-  // Atualizar posições dos headers fixos
-  function updateFixedHeadersPosition() {
-    fixedHeaders.forEach((item, index) => {
-      item.clonedHeader.style.top = `${index * 30}px`;
-    });
-  }
-
   // Inicializar eventos dos grouping headers
   function initGroupingHeaderEvents() {
     const groupingHeaders = document.querySelectorAll('.grouping-header');
@@ -378,36 +315,82 @@ document.addEventListener('DOMContentLoaded', () => {
       const expandIcon = header.querySelector('.expand-icon');
       const headerType = header.getAttribute('data-type');
 
-      // Inicialmente, todas as seções estão expandidas
-      header.classList.add('expanded');
-      // Garantir que o ícone está rotacionado para baixo
-      expandIcon.style.transform = 'rotate(90deg)';
+      // Apenas headers com ícone de seta possuem conteúdo a expandir
+      if (expandIcon) {
+        // Inicialmente, todas as seções estão expandidas
+        header.classList.add('expanded');
+        // Garantir que o ícone está rotacionado para baixo
+        expandIcon.style.transform = 'rotate(90deg)';
 
-      header.addEventListener('click', () => {
-        const isCollapsed = header.classList.contains('collapsed');
-        header.classList.toggle('collapsed', !isCollapsed);
-        header.classList.toggle('expanded', isCollapsed);
+        header.addEventListener('click', (event) => {
+          // Prevenir a propagação do evento caso o clique seja no ícone
+          if (event.target.classList.contains('expand-icon')) {
+            event.stopPropagation();
+          }
 
-        // Rotacionar o ícone
-        if (isCollapsed) {
-          expandIcon.style.transform = 'rotate(90deg)';
-        } else {
-          expandIcon.style.transform = 'rotate(0deg)';
-        }
+          if (header.classList.contains('is-sticky')) {
+            // Header está sticky: rolar para a posição original
+            const headerId = header.id;
+            const originalHeader = document.getElementById(headerId);
+            if (originalHeader) {
+              originalHeader.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          } else {
+            // Header não está sticky: expandir/contrair
+            const isCollapsed = header.classList.contains('collapsed');
+            header.classList.toggle('collapsed', !isCollapsed);
+            header.classList.toggle('expanded', isCollapsed);
 
-        const nextElements = [];
-        let nextSibling = header.nextElementSibling;
+            // Rotacionar o ícone
+            if (isCollapsed) {
+              expandIcon.style.transform = 'rotate(90deg)';
+            } else {
+              expandIcon.style.transform = 'rotate(0deg)';
+            }
 
-        while (nextSibling && !nextSibling.classList.contains('grouping-header')) {
-          nextElements.push(nextSibling);
-          nextSibling = nextSibling.nextElementSibling;
-        }
+            const nextElements = [];
+            let nextSibling = header.nextElementSibling;
 
-        // Alternar visibilidade
-        nextElements.forEach(element => {
-          element.style.display = isCollapsed ? '' : 'none';
+            while (nextSibling && !nextSibling.classList.contains('grouping-header')) {
+              nextElements.push(nextSibling);
+              nextSibling = nextSibling.nextElementSibling;
+            }
+
+            // Alternar visibilidade
+            nextElements.forEach(element => {
+              element.style.display = isCollapsed ? '' : 'none';
+            });
+          }
         });
+      }
+    });
+  }
+
+  // Configurar Intersection Observer para detectar headers sticky
+  const sentinel = document.getElementById('sentinel');
+  const observerOptions = {
+    root: null, // viewport
+    threshold: 0
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const headers = document.querySelectorAll('.grouping-header');
+      headers.forEach(header => {
+        if (!entry.isIntersecting && isElementAtTop(header)) {
+          header.classList.add('is-sticky');
+        } else {
+          header.classList.remove('is-sticky');
+        }
       });
     });
+  }, observerOptions);
+
+  observer.observe(sentinel);
+
+  // Função auxiliar para verificar se o header está no topo
+  function isElementAtTop(element) {
+    const rect = element.getBoundingClientRect();
+    return rect.top <= 0 && rect.bottom > 0;
   }
 });
