@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, render_template
 import psycopg2
-from psycopg2 import sql
 import os
 from dotenv import load_dotenv
 
@@ -23,14 +22,14 @@ def get_db_connection():
 # Rota para a página principal
 @app.route("/")
 def index():
-    return render_template("index.html") # Certifique-se de que o arquivo HTML está em "templates/index.html"
+    return render_template("index.html")
 
 @app.route('/api/laws/<int:law_id>', methods=['GET'])
 def get_law(law_id):
     conn = get_db_connection()
     cur = conn.cursor()
     try:
-        # Consulta SQL recursiva para ordenar hierarquicamente com display_order padronizado
+        # Consulta SQL recursiva para ordenar hierarquicamente
         cur.execute("""
         WITH RECURSIVE section_tree AS (
             SELECT
@@ -88,7 +87,6 @@ def get_law(law_id):
             identifier = row[2]
             content = row[3]
             path = row[4]
-            # Adicionar seção se o conteúdo existir
             if content:
                 law['sections'].append({
                     "type": section_type,

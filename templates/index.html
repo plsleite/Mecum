@@ -3,16 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>Mecum</title>
-  
-  <!-- Atualização da Fonte para Bungee Inline -->
+
+  <!-- Fonte Bungee Inline -->
   <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&display=swap" rel="stylesheet">
-  
-  <!-- Fonte Inter (para o restante do site) -->
+
+  <!-- Fonte Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
+
+  <!-- Ícones Font Awesome (corrigido o atributo 'integrity') -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Adicionado para responsividade -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
   <!-- Barra Lateral Esquerda -->
@@ -33,8 +36,8 @@
 
   <!-- Conteúdo Principal -->
   <main class="main-content" role="main">
-    <!-- Container para Sticky Headers -->
-    <div id="fixed-headers" aria-label="Headers Fixos"></div>
+    <!-- Container para Headers Fixos -->
+    <div id="fixed-headers-container"></div>
 
     <!-- Conteúdo da Lei -->
     <section class="content" id="law-content">

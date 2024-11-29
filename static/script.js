@@ -10,7 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeText = document.getElementById('theme-text');
   const bodyElement = document.body;
   const lawCache = {};
-  let currentLawId = null; // Variável para armazenar a lei atual
+  let currentLawId = null;
+
+  // Sticky Headers
+  const fixedHeadersContainer = document.getElementById('fixed-headers-container');
+  const maxFixedHeaders = 5;
+  const fixedHeaders = [];
 
   // Função para mostrar mensagens temporárias
   function showTemporaryMessage(message) {
@@ -33,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const text = button.textContent.toLowerCase();
         button.parentElement.style.display = text.includes(query) ? 'block' : 'none';
       });
-    }, 300); // Delay de 300ms
+    }, 300);
   });
 
   // Função para determinar a profundidade com base no path
@@ -52,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Função para exibir o conteúdo da lei
   function displayLawContent(data) {
-    let htmlContent = ``; // Removido o h1 com o nome da lei
+    let htmlContent = ``;
 
     data.sections.forEach(section => {
       const type = section.type;
@@ -71,15 +76,20 @@ document.addEventListener('DOMContentLoaded', () => {
       switch(type) {
         case 'Epígrafe':
           groupingId = generateId(type, '');
-          htmlContent += `<h2 id="${groupingId}" class="grouping-header epigrafe ${indentClass}"><span class="header-text">${content}</span></h2>`;
+          htmlContent += `<div id="${groupingId}" class="grouping-header epigrafe ${indentClass} expanded" data-type="${type}">
+            <span class="header-text">${content}</span>
+            <i class="fas fa-chevron-right expand-icon"></i>
+          </div>`;
           break;
         case 'Ementa':
-          // Ementa não é um agrupamento, mantemos como parágrafo
           htmlContent += `<p class="p-ementa">${content}</p>`;
           break;
         case 'Preâmbulo':
           groupingId = generateId(type, '');
-          htmlContent += `<h2 id="${groupingId}" class="grouping-header preambulo-subtitle ${indentClass}"><span class="header-text">Preâmbulo</span></h2>`;
+          htmlContent += `<div id="${groupingId}" class="grouping-header preambulo-subtitle ${indentClass} expanded" data-type="${type}">
+            <span class="header-text">Preâmbulo</span>
+            <i class="fas fa-chevron-right expand-icon"></i>
+          </div>`;
           htmlContent += `<p class="preambulo-content">${content}</p>`;
           break;
         case 'Disposições Preliminares':
@@ -87,48 +97,63 @@ document.addEventListener('DOMContentLoaded', () => {
         case 'Disposições Finais':
         case 'Disposições Transitórias':
           groupingId = generateId(type, '');
-          htmlContent += `<h2 id="${groupingId}" class="grouping-header ${indentClass}"><span class="header-text">${type}</span></h2>`;
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} expanded" data-type="${type}">
+            <span class="header-text">${type}</span>
+            <i class="fas fa-chevron-right expand-icon"></i>
+          </div>`;
           break;
         case 'Parte':
           groupingId = generateId(type, identifier);
-          htmlContent += `<h3 id="${groupingId}" class="grouping-header ${indentClass}"><span class="header-text">Parte ${identifier}</span></h3>`;
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} expanded" data-type="${type}">
+            <span class="header-text">Parte ${identifier}</span>
+            <i class="fas fa-chevron-right expand-icon"></i>
+          </div>`;
           break;
         case 'Livro':
           groupingId = generateId(type, identifier);
-          htmlContent += `<h4 id="${groupingId}" class="grouping-header ${indentClass}"><span class="header-text">Livro ${identifier} - ${content}</span></h4>`;
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} expanded" data-type="${type}">
+            <span class="header-text">Livro ${identifier} - ${content}</span>
+            <i class="fas fa-chevron-right expand-icon"></i>
+          </div>`;
           break;
         case 'Título':
           groupingId = generateId(type, identifier);
-          htmlContent += `<h4 id="${groupingId}" class="grouping-header ${indentClass}"><span class="header-text">Título ${identifier} - ${content}</span></h4>`;
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} expanded" data-type="${type}">
+            <span class="header-text">Título ${identifier} - ${content}</span>
+            <i class="fas fa-chevron-right expand-icon"></i>
+          </div>`;
           break;
         case 'Capítulo':
           groupingId = generateId(type, identifier);
-          htmlContent += `<h5 id="${groupingId}" class="grouping-header ${indentClass}"><span class="header-text">Capítulo ${identifier} - ${content}</span></h5>`;
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} expanded" data-type="${type}">
+            <span class="header-text">Capítulo ${identifier} - ${content}</span>
+            <i class="fas fa-chevron-right expand-icon"></i>
+          </div>`;
           break;
         case 'Seção':
           groupingId = generateId(type, identifier);
-          htmlContent += `<h5 id="${groupingId}" class="grouping-header ${indentClass}"><span class="header-text">Seção ${identifier} - ${content}</span></h5>`;
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} expanded" data-type="${type}">
+            <span class="header-text">Seção ${identifier} - ${content}</span>
+            <i class="fas fa-chevron-right expand-icon"></i>
+          </div>`;
           break;
         case 'Subseção':
           groupingId = generateId(type, identifier);
-          htmlContent += `<h6 id="${groupingId}" class="grouping-header ${indentClass}"><span class="header-text">Subseção ${identifier} - ${content}</span></h6>`;
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} expanded" data-type="${type}">
+            <span class="header-text">Subseção ${identifier} - ${content}</span>
+            <i class="fas fa-chevron-right expand-icon"></i>
+          </div>`;
           break;
         case 'Artigo':
-          // Exibir "Art. identifier content" como parágrafo alinhado à esquerda e sem negrito, com 'Art. identifier' em negrito
           htmlContent += `<p class="artigo"><strong>Art. ${identifier}</strong> ${content}</p>`;
           break;
         case 'Parágrafo':
           if (identifier.toLowerCase() === 'único') {
             htmlContent += `<p class="paragrafo"><strong>Parágrafo ${identifier}.</strong> ${content}</p>`;
           } else {
-            // Remove qualquer símbolo '§' existente e espaços antes
             identifier = identifier.replace(/^§+/, '').trim();
-
-            // Extrair a parte numérica do identifier
             const numberMatch = identifier.match(/\d+/);
             const number = numberMatch ? parseInt(numberMatch[0], 10) : 0;
-
-            // Determinar se adiciona ponto final baseado no número
             if (number >= 10) {
               htmlContent += `<p class="paragrafo"><strong>§ ${identifier}.</strong> ${content}</p>`;
             } else {
@@ -137,24 +162,19 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           break;
         case 'Inciso':
-          // Exibir Inciso como parágrafo com indentação baseada na profundidade
           htmlContent += `<p class="inciso ${indentClass}">${identifier} - ${content}</p>`;
           break;
         case 'Alínea':
-          // Exibir Alínea como parágrafo com indentação baseada na profundidade
           htmlContent += `<p class="alinea ${indentClass}">${identifier}) ${content}</p>`;
           break;
         case 'Item':
-          // Exibir Item como parágrafo com indentação baseada na profundidade
           htmlContent += `<p class="item ${indentClass}">${identifier}. ${content}</p>`;
           break;
         case 'Data de Promulgação':
         case 'Data de Publicação':
-          // Exibir como parágrafo, centralizado
           htmlContent += `<p class="data-publicacao"><strong>${type}:</strong> ${content}</p>`;
           break;
         default:
-          // Exibir como parágrafo alinhado à esquerda
           htmlContent += `<p>${content}</p>`;
           break;
       }
@@ -162,15 +182,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     lawContent.innerHTML = htmlContent;
 
-    // Após inserir o conteúdo, atualizar os sticky headers
-    updateStickyHeaders();
+    // Inicializar os observadores
+    initStickyHeaders();
+    initGroupingHeaderEvents();
   }
 
   // Manipular clique nos botões de leis
   lawButtons.forEach(button => {
     button.addEventListener('click', () => {
       const lawId = button.dataset.lawId;
-      currentLawId = lawId; // Atualiza a lei atual
+      currentLawId = lawId;
 
       // Adicionar classe 'selected' ao botão clicado e remover dos outros
       lawButtons.forEach(btn => {
@@ -182,6 +203,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Desabilitar todos os botões durante o carregamento
       lawButtons.forEach(btn => btn.disabled = true);
+
+      // Limpar headers fixos
+      fixedHeadersContainer.innerHTML = '';
+      fixedHeaders.length = 0;
 
       // Mostra o loader
       lawContent.innerHTML = `
@@ -236,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clearTimeout(searchDebounceTimer);
     searchDebounceTimer = setTimeout(() => {
       showTemporaryMessage('Função de busca no texto da lei ainda não implementada.');
-    }, 300); // Delay de 300ms
+    }, 300);
   });
 
   // Função para definir o tema
@@ -269,68 +294,120 @@ document.addEventListener('DOMContentLoaded', () => {
     setTheme(newTheme);
   });
 
-  // Função para atualizar os Sticky Headers
-  function updateStickyHeaders() {
-    const fixedHeadersContainer = document.getElementById('fixed-headers');
-    fixedHeadersContainer.innerHTML = ''; // Limpa os headers fixos
-
+  // Inicializar os observadores de sticky headers
+  function initStickyHeaders() {
     const groupingHeaders = document.querySelectorAll('.grouping-header');
-    const currentScroll = window.scrollY;
-    const viewportHeight = window.innerHeight;
 
-    const activeHeaders = [];
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: [0, 1]
+    };
 
     groupingHeaders.forEach(header => {
-      const headerTop = header.getBoundingClientRect().top + window.scrollY;
-      if (headerTop <= currentScroll + 10) { // 10px de margem
-        activeHeaders.push(header);
-      }
-    });
-
-    // Mantém apenas os últimos cinco agrupamentos
-    const lastFive = activeHeaders.slice(-5);
-
-    lastFive.forEach(header => {
-      const headerText = header.querySelector('.header-text').textContent.trim();
-      const headerId = header.id;
-      const headerTag = header.tagName.toLowerCase();
-      let depth = 0;
-
-      // Determinar a profundidade com base na tag (h2: 2, h3:3, etc.)
-      if (headerTag.startsWith('h')) {
-        depth = parseInt(headerTag.replace('h', ''), 10);
-      }
-
-      // Calcula a indentação: h2 (Disposições Preliminares) -> 0px, h3 -> 20px, h4 -> 40px, etc.
-      const indentation = (depth - 2) * 20; // Ajuste conforme necessário
-
-      // Criar o botão fixo
-      const headerButton = document.createElement('button');
-      headerButton.className = 'fixed-header';
-      headerButton.textContent = headerText;
-
-      // Aplicar indentação baseada na profundidade
-      headerButton.style.marginLeft = `${indentation}px`;
-
-      // Adicionar click listener para rolar até o header correspondente
-      headerButton.addEventListener('click', () => {
-        document.getElementById(headerId).scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.intersectionRatio < 1 && entry.boundingClientRect.top <= 0) {
+            // Header atingiu o topo, fixar
+            addFixedHeader(entry.target);
+          } else {
+            // Header saiu do topo, remover
+            removeFixedHeader(entry.target);
+          }
         });
-      });
+      }, observerOptions);
 
-      fixedHeadersContainer.appendChild(headerButton);
+      observer.observe(header);
     });
   }
 
-  // Atualizar os Sticky Headers ao rolar a página
-  window.addEventListener('scroll', () => {
-    requestAnimationFrame(updateStickyHeaders);
-  });
+  // Adicionar header fixo
+  function addFixedHeader(header) {
+    const existingIndex = fixedHeaders.findIndex(item => item.originalHeader === header);
 
-  // Atualizar os Sticky Headers ao redimensionar a janela
-  window.addEventListener('resize', () => {
-    requestAnimationFrame(updateStickyHeaders);
-  });
+    if (existingIndex === -1) {
+      // Clonar o header
+      const clonedHeader = header.cloneNode(true);
+      clonedHeader.classList.add('fixed-header', 'shrink');
+      clonedHeader.addEventListener('click', () => {
+        header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      // Adicionar ao container
+      fixedHeadersContainer.appendChild(clonedHeader);
+
+      // Adicionar à lista de headers fixos
+      fixedHeaders.push({ originalHeader: header, clonedHeader });
+
+      // Limitar a cinco headers
+      if (fixedHeaders.length > maxFixedHeaders) {
+        // Remover o primeiro
+        const removed = fixedHeaders.shift();
+        fixedHeadersContainer.removeChild(removed.clonedHeader);
+      }
+
+      // Atualizar posições
+      updateFixedHeadersPosition();
+    }
+  }
+
+  // Remover header fixo
+  function removeFixedHeader(header) {
+    const index = fixedHeaders.findIndex(item => item.originalHeader === header);
+    if (index !== -1) {
+      const removed = fixedHeaders.splice(index, 1)[0];
+      fixedHeadersContainer.removeChild(removed.clonedHeader);
+
+      // Atualizar posições
+      updateFixedHeadersPosition();
+    }
+  }
+
+  // Atualizar posições dos headers fixos
+  function updateFixedHeadersPosition() {
+    fixedHeaders.forEach((item, index) => {
+      item.clonedHeader.style.top = `${index * 30}px`;
+    });
+  }
+
+  // Inicializar eventos dos grouping headers
+  function initGroupingHeaderEvents() {
+    const groupingHeaders = document.querySelectorAll('.grouping-header');
+
+    groupingHeaders.forEach(header => {
+      const expandIcon = header.querySelector('.expand-icon');
+      const headerType = header.getAttribute('data-type');
+
+      // Inicialmente, todas as seções estão expandidas
+      header.classList.add('expanded');
+      // Garantir que o ícone está rotacionado para baixo
+      expandIcon.style.transform = 'rotate(90deg)';
+
+      header.addEventListener('click', () => {
+        const isCollapsed = header.classList.contains('collapsed');
+        header.classList.toggle('collapsed', !isCollapsed);
+        header.classList.toggle('expanded', isCollapsed);
+
+        // Rotacionar o ícone
+        if (isCollapsed) {
+          expandIcon.style.transform = 'rotate(90deg)';
+        } else {
+          expandIcon.style.transform = 'rotate(0deg)';
+        }
+
+        const nextElements = [];
+        let nextSibling = header.nextElementSibling;
+
+        while (nextSibling && !nextSibling.classList.contains('grouping-header')) {
+          nextElements.push(nextSibling);
+          nextSibling = nextSibling.nextElementSibling;
+        }
+
+        // Alternar visibilidade
+        nextElements.forEach(element => {
+          element.style.display = isCollapsed ? '' : 'none';
+        });
+      });
+    });
+  }
 });

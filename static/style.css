@@ -2,25 +2,27 @@
 :root {
   --background-color: #fff;
   --text-color: #000;
-  --sidebar-background: #f9f9f9; /* Cor de fundo das barras laterais */
+  --sidebar-background: #f9f9f9;
   --button-background-hover: #e0e0e0;
   --button-border-color: #ccc;
   --input-background: #fff;
   --input-text-color: #000;
   --highlight-color: #ff0;
-  --initial-element-color: #333; /* Cor suave para elementos iniciais no tema claro */
+  --initial-element-color: #333;
+  --icon-color: #aaa; /* Cor dos ícones no tema claro */
 }
 
 body.dark-theme {
   --background-color: #121212;
   --text-color: #ffffff;
-  --sidebar-background: #1e1e1e; /* Cor de fundo das barras laterais no tema escuro */
+  --sidebar-background: #1e1e1e;
   --button-background-hover: #333333;
   --button-border-color: #555555;
   --input-background: #1e1e1e;
   --input-text-color: #ffffff;
   --highlight-color: #555555;
-  --initial-element-color: #ccc; /* Cor suave para elementos iniciais no tema escuro */
+  --initial-element-color: #ccc;
+  --icon-color: #777; /* Cor dos ícones no tema escuro */
 }
 
 /* Transições Suaves */
@@ -32,11 +34,11 @@ body {
   background-color: var(--background-color);
   color: var(--text-color);
   margin: 0;
-  font-family: 'Inter', sans-serif; /* Fonte "Inter" para todo o corpo */
+  font-family: 'Inter', sans-serif;
   position: relative;
 }
 
-/* Visually Hidden (para labels) */
+/* Visually Hidden */
 .visually-hidden {
   position: absolute;
   left: -10000px;
@@ -49,18 +51,13 @@ body {
 /* Sidebars */
 .sidebar {
   width: 250px;
-  background-color: var(--sidebar-background); /* Mesma cor para todas as barras laterais */
+  background-color: var(--sidebar-background);
   padding: 20px;
   box-sizing: border-box;
   position: fixed;
   top: 0;
   bottom: 0;
   overflow-y: auto;
-}
-
-.left-sidebar,
-.right-sidebar {
-  width: 250px; /* Garantir a mesma largura */
 }
 
 .left-sidebar {
@@ -71,55 +68,46 @@ body {
   right: 0;
 }
 
-/* Centralização do Conteúdo Principal */
+/* Conteúdo Principal */
 .main-content {
-  /* Ajuste para centralizar o conteúdo principal */
   display: flex;
-  justify-content: center; /* Centraliza horizontalmente */
-  align-items: flex-start; /* Alinha no topo */
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
   box-sizing: border-box;
   min-height: 100vh;
-  margin-left: 250px; /* Espaço para a barra lateral esquerda */
-  margin-right: 250px; /* Espaço para a barra lateral direita */
+  margin-left: 250px;
+  margin-right: 250px;
 }
 
-/* Container da Lei para Centralização e Tamanho */
+/* Container da Lei */
 .content {
   font-weight: 300;
   font-size: 17px;
-  max-width: 70ch; /* Define o comprimento da linha para 70 caracteres */
-  width: 100%; /* Garante que ocupe 100% do container */
-  margin: 0 auto; /* Centraliza horizontalmente */
+  max-width: 70ch;
+  width: 100%;
+  margin: 0 auto;
 }
 
 /* Estilização do link "Mecum" */
 .sidebar h1 {
-  text-align: center; /* Centraliza o conteúdo dentro do h1 */
+  text-align: center;
 }
 
 .sidebar h1 a.home-link {
-  /* Aplicação da Fonte Bungee Inline */
   font-family: 'Bungee Inline', cursive;
-  
-  /* Propriedades de Fonte Específicas */
   font-size: 58px;
   margin: 0;
   line-height: 1;
-
-  /* Propriedades Existentes */
-  color: var(--text-color); /* Herda a cor do texto definida nas variáveis de tema */
-  text-decoration: none; /* Remove o sublinhado padrão dos links */
+  color: var(--text-color);
+  text-decoration: none;
   display: inline-block;
-  transition: color 0.3s; /* Transição suave para a cor no hover */
+  transition: color 0.3s;
 }
 
 .sidebar h1 a.home-link:hover,
 .sidebar h1 a.home-link:focus {
-  /* Mantém a remoção do sublinhado no hover/focus */
   text-decoration: none;
-
-  /* Altera a cor ao passar o mouse */
   color: var(--button-background-hover);
 }
 
@@ -146,11 +134,10 @@ body {
   margin-bottom: 5px;
 }
 
-/* Estilo comum para todos os botões das barras laterais */
+/* Botões das Barras Laterais */
 .sidebar-button {
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* Mantém o alinhamento à esquerda */
   gap: 8px;
   width: 100%;
   padding: 10px 15px;
@@ -167,28 +154,18 @@ body {
   outline: 2px solid var(--button-background-hover);
 }
 
-/* Hover e Focus States */
 .sidebar-button:hover,
 .sidebar-button:focus {
   background-color: var(--button-background-hover);
   outline: none;
 }
 
-/* Estilização específica para SVGs dentro de sidebar-button */
-.sidebar-button svg {
-  width: 20px; /* Ajuste o tamanho conforme necessário */
-  height: 20px;
-  flex-shrink: 0; /* Impede que o ícone diminua de tamanho */
-  color: inherit; /* Herda a cor do texto */
-  transition: color 0.3s;
-}
-
-/* Realce para o botão selecionado */
 .sidebar-button.selected {
   background-color: var(--button-background-hover);
   font-weight: bold;
 }
 
+/* Ícones */
 .icon {
   flex-shrink: 0;
   color: var(--text-color);
@@ -200,6 +177,13 @@ body {
   transform: scale(0.95);
 }
 
+/* Ícones de Expansão/Contração */
+.grouping-header .expand-icon {
+  font-size: 0.8em; /* Tamanho menor */
+  color: var(--icon-color); /* Cor adaptada ao tema */
+}
+
+/* Input de Busca */
 .search-text input[type="text"] {
   width: 100%;
   padding: 8px;
@@ -220,7 +204,7 @@ body {
   margin-bottom: 10px;
 }
 
-/* Ajuste para Links */
+/* Links */
 a {
   color: var(--text-color);
   text-decoration: none;
@@ -231,62 +215,47 @@ a:focus {
   text-decoration: underline;
 }
 
-/* Estilos para Hierarquia de Cabeçalhos dentro de .main-content */
-.main-content h2,
-.main-content h3,
-.main-content h4,
-.main-content h5,
-.main-content h6 {
-  /* Mesma cor de fundo das barras laterais */
+/* Headers no Conteúdo da Lei */
+.grouping-header {
   background-color: var(--sidebar-background);
-  color: var(--text-color); /* Ajustado para usar var(--text-color) */
+  color: var(--text-color);
   padding: 10px 15px;
   border-radius: 4px;
   margin-top: 20px;
   margin-bottom: 10px;
-  position: relative;
-  z-index: 1;
-
-  /* Mesma Tamanho de Fonte para Todos os Headers */
-  font-size: 1.2em; /* Definido um tamanho de fonte uniforme */
-  font-weight: 700; /* Peso em negrito */
-  font-family: 'Inter', sans-serif; /* Fonte "Inter" para todos os headers */
-
-  /* Removido display: flex e align-items: center */
+  font-size: 1.2em;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-/* Remover qualquer background-color adicional ou sobreposição */
-.main-content h2.epigrafe {
-  /* font-weight: 300; Removido para herdar font-weight: 700 */
-  font-size: 1.2em; /* Tamanho de fonte igual aos demais headers */
-  text-align: center; /* Centralizado */
-  margin-top: 10px; /* Ajustado para espaçamento uniforme */
-  margin-bottom: 10px;
-  background-color: var(--sidebar-background); /* Garantir mesma cor de fundo */
-  font-weight: 700; /* Adicionado para negrito */
-
-  /* Removido display: flex e align-items: center */
+.grouping-header:hover {
+  background-color: var(--button-background-hover);
 }
 
-/* Container interno para o texto do header */
-.main-content .header-text {
-  display: inline-block; /* Permite que margin-left funcione corretamente */
+/* Header Text */
+.header-text {
+  flex-grow: 1;
 }
 
-/* Parágrafo padrão */
-.main-content p {
-  margin-bottom: 15px;
-  line-height: 1.6;
-  text-align: left; /* Alinhado à esquerda por padrão */
-  font-weight: normal; /* Remover negrito, caso esteja aplicado */
+/* Ícone de Expansão */
+.expand-icon {
+  margin-left: auto;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.main-content p strong {
-  font-weight: bold; /* Garantir negrito */
-  color: var(--initial-element-color); /* Aplicar cor suave */
+.collapsed .expand-icon {
+  transform: rotate(0deg);
 }
 
-/* Classes de indentação baseadas na profundidade */
+.expanded .expand-icon {
+  transform: rotate(90deg);
+}
+
+/* Indentação */
 .indent-level-2 .header-text {
   margin-left: 20px;
 }
@@ -307,25 +276,38 @@ a:focus {
   margin-left: 100px;
 }
 
-/* Alinhamento e recuo para Ementa */
+/* Ementa */
 .p-ementa {
   text-align: left;
   margin-left: 50%;
   transform: translateX(-50%);
-  max-width: 50%; /* Ajuste conforme necessário */
+  max-width: 50%;
 }
 
 /* Preâmbulo */
 .preambulo-subtitle {
-  font-size: 1.2em; /* h2 - mesmo tamanho de fonte */
+  font-size: 1.2em;
   text-align: center;
-  font-weight: 700; /* Peso em negrito */
-  background-color: var(--sidebar-background); /* Mesma cor de fundo */
+  font-weight: 700;
+  background-color: var(--sidebar-background);
 }
 
 .preambulo-content {
   text-align: left;
   margin-top: 10px;
+}
+
+/* Parágrafos */
+.main-content p {
+  margin-bottom: 15px;
+  line-height: 1.6;
+  text-align: left;
+  font-weight: normal;
+}
+
+.main-content p strong {
+  font-weight: bold;
+  color: var(--initial-element-color);
 }
 
 /* Loader */
@@ -352,7 +334,7 @@ a:focus {
   100% { transform: rotate(360deg); }
 }
 
-/* Temporarily Message */
+/* Mensagem Temporária */
 .temporary-message {
   position: fixed;
   bottom: 20px;
@@ -380,7 +362,7 @@ a:focus {
 
   .left-sidebar,
   .right-sidebar {
-    display: none; /* Ou transforme em um menu dropdown */
+    display: none;
   }
 
   .main-content {
@@ -398,7 +380,6 @@ a:focus {
     max-width: 100%;
   }
 
-  /* Ajustar as indentations para telas menores */
   .indent-level-2 .header-text,
   .indent-level-3 .header-text,
   .indent-level-4 .header-text,
@@ -406,115 +387,49 @@ a:focus {
   .indent-level-6 .header-text {
     margin-left: 10px;
   }
-
-  /* Ajustar o container fixed headers */
-  #fixed-headers {
-    left: 0;
-    right: 0;
-    width: 100%;
-    transform: none;
-  }
-
-  /* Headers na área de conteúdo */
-  .main-content h2,
-  .main-content h3,
-  .main-content h4,
-  .main-content h5,
-  .main-content h6 {
-    font-size: 1em; /* Ajuste de tamanho para telas menores */
-    padding: 8px 12px;
-    background-color: var(--sidebar-background); /* Mesma cor de fundo */
-  }
 }
 
-/* Redução do espaçamento entre incisos */
-.main-content p.inciso {
-  margin-bottom: 5px; /* Reduzido de 10px para 5px */
-  margin-top: 5px;    /* Adicionado para manter consistência */
-}
-
-/* Destaque suave para elementos iniciais nos temas claro e escuro */
-.main-content p.artigo strong,
-.main-content p.paragrafo strong {
-  color: var(--initial-element-color);
-}
-
-/* Estilos para Sticky Headers */
-#fixed-headers {
+/* Estilos para Headers Fixos */
+#fixed-headers-container {
   position: fixed;
   top: 0;
-  left: 50%; /* Centraliza horizontalmente */
-  transform: translateX(-50%); /* Centraliza horizontalmente */
-  width: 70ch; /* Mesma largura da área de conteúdo da lei */
-  background-color: var(--sidebar-background); /* Mesma cor de fundo das barras laterais */
-  padding: 10px 0;
-  box-shadow: none; /* Removido para visual clean */
+  left: 250px; /* Ajuste conforme a largura da sidebar esquerda */
+  right: 250px; /* Ajuste conforme a largura da sidebar direita */
   z-index: 1000;
-  display: flex;
-  flex-direction: column; /* Empilhar verticalmente */
-  gap: 5px; /* Espaçamento reduzido entre headers */
-  /* Garantir que a barra não tenha rolagem */
 }
 
 .fixed-header {
-  background-color: var(--sidebar-background); /* Mesma cor de fundo das barras laterais */
+  background-color: var(--sidebar-background);
   color: var(--text-color);
-  padding: 8px 15px; /* Padding similar aos sidebar buttons */
-  border-radius: 0; /* Removido bordas arredondadas */
-  font-size: 14px; /* Fonte menor */
-  white-space: nowrap;
+  padding: 8px 15px;
+  border-bottom: 1px solid var(--button-border-color);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  height: 40px;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-  border: none; /* Removido qualquer borda */
-  box-shadow: none; /* Removido qualquer sombra */
-  text-align: left; /* Alinhado à esquerda */
 }
 
-.fixed-header:hover {
-  background-color: var(--button-background-hover); /* Mudança de fundo no hover */
-  color: var(--text-color); /* Mantém a cor do texto */
+.fixed-header.shrink {
+  height: 30px;
+  font-size: 12px;
+  padding: 5px 10px;
 }
 
-/* Adicional: Foco nos sticky headers para acessibilidade */
-.fixed-header:focus {
-  outline: 2px solid var(--button-background-hover);
+.fixed-header:not(:last-child) {
+  border-bottom: none;
 }
 
-/* Garantir que headers não mudem de cor ao passar o mouse */
-.main-content h2,
-.main-content h3,
-.main-content h4,
-.main-content h5,
-.main-content h6 {
-  background-color: var(--sidebar-background) !important;
+.fixed-header .header-text {
+  flex-grow: 1;
 }
 
-/* Evitar mudanças de cor nos headers durante hover */
-.main-content h2:hover,
-.main-content h3:hover,
-.main-content h4:hover,
-.main-content h5:hover,
-.main-content h6:hover {
-  background-color: var(--sidebar-background) !important;
-}
-
-/* Estilos de Indentação para Headers */
-.main-content .grouping-header.indent-level-2 .header-text {
-  margin-left: 20px;
-}
-
-.main-content .grouping-header.indent-level-3 .header-text {
-  margin-left: 40px;
-}
-
-.main-content .grouping-header.indent-level-4 .header-text {
-  margin-left: 60px;
-}
-
-.main-content .grouping-header.indent-level-5 .header-text {
-  margin-left: 80px;
-}
-
-.main-content .grouping-header.indent-level-6 .header-text {
-  margin-left: 100px;
+/* Transições Suaves para Headers */
+.grouping-header.shrink {
+  height: 30px;
+  font-size: 14px;
+  padding: 5px 10px;
 }
