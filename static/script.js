@@ -110,57 +110,85 @@ document.addEventListener('DOMContentLoaded', () => {
         case 'Disposições Transitórias':
           groupingId = generateId(type, '');
           headerText = `${type}`;
-          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : ''}" data-type="${type}">
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : 'collapsed'}" data-type="${type}">
             <span class="header-text">${headerText}</span>
-            ${hasChildren ? '<i class="fas fa-chevron-right expand-icon"></i>' : ''}
+            ${hasChildren ? `
+              <svg class="expand-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M4 6l4 4 4-4"/>
+              </svg>
+            ` : ''}
           </div>`;
           break;
         case 'Parte':
           groupingId = generateId(type, identifier);
           headerText = `Parte ${identifier}`;
-          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : ''}" data-type="${type}">
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : 'collapsed'}" data-type="${type}">
             <span class="header-text">${headerText}</span>
-            ${hasChildren ? '<i class="fas fa-chevron-right expand-icon"></i>' : ''}
+            ${hasChildren ? `
+              <svg class="expand-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M4 6l4 4 4-4"/>
+              </svg>
+            ` : ''}
           </div>`;
           break;
         case 'Livro':
           groupingId = generateId(type, identifier);
           headerText = `Livro ${identifier} - ${content}`;
-          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : ''}" data-type="${type}">
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : 'collapsed'}" data-type="${type}">
             <span class="header-text">${headerText}</span>
-            ${hasChildren ? '<i class="fas fa-chevron-right expand-icon"></i>' : ''}
+            ${hasChildren ? `
+              <svg class="expand-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M4 6l4 4 4-4"/>
+              </svg>
+            ` : ''}
           </div>`;
           break;
         case 'Título':
           groupingId = generateId(type, identifier);
           headerText = `Título ${identifier} - ${content}`;
-          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : ''}" data-type="${type}">
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : 'collapsed'}" data-type="${type}">
             <span class="header-text">${headerText}</span>
-            ${hasChildren ? '<i class="fas fa-chevron-right expand-icon"></i>' : ''}
+            ${hasChildren ? `
+              <svg class="expand-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M4 6l4 4 4-4"/>
+              </svg>
+            ` : ''}
           </div>`;
           break;
         case 'Capítulo':
           groupingId = generateId(type, identifier);
           headerText = `Capítulo ${identifier} - ${content}`;
-          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : ''}" data-type="${type}">
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : 'collapsed'}" data-type="${type}">
             <span class="header-text">${headerText}</span>
-            ${hasChildren ? '<i class="fas fa-chevron-right expand-icon"></i>' : ''}
+            ${hasChildren ? `
+              <svg class="expand-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M4 6l4 4 4-4"/>
+              </svg>
+            ` : ''}
           </div>`;
           break;
         case 'Seção':
           groupingId = generateId(type, identifier);
           headerText = `Seção ${identifier} - ${content}`;
-          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : ''}" data-type="${type}">
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : 'collapsed'}" data-type="${type}">
             <span class="header-text">${headerText}</span>
-            ${hasChildren ? '<i class="fas fa-chevron-right expand-icon"></i>' : ''}
+            ${hasChildren ? `
+              <svg class="expand-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M4 6l4 4 4-4"/>
+              </svg>
+            ` : ''}
           </div>`;
           break;
         case 'Subseção':
           groupingId = generateId(type, identifier);
           headerText = `Subseção ${identifier} - ${content}`;
-          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : ''}" data-type="${type}">
+          htmlContent += `<div id="${groupingId}" class="grouping-header ${indentClass} ${hasChildren ? 'expanded' : 'collapsed'}" data-type="${type}">
             <span class="header-text">${headerText}</span>
-            ${hasChildren ? '<i class="fas fa-chevron-right expand-icon"></i>' : ''}
+            ${hasChildren ? `
+              <svg class="expand-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M4 6l4 4 4-4"/>
+              </svg>
+            ` : ''}
           </div>`;
           break;
         case 'Artigo':
@@ -323,10 +351,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Apenas headers com ícone de seta possuem conteúdo a expandir
       if (expandIcon) {
-        // Inicialmente, todas as seções estão expandidas
-        header.classList.add('expanded');
-        // Garantir que o ícone está rotacionado para baixo
-        expandIcon.style.transform = 'rotate(90deg)';
+        // Garantir que o ícone está na orientação correta com base na classe inicial
+        if (header.classList.contains('expanded')) {
+          // Nenhuma ação necessária, CSS já define a orientação
+        } else {
+          // Definir a orientação inicial para a direita
+          // CSS já faz isso baseado na classe
+        }
 
         header.addEventListener('click', (event) => {
           // Prevenir a propagação do evento caso o clique seja no ícone
@@ -343,16 +374,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           } else {
             // Header não está sticky: expandir/contrair
-            const isCollapsed = header.classList.contains('collapsed');
-            header.classList.toggle('collapsed', !isCollapsed);
-            header.classList.toggle('expanded', isCollapsed);
-
-            // Rotacionar o ícone
-            if (isCollapsed) {
-              expandIcon.style.transform = 'rotate(90deg)';
-            } else {
-              expandIcon.style.transform = 'rotate(0deg)';
-            }
+            const isExpanded = header.classList.contains('expanded');
+            header.classList.toggle('expanded', !isExpanded);
+            header.classList.toggle('collapsed', isExpanded);
 
             const nextElements = [];
             let nextSibling = header.nextElementSibling;
@@ -364,7 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Alternar visibilidade
             nextElements.forEach(element => {
-              element.style.display = isCollapsed ? '' : 'none';
+              element.style.display = isExpanded ? 'none' : '';
             });
           }
         });

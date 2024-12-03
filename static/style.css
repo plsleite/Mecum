@@ -196,8 +196,23 @@ body {
 
 /* Ícones de Expansão/Contração */
 .grouping-header .expand-icon {
-  font-size: 0.8em; /* Tamanho menor */
+  width: 12px;
+  height: 12px;
+  margin-left: 8px;
+  transition: transform 0.3s;
   color: var(--icon-color); /* Cor adaptada ao tema */
+  cursor: pointer;
+  transform-origin: center;
+}
+
+/* Rotação para o Estado Expandido */
+.grouping-header.expanded .expand-icon {
+  transform: rotate(0deg); /* Aponta para baixo */
+}
+
+/* Rotação para o Estado Colapsado */
+.grouping-header.collapsed .expand-icon {
+  transform: rotate(-90deg); /* Aponta para a direita */
 }
 
 /* Input de Busca */
@@ -252,7 +267,7 @@ a:focus {
   display: flex;
   align-items: center;
   justify-content: space-between; /* Espaço entre o texto e o ícone */
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s, color 0.3s, transform 0.3s;
   position: sticky;
   z-index: 100; /* Base z-index */
 }
