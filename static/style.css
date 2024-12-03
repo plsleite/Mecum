@@ -97,6 +97,12 @@ body {
   max-width: 70ch;
   width: 100%;
   margin: 0 auto;
+  text-align: justify; /* Justificação do texto */
+  -webkit-hyphens: auto; /* Hifenização para navegadores WebKit */
+     -ms-hyphens: auto; /* Hifenização para navegadores IE */
+         hyphens: auto; /* Hifenização padrão */
+  word-break: break-word; /* Quebra de palavra */
+  overflow-wrap: break-word; /* Quebra de linha */
 }
 
 /* Estilização do link "Mecum" */
@@ -308,10 +314,15 @@ a:focus {
 
 /* Ementa */
 .p-ementa {
-  text-align: left;
+  text-align: justify; /* Justificação do texto */
+  -webkit-hyphens: auto; /* Hifenização para navegadores WebKit */
+     -ms-hyphens: auto; /* Hifenização para navegadores IE */
+         hyphens: auto; /* Hifenização padrão */
   margin-left: 50%;
   transform: translateX(-50%);
   max-width: 50%;
+  word-break: break-word; /* Quebra de palavra */
+  overflow-wrap: break-word; /* Quebra de linha */
 }
 
 /* Preâmbulo */
@@ -323,19 +334,29 @@ a:focus {
 }
 
 .preambulo-content {
-  text-align: left;
+  text-align: justify; /* Justificação do texto */
+  -webkit-hyphens: auto; /* Hifenização para navegadores WebKit */
+     -ms-hyphens: auto; /* Hifenização para navegadores IE */
+         hyphens: auto; /* Hifenização padrão */
   margin-top: 10px;
+  word-break: break-word; /* Quebra de palavra */
+  overflow-wrap: break-word; /* Quebra de linha */
 }
 
 /* Parágrafos */
-.main-content p {
+.content p {
   margin-bottom: 15px;
   line-height: 1.6;
-  text-align: left;
+  text-align: justify; /* Justificação do texto */
+  -webkit-hyphens: auto; /* Hifenização para navegadores WebKit */
+     -ms-hyphens: auto; /* Hifenização para navegadores IE */
+         hyphens: auto; /* Hifenização padrão */
+  word-break: break-word; /* Quebra de palavra */
+  overflow-wrap: break-word; /* Quebra de linha */
   font-weight: normal;
 }
 
-.main-content p strong {
+.content p strong {
   font-weight: bold;
   color: var(--initial-element-color);
 }
@@ -408,6 +429,13 @@ a:focus {
     margin-left: 0;
     transform: none;
     max-width: 100%;
+    text-align: justify; /* Justificação no mobile */
+    hyphens: auto;
+  }
+
+  .preambulo-content {
+    text-align: justify; /* Justificação no mobile */
+    hyphens: auto;
   }
 
   .indent-level-2 .header-text,
