@@ -189,7 +189,8 @@ body {
 }
 
 #theme-toggle-btn:active,
-#login-btn:active {
+#login-btn:active,
+#font-toggle-btn:active { /* Adicionado para o novo botão */
   transform: scale(0.95);
 }
 
@@ -218,6 +219,11 @@ body {
 
 .login-button {
   margin-bottom: 10px;
+}
+
+/* Novo Botão 'Fonte' - Adicionado Espaçamento */
+.font-toggle {
+  margin-top: 10px; /* Espaçamento similar ao existente */
 }
 
 /* Links */

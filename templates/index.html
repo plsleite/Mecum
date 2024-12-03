@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Ícones Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmD/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
@@ -83,6 +83,16 @@
           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
         </svg>
         <span id="theme-text">Tema escuro</span>
+      </button>
+    </div>
+    <!-- Novo Botão 'Fonte' -->
+    <div class="font-toggle">
+      <button id="font-toggle-btn" class="sidebar-button" aria-label="Escolher fonte">
+        <!-- SVG do Ícone de Fonte -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M6 4h12v2H6V4zm2 6h8v2H8v-2zm0 4h8v2H8v-2zm0 4h8v2H8v-2z"/>
+        </svg>
+        Fonte
       </button>
     </div>
     <!-- Campo de Busca no Texto da Lei -->

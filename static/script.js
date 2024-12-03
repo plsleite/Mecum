@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const iconMoon = document.getElementById('theme-icon-moon');
   const iconSun = document.getElementById('theme-icon-sun');
   const themeText = document.getElementById('theme-text');
+  const fontToggleBtn = document.getElementById('font-toggle-btn'); // Novo botão
   const bodyElement = document.body;
   const lawCache = {};
   let currentLawId = null;
@@ -266,6 +267,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Botão de login
   loginBtn.addEventListener('click', () => {
     showTemporaryMessage('Função de login ainda não implementada.');
+  });
+
+  // Botão de Fonte
+  fontToggleBtn.addEventListener('click', () => {
+    showTemporaryMessage('Função de escolha de fonte ainda não implementada.');
   });
 
   // Pesquisa no texto da lei com debounce
