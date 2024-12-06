@@ -275,7 +275,7 @@ body {
   position: absolute;
   top: 100%;
   left: 0;
-  width: 150px;
+  width: 100%; /* Igualar à largura do botão Fonte */
   background-color: var(--sidebar-background);
   border: 1px solid var(--button-border-color);
   border-radius: 4px;
@@ -630,7 +630,7 @@ a:focus {
     position: absolute;
     top: 100%;
     left: 0;
-    width: 150px;
+    width: 100%; /* Igualar à largura do botão Fonte */
     background-color: var(--sidebar-background);
     border: 1px solid var(--button-border-color);
     border-radius: 4px;
@@ -688,7 +688,7 @@ a:focus {
     position: absolute;
     top: 100%;
     left: 0;
-    width: 150px;
+    width: 100%; /* Igualar à largura do botão Fonte */
     background-color: var(--sidebar-background);
     border: 1px solid var(--button-border-color);
     border-radius: 4px;
@@ -718,4 +718,45 @@ a:focus {
     background-color: var(--button-background-hover);
     outline: none;
   }
+}
+
+/* Ajustes Adicionais para Sidebars */
+@media (max-width: 768px) {
+  .left-sidebar,
+  .right-sidebar {
+    transition: transform 0.3s ease;
+  }
+
+  .left-sidebar {
+    transform: translateX(-230px); /* Mantém 20px visível */
+  }
+
+  .right-sidebar {
+    transform: translateX(230px); /* Mantém 20px visível */
+  }
+
+  .sidebar.open.left-sidebar {
+    transform: translateX(0);
+  }
+
+  .sidebar.open.right-sidebar {
+    transform: translateX(0);
+  }
+}
+
+/* Ajustes para Hover Areas */
+.handle {
+  width: 20px;
+  background: linear-gradient(to right, var(--sidebar-background) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.left-handle {
+  left: -20px;
+  cursor: pointer;
+}
+
+.right-handle {
+  right: -20px;
+  background: linear-gradient(to left, var(--sidebar-background) 0%, rgba(255, 255, 255, 0) 100%);
+  cursor: pointer;
 }
