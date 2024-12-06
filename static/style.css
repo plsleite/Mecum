@@ -503,8 +503,8 @@ a:focus {
   }
 
   .main-content {
-    margin-left: 0;
-    margin-right: 0;
+    margin-left: 25px; /* Adicionado margin-left de 25px */
+    margin-right: 25px; /* Adicionado margin-right de 25px */
     padding: 15px;
     transition: margin 0.3s ease;
   }
