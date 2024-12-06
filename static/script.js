@@ -13,6 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const lawCache = {};
   let currentLawId = null;
 
+  // Elementos para Hover Areas
+  const leftHoverArea = document.querySelector('.left-hover-area');
+  const rightHoverArea = document.querySelector('.right-hover-area');
+  const leftSidebar = document.querySelector('.left-sidebar');
+  const rightSidebar = document.querySelector('.right-sidebar');
+
   // Função para mostrar mensagens temporárias
   function showTemporaryMessage(message) {
     const msgDiv = document.createElement('div');
@@ -423,4 +429,45 @@ document.addEventListener('DOMContentLoaded', () => {
     const rect = element.getBoundingClientRect();
     return rect.top <= 0 && rect.bottom > 0;
   }
+
+  // Eventos para Áreas de Hover nas Telas Pequenas
+  leftHoverArea.addEventListener('mouseenter', () => {
+    leftSidebar.classList.add('open');
+  });
+
+  leftHoverArea.addEventListener('mouseleave', () => {
+    leftSidebar.classList.remove('open');
+  });
+
+  leftSidebar.addEventListener('mouseenter', () => {
+    leftSidebar.classList.add('open');
+  });
+
+  leftSidebar.addEventListener('mouseleave', () => {
+    leftSidebar.classList.remove('open');
+  });
+
+  rightHoverArea.addEventListener('mouseenter', () => {
+    rightSidebar.classList.add('open');
+  });
+
+  rightHoverArea.addEventListener('mouseleave', () => {
+    rightSidebar.classList.remove('open');
+  });
+
+  rightSidebar.addEventListener('mouseenter', () => {
+    rightSidebar.classList.add('open');
+  });
+
+  rightSidebar.addEventListener('mouseleave', () => {
+    rightSidebar.classList.remove('open');
+  });
+
+  // Listener para Redimensionamento da Janela
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+      leftSidebar.classList.remove('open');
+      rightSidebar.classList.remove('open');
+    }
+  });
 });

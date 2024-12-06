@@ -68,13 +68,40 @@ body {
   top: 0;
   bottom: 0;
   overflow-y: auto;
+  transition: transform 0.3s ease;
+  z-index: 1001; /* Garantir que as barras laterais fiquem acima dos headers */
 }
 
 .left-sidebar {
   left: 0;
+  transform: translateX(0); /* Padrão para telas grandes */
 }
 
 .right-sidebar {
+  right: 0;
+  transform: translateX(0); /* Padrão para telas grandes */
+}
+
+/* Áreas de Hover para Telas Pequenas */
+.left-hover-area,
+.right-hover-area {
+  display: none; /* Oculto por padrão */
+}
+
+.left-hover-area,
+.right-hover-area {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  z-index: 1000;
+}
+
+.left-hover-area {
+  left: 0;
+}
+
+.right-hover-area {
   right: 0;
 }
 
@@ -88,6 +115,7 @@ body {
   min-height: 100vh;
   margin-left: 250px;
   margin-right: 250px;
+  transition: margin 0.3s ease;
 }
 
 /* Container da Lei */
@@ -427,19 +455,52 @@ a:focus {
 /* Responsividade */
 @media (max-width: 768px) {
   .sidebar {
-    width: 100%;
-    position: relative;
-    height: auto;
+    width: 250px;
+    max-width: 80%;
+    background-color: var(--sidebar-background);
+    padding: 20px;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+    z-index: 1001; /* Garantir que as barras laterais fiquem acima dos headers */
   }
 
-  .left-sidebar,
+  .left-sidebar {
+    left: 0;
+    transform: translateX(-250px);
+  }
+
   .right-sidebar {
-    display: none;
+    right: 0;
+    transform: translateX(250px);
+  }
+
+  .sidebar.open.left-sidebar {
+    transform: translateX(0);
+  }
+
+  .sidebar.open.right-sidebar {
+    transform: translateX(0);
+  }
+
+  .left-hover-area,
+  .right-hover-area {
+    display: block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    z-index: 1000;
   }
 
   .main-content {
-    margin: 0;
+    margin-left: 0;
+    margin-right: 0;
     padding: 15px;
+    transition: margin 0.3s ease;
   }
 
   .sidebar-button {
@@ -491,4 +552,58 @@ a:focus {
   .grouping-header:nth-of-type(n+6) {
     top: 175px;
   }
+}
+
+@media (min-width: 769px) {
+  .sidebar {
+    transform: translateX(0);
+    position: fixed;
+    z-index: 1001; /* Garantir que as barras laterais fiquem acima dos headers */
+  }
+
+  .left-hover-area,
+  .right-hover-area {
+    display: none;
+  }
+
+  .main-content {
+    margin-left: 250px;
+    margin-right: 250px;
+    transition: margin 0.3s ease;
+  }
+}
+
+/* Ajustes Adicionais para Sidebars */
+@media (max-width: 768px) {
+  .left-sidebar,
+  .right-sidebar {
+    transition: transform 0.3s ease;
+  }
+
+  .left-sidebar {
+    transform: translateX(-250px);
+  }
+
+  .right-sidebar {
+    transform: translateX(250px);
+  }
+
+  .sidebar.open.left-sidebar {
+    transform: translateX(0);
+  }
+
+  .sidebar.open.right-sidebar {
+    transform: translateX(0);
+  }
+}
+
+/* Ajustes para Hover Areas */
+.left-hover-area,
+.right-hover-area {
+  background: transparent;
+}
+
+.left-hover-area:hover,
+.right-hover-area:hover {
+  cursor: pointer;
 }

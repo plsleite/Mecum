@@ -37,20 +37,6 @@
     </ul>
   </aside>
 
-  <!-- Conteúdo Principal -->
-  <main class="main-content" role="main">
-    <!-- Conteúdo da Lei -->
-    <section class="content" id="law-content">
-      <p>Seja bem-vindo! =]</p>
-      <p>O Mecum é a sua ferramenta elegante e funcional de consulta da legislação brasileira.</p>
-      <p>Selecione uma lei na barra lateral esquerda para visualizar seu conteúdo.</p>
-      <p>Use o mecanismo de busca na barra lateral direita para encontrar o trecho que procura.</p>
-      <p>Faça anotações ou marcações no texto da lei.</p>
-      <p>Crie uma conta para salvar suas anotações e marcações.</p>
-      <p>Compartilhe suas anotações e marcações com amigos!</p>
-    </section>
-  </main>
-
   <!-- Barra Lateral Direita -->
   <aside class="sidebar right-sidebar" role="complementary" aria-label="Barra Lateral Direita">
     <!-- Botão de Login com Ícone SVG Inline -->
@@ -102,6 +88,24 @@
       <span id="search-text-desc" class="visually-hidden">Digite para buscar no conteúdo da lei atual</span>
     </div>
   </aside>
+
+  <!-- Áreas de Hover para Telas Pequenas -->
+  <div class="left-hover-area" aria-hidden="true"></div>
+  <div class="right-hover-area" aria-hidden="true"></div>
+
+  <!-- Conteúdo Principal -->
+  <main class="main-content" role="main">
+    <!-- Conteúdo da Lei -->
+    <section class="content" id="law-content">
+      <p>Seja bem-vindo! =]</p>
+      <p>O Mecum é a sua ferramenta elegante e funcional de consulta da legislação brasileira.</p>
+      <p>Selecione uma lei na barra lateral esquerda para visualizar seu conteúdo.</p>
+      <p>Use o mecanismo de busca na barra lateral direita para encontrar o trecho que procura.</p>
+      <p>Faça anotações ou marcações no texto da lei.</p>
+      <p>Crie uma conta para salvar suas anotações e marcações.</p>
+      <p>Compartilhe suas anotações e marcações com amigos!</p>
+    </section>
+  </main>
 
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
