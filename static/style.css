@@ -69,40 +69,40 @@ body {
   bottom: 0;
   overflow-y: auto;
   transition: transform 0.3s ease;
-  z-index: 1000; /* Adicionado para garantir sobreposição correta */
+  z-index: 1000; /* Garantir que fiquem acima do conteúdo */
 }
 
+/* Handles */
+.handle {
+  position: absolute;
+  top: 0;
+  width: 20px;
+  height: 100%;
+  background-color: var(--sidebar-background);
+  cursor: pointer;
+  /* Adicionando um gradiente para indicar a parte oculta */
+  background: linear-gradient(to right, var(--sidebar-background) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.left-handle {
+  left: -20px; /* Posicionado para ficar visível quando sidebar está recolhida */
+  background: linear-gradient(to right, var(--sidebar-background) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.right-handle {
+  right: -20px; /* Posicionado para ficar visível quando sidebar está recolhida */
+  background: linear-gradient(to left, var(--sidebar-background) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+/* Sidebars posicionadas inicialmente */
 .left-sidebar {
   left: 0;
-  transform: translateX(0); /* Padrão para telas grandes */
+  transform: translateX(0); /* Visível por padrão em telas grandes */
 }
 
 .right-sidebar {
   right: 0;
-  transform: translateX(0); /* Padrão para telas grandes */
-}
-
-/* Áreas de Hover para Telas Pequenas */
-.left-hover-area,
-.right-hover-area {
-  display: none; /* Oculto por padrão */
-}
-
-.left-hover-area,
-.right-hover-area {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  width: 20px;
-  z-index: 1000;
-}
-
-.left-hover-area {
-  left: 0;
-}
-
-.right-hover-area {
-  right: 0;
+  transform: translateX(0); /* Visível por padrão em telas grandes */
 }
 
 /* Conteúdo Principal */
@@ -297,7 +297,7 @@ a:focus {
   justify-content: space-between; /* Espaço entre o texto e o ícone */
   transition: background-color 0.3s, color 0.3s, transform 0.3s;
   position: sticky;
-  z-index: 100; /* Base z-index */
+  z-index: 900; /* Base z-index abaixo das sidebars */
 }
 
 .grouping-header:hover {
@@ -444,7 +444,7 @@ a:focus {
   padding: 10px 20px;
   border-radius: 5px;
   animation: fadeOut 3s forwards;
-  z-index: 2000; /* Adicionado para sobrepor as barras laterais */
+  z-index: 1100; /* Maior que o z-index das sidebars */
 }
 
 @keyframes fadeOut {
@@ -469,11 +469,13 @@ a:focus {
   }
 
   .left-sidebar {
-    transform: translateX(-250px);
+    left: 0;
+    transform: translateX(-230px); /* Mantém 20px visível como handle */
   }
 
   .right-sidebar {
-    transform: translateX(250px);
+    right: 0;
+    transform: translateX(230px); /* Mantém 20px visível como handle */
   }
 
   .sidebar.open.left-sidebar {
@@ -484,14 +486,20 @@ a:focus {
     transform: translateX(0);
   }
 
-  .left-hover-area,
-  .right-hover-area {
-    display: block;
-    position: fixed;
-    top: 0;
-    bottom: 0;
+  .handle {
     width: 20px;
-    z-index: 1000;
+    background: linear-gradient(to right, var(--sidebar-background) 0%, rgba(255, 255, 255, 0) 100%);
+  }
+
+  .left-handle {
+    left: -20px;
+    cursor: pointer;
+  }
+
+  .right-handle {
+    right: -20px;
+    background: linear-gradient(to left, var(--sidebar-background) 0%, rgba(255, 255, 255, 0) 100%);
+    cursor: pointer;
   }
 
   .main-content {
@@ -550,6 +558,35 @@ a:focus {
   .grouping-header:nth-of-type(n+6) {
     top: 175px;
   }
+
+  /* Ações de Hover nos Handles */
+  .left-sidebar:hover,
+  .left-sidebar .handle:hover {
+    transform: translateX(0);
+  }
+
+  .right-sidebar:hover,
+  .right-sidebar .handle:hover {
+    transform: translateX(0);
+  }
+
+  /* Ajustes para Barras Laterais */
+  .left-sidebar {
+    z-index: 1000; /* Garantir que fiquem acima do conteúdo */
+  }
+
+  .right-sidebar {
+    z-index: 1000; /* Garantir que fiquem acima do conteúdo */
+  }
+
+  /* Adicionando transições aos handles */
+  .handle {
+    transition: background 0.3s ease;
+  }
+
+  .handle:hover {
+    background: rgba(0, 0, 0, 0.1); /* Sutil indicação visual */
+  }
 }
 
 @media (min-width: 769px) {
@@ -558,9 +595,13 @@ a:focus {
     position: fixed;
   }
 
-  .left-hover-area,
-  .right-hover-area {
-    display: none;
+  .handle {
+    display: none; /* Ocultar handles em telas grandes */
+  }
+
+  .left-sidebar,
+  .right-sidebar {
+    z-index: 1000; /* Garantir que fiquem acima do conteúdo */
   }
 
   .main-content {
@@ -578,11 +619,11 @@ a:focus {
   }
 
   .left-sidebar {
-    transform: translateX(-250px);
+    transform: translateX(-230px); /* Mantém 20px visível */
   }
 
   .right-sidebar {
-    transform: translateX(250px);
+    transform: translateX(230px); /* Mantém 20px visível */
   }
 
   .sidebar.open.left-sidebar {
@@ -595,12 +636,18 @@ a:focus {
 }
 
 /* Ajustes para Hover Areas */
-.left-hover-area,
-.right-hover-area {
-  background: transparent;
+.handle {
+  width: 20px;
+  background: linear-gradient(to right, var(--sidebar-background) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
-.left-hover-area:hover,
-.right-hover-area:hover {
+.left-handle {
+  left: -20px;
+  cursor: pointer;
+}
+
+.right-handle {
+  right: -20px;
+  background: linear-gradient(to left, var(--sidebar-background) 0%, rgba(255, 255, 255, 0) 100%);
   cursor: pointer;
 }

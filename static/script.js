@@ -13,9 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const lawCache = {};
   let currentLawId = null;
 
-  // Elementos para Hover Areas
-  const leftHoverArea = document.querySelector('.left-hover-area');
-  const rightHoverArea = document.querySelector('.right-hover-area');
+  // Elementos para Handles
+  const leftHandle = document.querySelector('.left-handle');
+  const rightHandle = document.querySelector('.right-handle');
   const leftSidebar = document.querySelector('.left-sidebar');
   const rightSidebar = document.querySelector('.right-sidebar');
 
@@ -430,12 +430,12 @@ document.addEventListener('DOMContentLoaded', () => {
     return rect.top <= 0 && rect.bottom > 0;
   }
 
-  // Eventos para Áreas de Hover nas Telas Pequenas
-  leftHoverArea.addEventListener('mouseenter', () => {
+  // Eventos para Handles nas Telas Pequenas
+  leftHandle.addEventListener('mouseenter', () => {
     leftSidebar.classList.add('open');
   });
 
-  leftHoverArea.addEventListener('mouseleave', () => {
+  leftHandle.addEventListener('mouseleave', () => {
     leftSidebar.classList.remove('open');
   });
 
@@ -447,11 +447,11 @@ document.addEventListener('DOMContentLoaded', () => {
     leftSidebar.classList.remove('open');
   });
 
-  rightHoverArea.addEventListener('mouseenter', () => {
+  rightHandle.addEventListener('mouseenter', () => {
     rightSidebar.classList.add('open');
   });
 
-  rightHoverArea.addEventListener('mouseleave', () => {
+  rightHandle.addEventListener('mouseleave', () => {
     rightSidebar.classList.remove('open');
   });
 
