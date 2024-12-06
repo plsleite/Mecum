@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <title>Mecum</title>
 
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:wght@300;400;700&family=Lora:wght@400;700&family=Open+Sans:wght@300;400;600;700;800&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
   <!-- Fonte Bungee Inline -->
   <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&display=swap" rel="stylesheet">
 
@@ -75,13 +78,20 @@
     </div>
     <!-- Novo Botão 'Fonte' -->
     <div class="font-toggle">
-      <button id="font-toggle-btn" class="sidebar-button" aria-label="Escolher fonte">
+      <button id="font-toggle-btn" class="sidebar-button" aria-label="Escolher fonte" aria-haspopup="true" aria-expanded="false">
         <!-- SVG do Ícone de Fonte -->
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
           <path d="M6 4h12v2H6V4zm2 6h8v2H8v-2zm0 4h8v2H8v-2zm0 4h8v2H8v-2z"/>
         </svg>
         Fonte
       </button>
+      <div id="font-dropdown" class="font-dropdown hidden" role="menu">
+        <button class="font-option" data-font="Inter">Inter</button>
+        <button class="font-option" data-font="Merriweather">Merriweather</button>
+        <button class="font-option" data-font="Lora">Lora</button>
+        <button class="font-option" data-font="Open Sans">Open Sans</button>
+        <button class="font-option" data-font="Roboto">Roboto</button>
+      </div>
     </div>
     <!-- Campo de Busca no Texto da Lei -->
     <div class="search-text">

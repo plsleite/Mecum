@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const iconSun = document.getElementById('theme-icon-sun');
   const themeText = document.getElementById('theme-text');
   const fontToggleBtn = document.getElementById('font-toggle-btn'); // Novo botão
+  const fontDropdown = document.getElementById('font-dropdown');
   const bodyElement = document.body;
   const lawCache = {};
   let currentLawId = null;
@@ -304,8 +305,49 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Botão de Fonte
-  fontToggleBtn.addEventListener('click', () => {
-    showTemporaryMessage('Função de escolha de fonte ainda não implementada.');
+  fontToggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation(); // Prevenir que o clique feche o dropdown imediatamente
+    const isHidden = fontDropdown.classList.contains('hidden');
+    closeFontDropdown(); // Fechar outros dropdowns se existirem
+    if (isHidden) {
+      fontDropdown.classList.remove('hidden');
+      fontToggleBtn.setAttribute('aria-expanded', 'true');
+    } else {
+      fontDropdown.classList.add('hidden');
+      fontToggleBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // Evento de clique nas opções de fonte
+  const fontOptions = document.querySelectorAll('.font-option');
+  fontOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      const selectedFont = option.dataset.font;
+      applyFont(selectedFont);
+      showTemporaryMessage(`Fonte alterada para ${selectedFont}.`);
+      closeFontDropdown();
+    });
+  });
+
+  // Função para aplicar a fonte selecionada ao conteúdo principal
+  function applyFont(fontName) {
+    const content = document.querySelector('.content');
+    if (content) {
+      content.style.fontFamily = `'${fontName}', sans-serif`;
+    }
+  }
+
+  // Função para fechar o dropdown de fontes
+  function closeFontDropdown() {
+    fontDropdown.classList.add('hidden');
+    fontToggleBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  // Fechar o dropdown quando clicar fora
+  document.addEventListener('click', (event) => {
+    if (!fontDropdown.contains(event.target) && !fontToggleBtn.contains(event.target)) {
+      closeFontDropdown();
+    }
   });
 
   // Pesquisa no texto da lei com debounce

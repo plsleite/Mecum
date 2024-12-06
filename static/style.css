@@ -267,6 +267,43 @@ body {
 /* Novo Botão 'Fonte' - Adicionado Espaçamento */
 .font-toggle {
   margin-top: 10px; /* Espaçamento similar ao existente */
+  position: relative; /* Para posicionar o dropdown */
+}
+
+/* Dropdown de Fontes */
+.font-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 150px;
+  background-color: var(--sidebar-background);
+  border: 1px solid var(--button-border-color);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  margin-top: 5px;
+  z-index: 1200; /* Maior que as sidebars e mensagens temporárias */
+}
+
+.font-dropdown.hidden {
+  display: none;
+}
+
+.font-option {
+  width: 100%;
+  padding: 10px 15px;
+  background-color: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-color);
+  transition: background-color 0.3s;
+}
+
+.font-option:hover,
+.font-option:focus {
+  background-color: var(--button-background-hover);
+  outline: none;
 }
 
 /* Links */
@@ -587,6 +624,42 @@ a:focus {
   .handle:hover {
     background: rgba(0, 0, 0, 0.1); /* Sutil indicação visual */
   }
+
+  /* Estilização do Dropdown de Fontes */
+  .font-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 150px;
+    background-color: var(--sidebar-background);
+    border: 1px solid var(--button-border-color);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    margin-top: 5px;
+    z-index: 1200; /* Maior que as sidebars e mensagens temporárias */
+  }
+
+  .font-dropdown.hidden {
+    display: none;
+  }
+
+  .font-option {
+    width: 100%;
+    padding: 10px 15px;
+    background-color: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-color);
+    transition: background-color 0.3s;
+  }
+
+  .font-option:hover,
+  .font-option:focus {
+    background-color: var(--button-background-hover);
+    outline: none;
+  }
 }
 
 @media (min-width: 769px) {
@@ -609,45 +682,40 @@ a:focus {
     margin-right: 250px;
     transition: margin 0.3s ease;
   }
-}
 
-/* Ajustes Adicionais para Sidebars */
-@media (max-width: 768px) {
-  .left-sidebar,
-  .right-sidebar {
-    transition: transform 0.3s ease;
+  /* Estilização do Dropdown de Fontes */
+  .font-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 150px;
+    background-color: var(--sidebar-background);
+    border: 1px solid var(--button-border-color);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    margin-top: 5px;
+    z-index: 1200; /* Maior que as sidebars e mensagens temporárias */
   }
 
-  .left-sidebar {
-    transform: translateX(-230px); /* Mantém 20px visível */
+  .font-dropdown.hidden {
+    display: none;
   }
 
-  .right-sidebar {
-    transform: translateX(230px); /* Mantém 20px visível */
+  .font-option {
+    width: 100%;
+    padding: 10px 15px;
+    background-color: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-color);
+    transition: background-color 0.3s;
   }
 
-  .sidebar.open.left-sidebar {
-    transform: translateX(0);
+  .font-option:hover,
+  .font-option:focus {
+    background-color: var(--button-background-hover);
+    outline: none;
   }
-
-  .sidebar.open.right-sidebar {
-    transform: translateX(0);
-  }
-}
-
-/* Ajustes para Hover Areas */
-.handle {
-  width: 20px;
-  background: linear-gradient(to right, var(--sidebar-background) 0%, rgba(255, 255, 255, 0) 100%);
-}
-
-.left-handle {
-  left: -20px;
-  cursor: pointer;
-}
-
-.right-handle {
-  right: -20px;
-  background: linear-gradient(to left, var(--sidebar-background) 0%, rgba(255, 255, 255, 0) 100%);
-  cursor: pointer;
 }
