@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const leftSidebar = document.querySelector('.left-sidebar');
   const rightSidebar = document.querySelector('.right-sidebar');
 
+  // Função para mostrar mensagens temporárias
   function showTemporaryMessage(message) {
     const msgDiv = document.createElement('div');
     msgDiv.className = 'temporary-message';
@@ -32,22 +33,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3000);
   }
 
+  // Função para normalizar texto (remove acentos e converte para minúsculas)
+  function normalizeText(text) {
+    return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  }
+
+  // Filtrar botões de leis com base na pesquisa (debounce)
   let debounceTimer;
   searchLawsInput.addEventListener('input', () => {
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
-      const query = searchLawsInput.value.toLowerCase();
+      const query = normalizeText(searchLawsInput.value);
       lawButtons.forEach(button => {
-        const text = button.textContent.toLowerCase();
+        const text = normalizeText(button.textContent);
         button.parentElement.style.display = text.includes(query) ? 'block' : 'none';
       });
     }, 300);
   });
 
+  // Função para determinar a profundidade com base no path
   function getDepth(path) {
     return path.split('.').length;
   }
 
+  // Função para gerar IDs únicos para agrupamentos
   function generateId(type, identifier) {
     let id = type.toLowerCase().replace(/\s+/g, '-');
     if (identifier) {
@@ -56,10 +65,12 @@ document.addEventListener('DOMContentLoaded', () => {
     return id;
   }
 
+  // Exibir o conteúdo da lei
   function displayLawContent(data) {
     let htmlContent = ``;
     const childTypes = new Set(['Artigo', 'Inciso', 'Parágrafo', 'Alínea', 'Item']);
 
+    // Preprocessar para determinar quais headers têm filhos relevantes
     const pathsWithChildren = new Set();
     data.sections.forEach(section => {
       data.sections.forEach(child => {
@@ -226,6 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initGroupingHeaderEvents();
   }
 
+  // Clique nos botões de leis
   lawButtons.forEach(button => {
     button.addEventListener('click', () => {
       const lawId = button.dataset.lawId;
@@ -278,10 +290,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Botão de login
   loginBtn.addEventListener('click', () => {
     showTemporaryMessage('Função de login ainda não implementada.');
   });
 
+  // Botão de Fonte
   fontToggleBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     const isHidden = fontDropdown.classList.contains('hidden');
@@ -332,11 +346,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 300);
   });
 
+  // Função para destacar palavras-chave e gerar resultados
   function handleSearchInLawContent(query) {
     if (!currentLawId || !originalLawContent) {
       return;
     }
 
+    // Se a consulta estiver vazia, restaurar conteúdo original e limpar resultados
     if (!query) {
       lawContent.innerHTML = originalLawContent;
       searchResultsContainer.innerHTML = '';
@@ -344,40 +360,75 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const words = query.split(/\s+/).filter(w => w.length > 0);
-    if (words.length === 0) {
-      lawContent.innerHTML = originalLawContent;
-      searchResultsContainer.innerHTML = '';
-      initGroupingHeaderEvents();
-      return;
-    }
+    // Verifica se a busca é por frase exata (entre aspas)
+    const exactPhraseMatch = query.match(/^"(.+)"$/);
+    let regex;
+    let normalizedQuery = '';
 
-    const escapedWords = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
-    const regex = new RegExp(`\\b(${escapedWords.join('|')})\\b`, 'gi');
+    if (exactPhraseMatch) {
+      // Busca por frase exata
+      const exactPhrase = exactPhraseMatch[1];
+      normalizedQuery = normalizeText(exactPhrase);
+      regex = new RegExp(exactPhrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'); // Removido \b para busca exata
+    } else {
+      // Busca por palavras
+      const words = query.split(/\s+/).filter(w => w.length > 0);
+      if (words.length === 0) {
+        lawContent.innerHTML = originalLawContent;
+        searchResultsContainer.innerHTML = '';
+        initGroupingHeaderEvents();
+        return;
+      }
+      const escapedWords = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+      regex = new RegExp(`\\b(${escapedWords.join('|')})\\b`, 'gi');
+      normalizedQuery = normalizeText(query);
+    }
 
     const paragraphs = lawContent.querySelectorAll('p');
     const matches = [];
 
+    // Coleta de matches
     paragraphs.forEach((p, pIndex) => {
-      const text = p.textContent;
+      const originalText = p.textContent;
+      const normalizedText = normalizeText(originalText);
       let match;
-      while ((match = regex.exec(text)) !== null) {
-        const start = match.index;
-        const end = start + match[0].length;
-        const snippetStart = Math.max(0, start - 30);
-        const snippetEnd = Math.min(text.length, end + 30);
-        const snippet = text.substring(snippetStart, snippetEnd).trim();
-        matches.push({
-          paragraphIndex: pIndex,
-          start,
-          end,
-          word: match[0],
-          snippet
-        });
+
+      if (exactPhraseMatch) {
+        // Busca por frase exata na versão normalizada
+        const exactPhrase = normalizeText(exactPhraseMatch[1]);
+        const index = normalizedText.indexOf(exactPhrase);
+        if (index !== -1) {
+          matches.push({
+            paragraphIndex: pIndex,
+            start: index,
+            end: index + exactPhrase.length,
+            word: originalText.substring(index, index + exactPhrase.length),
+            snippet: originalText.substring(Math.max(0, index - 30), Math.min(originalText.length, index + exactPhrase.length + 30))
+          });
+        }
+      } else {
+        // Busca por palavras individuais na versão normalizada
+        while ((match = regex.exec(originalText)) !== null) {
+          const normalizedMatch = normalizeText(match[0]);
+          const start = normalizedText.indexOf(normalizedMatch, regex.lastIndex - match[0].length);
+          const end = start + normalizedMatch.length;
+          const snippetStart = Math.max(0, start - 30);
+          const snippetEnd = Math.min(originalText.length, end + 30);
+          const snippet = originalText.substring(snippetStart, snippetEnd).trim();
+          matches.push({
+            paragraphIndex: pIndex,
+            start: start,
+            end: end,
+            word: originalText.substring(start, end),
+            snippet: snippet
+          });
+        }
       }
     });
 
+    // Se não houver resultados
     if (matches.length === 0) {
+      // Nenhum destaque
       lawContent.innerHTML = originalLawContent;
       searchResultsContainer.innerHTML = '<p>Nenhum resultado encontrado.</p>';
       initGroupingHeaderEvents();
@@ -389,32 +440,38 @@ document.addEventListener('DOMContentLoaded', () => {
       m.globalIndex = i;
     });
 
-    matches.sort((a,b) => {
+    // Ordenar matches por parágrafo e posição inicial
+    matches.sort((a, b) => {
       if (a.paragraphIndex === b.paragraphIndex) {
         return a.start - b.start;
       }
       return a.paragraphIndex - b.paragraphIndex;
     });
 
+    // Reconstruir cada parágrafo com highlights
     const newParagraphs = [];
     paragraphs.forEach((p, pIndex) => {
-      const text = p.textContent;
+      const originalText = p.textContent;
+      const normalizedText = normalizeText(originalText);
+      // Filtrar matches do parágrafo
       const pMatches = matches.filter(m => m.paragraphIndex === pIndex);
       if (pMatches.length === 0) {
         newParagraphs.push(p.innerHTML);
       } else {
+        // Reconstruir o parágrafo destacando as palavras ou frase exata
         let lastIndex = 0;
         let highlightedText = '';
         pMatches.forEach((m) => {
-          highlightedText += text.substring(lastIndex, m.start);
-          highlightedText += `<mark class="highlight" data-match-index="${m.globalIndex}">${text.substring(m.start, m.end)}</mark>`;
+          highlightedText += originalText.substring(lastIndex, m.start);
+          highlightedText += `<mark class="highlight" data-match-index="${m.globalIndex}">${originalText.substring(m.start, m.end)}</mark>`;
           lastIndex = m.end;
         });
-        highlightedText += text.substring(lastIndex);
+        highlightedText += originalText.substring(lastIndex);
         newParagraphs.push(highlightedText);
       }
     });
 
+    // Atualizar o conteúdo
     let updatedContent = '';
     const allOriginalElements = lawContent.querySelectorAll('p, .grouping-header, .p-ementa, .preambulo-content, .preambulo-subtitle');
     let pCount = 0;
@@ -427,8 +484,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     lawContent.innerHTML = updatedContent;
+
+    // Atualizar events de grouping headers
     initGroupingHeaderEvents();
 
+    // Gerar lista de resultados na sidebar
     searchResultsContainer.innerHTML = '';
     matches.forEach((m) => {
       const btn = document.createElement('button');
@@ -438,12 +498,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const highlightEl = lawContent.querySelector(`mark.highlight[data-match-index="${m.globalIndex}"]`);
         if (highlightEl) {
           highlightEl.scrollIntoView({behavior: 'smooth', block: 'center'});
+          // Adicionar animação de destaque
+          highlightEl.classList.add('current-highlight');
+          setTimeout(() => {
+            highlightEl.classList.remove('current-highlight');
+          }, 1000); // Remover a classe após a animação
         }
       });
       searchResultsContainer.appendChild(btn);
     });
   }
 
+  // Função para alternar tema
   function setTheme(theme) {
     if (theme === 'dark') {
       bodyElement.classList.add('dark-theme');
