@@ -10,9 +10,6 @@
   <!-- Fonte Bungee Inline -->
   <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&display=swap" rel="stylesheet">
 
-  <!-- Removido o Link do Font Awesome -->
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="..." crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
-
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,17 +31,14 @@
       <li><button class="sidebar-button law-button" data-law-id="3">Código de Processo Civil</button></li>
       <li><button class="sidebar-button law-button" data-law-id="4">Código Penal</button></li>
       <li><button class="sidebar-button law-button" data-law-id="5">Código de Processo Penal</button></li>
-      <!-- Adicione mais leis conforme necessário -->
     </ul>
   </aside>
 
   <!-- Barra Lateral Direita -->
   <aside class="sidebar right-sidebar" role="complementary" aria-label="Barra Lateral Direita">
     <div class="handle right-handle" aria-hidden="true"></div>
-    <!-- Botão de Login com Ícone SVG Inline -->
     <div class="login-button">
       <button id="login-btn" class="sidebar-button" aria-label="Login">
-        <!-- SVG do Ícone de Pessoa -->
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
           <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
           <path fill-rule="evenodd" d="M8 9a5 5 0 0 0-4.546 2.916A7.002 7.002 0 0 1 8 14a7.002 7.002 0 0 1 4.546-2.084A5 5 0 0 0 8 9z"/>
@@ -52,10 +46,8 @@
         Login
       </button>
     </div>
-    <!-- Botão de Alternância de Tema -->
     <div class="theme-toggle">
       <button id="theme-toggle-btn" class="sidebar-button" aria-label="Alternar tema" aria-pressed="false">
-        <!-- Ícones -->
         <svg id="theme-icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-moon">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
@@ -73,10 +65,8 @@
         <span id="theme-text">Tema escuro</span>
       </button>
     </div>
-    <!-- Novo Botão 'Fonte' -->
     <div class="font-toggle">
       <button id="font-toggle-btn" class="sidebar-button" aria-label="Escolher fonte" aria-haspopup="true" aria-expanded="false">
-        <!-- SVG do Ícone de Fonte -->
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
           <path d="M6 4h12v2H6V4zm2 6h8v2H8v-2zm0 4h8v2H8v-2zm0 4h8v2H8v-2z"/>
         </svg>
@@ -90,17 +80,16 @@
         <button class="font-option" data-font="Roboto">Roboto</button>
       </div>
     </div>
-    <!-- Campo de Busca no Texto da Lei -->
     <div class="search-text">
       <label for="search-text" class="visually-hidden">Buscar no texto da lei</label>
       <input type="text" id="search-text" placeholder="Buscar conteúdo da lei..." aria-describedby="search-text-desc">
       <span id="search-text-desc" class="visually-hidden">Digite para buscar no conteúdo da lei atual</span>
+      <div id="search-results"></div>
     </div>
   </aside>
 
   <!-- Conteúdo Principal -->
   <main class="main-content" role="main">
-    <!-- Conteúdo da Lei -->
     <section class="content" id="law-content">
       <p>Seja bem-vindo! =]</p>
       <p>O Mecum é a sua ferramenta elegante e funcional de consulta da legislação brasileira.</p>

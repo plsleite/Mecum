@@ -54,8 +54,8 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 1px; /* Altura mínima para detecção */
-  pointer-events: none; /* Não interfere em interações */
+  height: 1px;
+  pointer-events: none;
 }
 
 /* Sidebars */
@@ -69,7 +69,7 @@ body {
   bottom: 0;
   overflow-y: auto;
   transition: transform 0.3s ease;
-  z-index: 1000; /* Garantir que fiquem acima do conteúdo */
+  z-index: 1000;
 }
 
 /* Handles */
@@ -80,29 +80,28 @@ body {
   height: 100%;
   background-color: var(--sidebar-background);
   cursor: pointer;
-  /* Adicionando um gradiente para indicar a parte oculta */
   background: linear-gradient(to right, var(--sidebar-background) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
 .left-handle {
-  left: -20px; /* Posicionado para ficar visível quando sidebar está recolhida */
+  left: -20px;
   background: linear-gradient(to right, var(--sidebar-background) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
 .right-handle {
-  right: -20px; /* Posicionado para ficar visível quando sidebar está recolhida */
+  right: -20px;
   background: linear-gradient(to left, var(--sidebar-background) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
 /* Sidebars posicionadas inicialmente */
 .left-sidebar {
   left: 0;
-  transform: translateX(0); /* Visível por padrão em telas grandes */
+  transform: translateX(0);
 }
 
 .right-sidebar {
   right: 0;
-  transform: translateX(0); /* Visível por padrão em telas grandes */
+  transform: translateX(0);
 }
 
 /* Conteúdo Principal */
@@ -125,12 +124,12 @@ body {
   max-width: 70ch;
   width: 100%;
   margin: 0 auto;
-  text-align: justify; /* Justificação do texto */
-  -webkit-hyphens: auto; /* Hifenização para navegadores WebKit */
-     -ms-hyphens: auto; /* Hifenização para navegadores IE */
-         hyphens: auto; /* Hifenização padrão */
-  word-break: break-word; /* Quebra de palavra */
-  overflow-wrap: break-word; /* Quebra de linha */
+  text-align: justify;
+  -webkit-hyphens: auto;
+     -ms-hyphens: auto;
+         hyphens: auto;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Estilização do link "Mecum" */
@@ -218,7 +217,7 @@ body {
 
 #theme-toggle-btn:active,
 #login-btn:active,
-#font-toggle-btn:active { /* Adicionado para o novo botão */
+#font-toggle-btn:active {
   transform: scale(0.95);
 }
 
@@ -228,22 +227,20 @@ body {
   height: 12px;
   margin-left: 8px;
   transition: transform 0.3s;
-  color: var(--icon-color); /* Cor adaptada ao tema */
+  color: var(--icon-color);
   cursor: pointer;
   transform-origin: center;
 }
 
-/* Rotação para o Estado Expandido */
 .grouping-header.expanded .expand-icon {
-  transform: rotate(0deg); /* Aponta para baixo */
+  transform: rotate(0deg);
 }
 
-/* Rotação para o Estado Colapsado */
 .grouping-header.collapsed .expand-icon {
-  transform: rotate(-90deg); /* Aponta para a direita */
+  transform: rotate(-90deg);
 }
 
-/* Input de Busca */
+/* Input de Busca na Lei */
 .search-text input[type="text"] {
   width: 100%;
   padding: 8px;
@@ -264,24 +261,23 @@ body {
   margin-bottom: 10px;
 }
 
-/* Novo Botão 'Fonte' - Adicionado Espaçamento */
+/* Fonte Dropdown */
 .font-toggle {
-  margin-top: 10px; /* Espaçamento similar ao existente */
-  position: relative; /* Para posicionar o dropdown */
+  margin-top: 10px;
+  position: relative;
 }
 
-/* Dropdown de Fontes */
 .font-dropdown {
   position: absolute;
   top: 100%;
   left: 0;
-  width: 100%; /* Igualar à largura do botão Fonte */
+  width: 100%;
   background-color: var(--sidebar-background);
   border: 1px solid var(--button-border-color);
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   margin-top: 5px;
-  z-index: 1200; /* Maior que as sidebars e mensagens temporárias */
+  z-index: 1200;
 }
 
 .font-dropdown.hidden {
@@ -325,16 +321,16 @@ a:focus {
   border-radius: 4px;
   margin-top: 20px;
   margin-bottom: 10px;
-  font-size: 1.2em;
+  font-size: 1em;
   font-weight: 700;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Espaço entre o texto e o ícone */
+  justify-content: space-between;
   transition: background-color 0.3s, color 0.3s, transform 0.3s;
   position: sticky;
-  z-index: 900; /* Base z-index abaixo das sidebars */
+  z-index: 900;
 }
 
 .grouping-header:hover {
@@ -349,16 +345,16 @@ a:focus {
 /* Posicionamento Sticky para Acumular Headers */
 .grouping-header:nth-of-type(1) {
   top: 0px;
-  z-index: 105; /* Superior */
+  z-index: 105;
 }
 
 .grouping-header:nth-of-type(2) {
-  top: 40px; /* Altura do primeiro header */
+  top: 40px;
   z-index: 104;
 }
 
 .grouping-header:nth-of-type(3) {
-  top: 80px; /* Altura cumulativa */
+  top: 80px;
   z-index: 103;
 }
 
@@ -373,7 +369,7 @@ a:focus {
 }
 
 .grouping-header:nth-of-type(n+6) {
-  top: 200px; /* Empurra os anteriores para cima */
+  top: 200px;
   z-index: 100;
 }
 
@@ -400,15 +396,15 @@ a:focus {
 
 /* Ementa */
 .p-ementa {
-  text-align: justify; /* Justificação do texto */
-  -webkit-hyphens: auto; /* Hifenização para navegadores WebKit */
-     -ms-hyphens: auto; /* Hifenização para navegadores IE */
-         hyphens: auto; /* Hifenização padrão */
+  text-align: justify;
+  -webkit-hyphens: auto;
+     -ms-hyphens: auto;
+         hyphens: auto;
   margin-left: 50%;
   transform: translateX(-50%);
   max-width: 50%;
-  word-break: break-word; /* Quebra de palavra */
-  overflow-wrap: break-word; /* Quebra de linha */
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Preâmbulo */
@@ -420,25 +416,25 @@ a:focus {
 }
 
 .preambulo-content {
-  text-align: justify; /* Justificação do texto */
-  -webkit-hyphens: auto; /* Hifenização para navegadores WebKit */
-     -ms-hyphens: auto; /* Hifenização para navegadores IE */
-         hyphens: auto; /* Hifenização padrão */
+  text-align: justify;
+  -webkit-hyphens: auto;
+     -ms-hyphens: auto;
+         hyphens: auto;
   margin-top: 10px;
-  word-break: break-word; /* Quebra de palavra */
-  overflow-wrap: break-word; /* Quebra de linha */
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Parágrafos */
 .content p {
   margin-bottom: 15px;
   line-height: 1.6;
-  text-align: justify; /* Justificação do texto */
-  -webkit-hyphens: auto; /* Hifenização para navegadores WebKit */
-     -ms-hyphens: auto; /* Hifenização para navegadores IE */
-         hyphens: auto; /* Hifenização padrão */
-  word-break: break-word; /* Quebra de palavra */
-  overflow-wrap: break-word; /* Quebra de linha */
+  text-align: justify;
+  -webkit-hyphens: auto;
+     -ms-hyphens: auto;
+         hyphens: auto;
+  word-break: break-word;
+  overflow-wrap: break-word;
   font-weight: normal;
 }
 
@@ -481,7 +477,7 @@ a:focus {
   padding: 10px 20px;
   border-radius: 5px;
   animation: fadeOut 3s forwards;
-  z-index: 1100; /* Maior que o z-index das sidebars */
+  z-index: 1100;
 }
 
 @keyframes fadeOut {
@@ -507,12 +503,12 @@ a:focus {
 
   .left-sidebar {
     left: 0;
-    transform: translateX(-230px); /* Mantém 20px visível como handle */
+    transform: translateX(-230px);
   }
 
   .right-sidebar {
     right: 0;
-    transform: translateX(230px); /* Mantém 20px visível como handle */
+    transform: translateX(230px);
   }
 
   .sidebar.open.left-sidebar {
@@ -540,8 +536,8 @@ a:focus {
   }
 
   .main-content {
-    margin-left: 25px; /* Adicionado margin-left de 25px */
-    margin-right: 25px; /* Adicionado margin-right de 25px */
+    margin-left: 25px;
+    margin-right: 25px;
     padding: 15px;
     transition: margin 0.3s ease;
   }
@@ -554,12 +550,12 @@ a:focus {
     margin-left: 0;
     transform: none;
     max-width: 100%;
-    text-align: justify; /* Justificação no mobile */
+    text-align: justify;
     hyphens: auto;
   }
 
   .preambulo-content {
-    text-align: justify; /* Justificação no mobile */
+    text-align: justify;
     hyphens: auto;
   }
 
@@ -571,7 +567,6 @@ a:focus {
     margin-left: 10px;
   }
 
-  /* Ajuste das posições sticky para dispositivos móveis */
   .grouping-header:nth-of-type(1) {
     top: 0px;
   }
@@ -596,7 +591,6 @@ a:focus {
     top: 175px;
   }
 
-  /* Ações de Hover nos Handles */
   .left-sidebar:hover,
   .left-sidebar .handle:hover {
     transform: translateX(0);
@@ -607,36 +601,33 @@ a:focus {
     transform: translateX(0);
   }
 
-  /* Ajustes para Barras Laterais */
   .left-sidebar {
-    z-index: 1000; /* Garantir que fiquem acima do conteúdo */
+    z-index: 1000;
   }
 
   .right-sidebar {
-    z-index: 1000; /* Garantir que fiquem acima do conteúdo */
+    z-index: 1000;
   }
 
-  /* Adicionando transições aos handles */
   .handle {
     transition: background 0.3s ease;
   }
 
   .handle:hover {
-    background: rgba(0, 0, 0, 0.1); /* Sutil indicação visual */
+    background: rgba(0, 0, 0, 0.1);
   }
 
-  /* Estilização do Dropdown de Fontes */
   .font-dropdown {
     position: absolute;
     top: 100%;
     left: 0;
-    width: 100%; /* Igualar à largura do botão Fonte */
+    width: 100%;
     background-color: var(--sidebar-background);
     border: 1px solid var(--button-border-color);
     border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     margin-top: 5px;
-    z-index: 1200; /* Maior que as sidebars e mensagens temporárias */
+    z-index: 1200;
   }
 
   .font-dropdown.hidden {
@@ -669,12 +660,12 @@ a:focus {
   }
 
   .handle {
-    display: none; /* Ocultar handles em telas grandes */
+    display: none;
   }
 
   .left-sidebar,
   .right-sidebar {
-    z-index: 1000; /* Garantir que fiquem acima do conteúdo */
+    z-index: 1000;
   }
 
   .main-content {
@@ -683,18 +674,17 @@ a:focus {
     transition: margin 0.3s ease;
   }
 
-  /* Estilização do Dropdown de Fontes */
   .font-dropdown {
     position: absolute;
     top: 100%;
     left: 0;
-    width: 100%; /* Igualar à largura do botão Fonte */
+    width: 100%;
     background-color: var(--sidebar-background);
     border: 1px solid var(--button-border-color);
     border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     margin-top: 5px;
-    z-index: 1200; /* Maior que as sidebars e mensagens temporárias */
+    z-index: 1200;
   }
 
   .font-dropdown.hidden {
@@ -720,43 +710,29 @@ a:focus {
   }
 }
 
-/* Ajustes Adicionais para Sidebars */
-@media (max-width: 768px) {
-  .left-sidebar,
-  .right-sidebar {
-    transition: transform 0.3s ease;
-  }
-
-  .left-sidebar {
-    transform: translateX(-230px); /* Mantém 20px visível */
-  }
-
-  .right-sidebar {
-    transform: translateX(230px); /* Mantém 20px visível */
-  }
-
-  .sidebar.open.left-sidebar {
-    transform: translateX(0);
-  }
-
-  .sidebar.open.right-sidebar {
-    transform: translateX(0);
-  }
+/* Novo estilo para resultados de busca */
+#search-results {
+  margin-top: 10px;
 }
 
-/* Ajustes para Hover Areas */
-.handle {
-  width: 20px;
-  background: linear-gradient(to right, var(--sidebar-background) 0%, rgba(255, 255, 255, 0) 100%);
-}
-
-.left-handle {
-  left: -20px;
+#search-results button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 5px;
+  margin-bottom: 5px;
+  background: var(--button-background-hover);
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
+  font-size: 14px;
+  color: var(--text-color);
 }
 
-.right-handle {
-  right: -20px;
-  background: linear-gradient(to left, var(--sidebar-background) 0%, rgba(255, 255, 255, 0) 100%);
-  cursor: pointer;
+#search-results button:hover {
+  background: var(--button-border-color);
+}
+
+mark.highlight {
+  background-color: var(--highlight-color);
 }

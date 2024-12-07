@@ -5,10 +5,8 @@ from dotenv import load_dotenv
 
 app = Flask(__name__)
 
-# Carrega as variáveis de ambiente do arquivo .env
 load_dotenv()
 
-# Função para conectar ao banco de dados
 def get_db_connection():
     conn = psycopg2.connect(
         dbname=os.getenv("DB_NAME", "mecum_db"),
@@ -19,7 +17,6 @@ def get_db_connection():
     )
     return conn
 
-# Rota para a página principal
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -29,7 +26,6 @@ def get_law(law_id):
     conn = get_db_connection()
     cur = conn.cursor()
     try:
-        # Consulta SQL recursiva para ordenar hierarquicamente
         cur.execute("""
         WITH RECURSIVE section_tree AS (
             SELECT
@@ -76,7 +72,6 @@ def get_law(law_id):
         cur.close()
         conn.close()
 
-    # Organizar a resposta para o frontend
     if result:
         law = {
             "name": result[0][0],
@@ -99,5 +94,4 @@ def get_law(law_id):
         return jsonify({"error": "Lei não encontrada"}), 404
 
 if __name__ == "__main__":
-    # Em produção, use um servidor WSGI adequado como Gunicorn e desative o modo debug
     app.run(debug=True)

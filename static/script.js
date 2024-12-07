@@ -8,11 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const iconMoon = document.getElementById('theme-icon-moon');
   const iconSun = document.getElementById('theme-icon-sun');
   const themeText = document.getElementById('theme-text');
-  const fontToggleBtn = document.getElementById('font-toggle-btn'); // Novo botão
+  const fontToggleBtn = document.getElementById('font-toggle-btn');
   const fontDropdown = document.getElementById('font-dropdown');
   const bodyElement = document.body;
+  const searchResultsContainer = document.getElementById('search-results');
   const lawCache = {};
   let currentLawId = null;
+  let originalLawContent = null;
 
   // Elementos para Handles
   const leftHandle = document.querySelector('.left-handle');
@@ -20,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const leftSidebar = document.querySelector('.left-sidebar');
   const rightSidebar = document.querySelector('.right-sidebar');
 
-  // Função para mostrar mensagens temporárias
   function showTemporaryMessage(message) {
     const msgDiv = document.createElement('div');
     msgDiv.className = 'temporary-message';
@@ -31,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3000);
   }
 
-  // Filtrar botões de leis com base na pesquisa com debounce
   let debounceTimer;
   searchLawsInput.addEventListener('input', () => {
     clearTimeout(debounceTimer);
@@ -44,12 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 300);
   });
 
-  // Função para determinar a profundidade com base no path
   function getDepth(path) {
     return path.split('.').length;
   }
 
-  // Função para gerar IDs únicos para agrupamentos
   function generateId(type, identifier) {
     let id = type.toLowerCase().replace(/\s+/g, '-');
     if (identifier) {
@@ -58,14 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return id;
   }
 
-  // Função para exibir o conteúdo da lei
   function displayLawContent(data) {
     let htmlContent = ``;
-
-    // Definir os tipos que são considerados como filhos que requerem ícone de seta
     const childTypes = new Set(['Artigo', 'Inciso', 'Parágrafo', 'Alínea', 'Item']);
 
-    // Preprocessar para determinar quais headers têm filhos relevantes
     const pathsWithChildren = new Set();
     data.sections.forEach(section => {
       data.sections.forEach(child => {
@@ -81,13 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const content = section.content ? section.content : '';
       const path = section.path;
 
-      // Determinar a profundidade da seção
       const depth = getDepth(path);
-
-      // Classe de indentação baseada na profundidade
       const indentClass = `indent-level-${depth}`;
-
-      // Gerar um ID único para cada agrupamento
       let groupingId = '';
       let headerText = '';
       let hasChildren = pathsWithChildren.has(path);
@@ -95,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
       switch(type) {
         case 'Epígrafe':
           groupingId = generateId(type, '');
-          // 'Epígrafe' nunca contém artigos, portanto, sem ícone de seta
           htmlContent += `<div id="${groupingId}" class="grouping-header epigrafe ${indentClass}" data-type="${type}">
             <span class="header-text">${content}</span>
           </div>`;
@@ -105,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
           break;
         case 'Preâmbulo':
           groupingId = generateId(type, '');
-          // 'Preâmbulo' também não possui filhos
           htmlContent += `<div id="${groupingId}" class="grouping-header preambulo-subtitle ${indentClass}" data-type="${type}">
             <span class="header-text">Preâmbulo</span>
           </div>`;
@@ -235,18 +222,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     lawContent.innerHTML = htmlContent;
-
-    // Inicializar os eventos dos grouping headers
+    originalLawContent = htmlContent; 
     initGroupingHeaderEvents();
   }
 
-  // Manipular clique nos botões de leis
   lawButtons.forEach(button => {
     button.addEventListener('click', () => {
       const lawId = button.dataset.lawId;
       currentLawId = lawId;
 
-      // Adicionar classe 'selected' ao botão clicado e remover dos outros
       lawButtons.forEach(btn => {
         btn.classList.remove('selected');
         btn.setAttribute('aria-pressed', 'false');
@@ -254,10 +238,8 @@ document.addEventListener('DOMContentLoaded', () => {
       button.classList.add('selected');
       button.setAttribute('aria-pressed', 'true');
 
-      // Desabilitar todos os botões durante o carregamento
       lawButtons.forEach(btn => btn.disabled = true);
 
-      // Mostra o loader
       lawContent.innerHTML = `
         <div class="loader">
           <div class="spinner"></div>
@@ -265,12 +247,10 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
 
-      // Verifica cache
       if (lawCache[lawId]) {
         displayLawContent(lawCache[lawId]);
         lawButtons.forEach(btn => btn.disabled = false);
       } else {
-        // Faz a chamada ao endpoint com o ID da lei
         fetch(`/api/laws/${lawId}`)
           .then(response => {
             if (!response.ok) {
@@ -292,23 +272,20 @@ document.addEventListener('DOMContentLoaded', () => {
             lawContent.innerHTML = `<p>Erro ao carregar o conteúdo da lei.</p>`;
           })
           .finally(() => {
-            // Reabilitar os botões após o carregamento
             lawButtons.forEach(btn => btn.disabled = false);
           });
       }
     });
   });
 
-  // Botão de login
   loginBtn.addEventListener('click', () => {
     showTemporaryMessage('Função de login ainda não implementada.');
   });
 
-  // Botão de Fonte
   fontToggleBtn.addEventListener('click', (e) => {
-    e.stopPropagation(); // Prevenir que o clique feche o dropdown imediatamente
+    e.stopPropagation();
     const isHidden = fontDropdown.classList.contains('hidden');
-    closeFontDropdown(); // Fechar outros dropdowns se existirem
+    closeFontDropdown();
     if (isHidden) {
       fontDropdown.classList.remove('hidden');
       fontToggleBtn.setAttribute('aria-expanded', 'true');
@@ -318,7 +295,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Evento de clique nas opções de fonte
   const fontOptions = document.querySelectorAll('.font-option');
   fontOptions.forEach(option => {
     option.addEventListener('click', () => {
@@ -329,7 +305,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Função para aplicar a fonte selecionada ao conteúdo principal
   function applyFont(fontName) {
     const content = document.querySelector('.content');
     if (content) {
@@ -337,29 +312,138 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Função para fechar o dropdown de fontes
   function closeFontDropdown() {
     fontDropdown.classList.add('hidden');
     fontToggleBtn.setAttribute('aria-expanded', 'false');
   }
 
-  // Fechar o dropdown quando clicar fora
   document.addEventListener('click', (event) => {
     if (!fontDropdown.contains(event.target) && !fontToggleBtn.contains(event.target)) {
       closeFontDropdown();
     }
   });
 
-  // Pesquisa no texto da lei com debounce
   let searchDebounceTimer;
   searchTextInput.addEventListener('input', () => {
     clearTimeout(searchDebounceTimer);
     searchDebounceTimer = setTimeout(() => {
-      showTemporaryMessage('Função de busca no texto da lei ainda não implementada.');
+      const query = searchTextInput.value.trim();
+      handleSearchInLawContent(query);
     }, 300);
   });
 
-  // Função para definir o tema
+  function handleSearchInLawContent(query) {
+    if (!currentLawId || !originalLawContent) {
+      return;
+    }
+
+    if (!query) {
+      lawContent.innerHTML = originalLawContent;
+      searchResultsContainer.innerHTML = '';
+      initGroupingHeaderEvents();
+      return;
+    }
+
+    const words = query.split(/\s+/).filter(w => w.length > 0);
+    if (words.length === 0) {
+      lawContent.innerHTML = originalLawContent;
+      searchResultsContainer.innerHTML = '';
+      initGroupingHeaderEvents();
+      return;
+    }
+
+    const escapedWords = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    const regex = new RegExp(`\\b(${escapedWords.join('|')})\\b`, 'gi');
+
+    const paragraphs = lawContent.querySelectorAll('p');
+    const matches = [];
+
+    paragraphs.forEach((p, pIndex) => {
+      const text = p.textContent;
+      let match;
+      while ((match = regex.exec(text)) !== null) {
+        const start = match.index;
+        const end = start + match[0].length;
+        const snippetStart = Math.max(0, start - 30);
+        const snippetEnd = Math.min(text.length, end + 30);
+        const snippet = text.substring(snippetStart, snippetEnd).trim();
+        matches.push({
+          paragraphIndex: pIndex,
+          start,
+          end,
+          word: match[0],
+          snippet
+        });
+      }
+    });
+
+    if (matches.length === 0) {
+      lawContent.innerHTML = originalLawContent;
+      searchResultsContainer.innerHTML = '<p>Nenhum resultado encontrado.</p>';
+      initGroupingHeaderEvents();
+      return;
+    }
+
+    // Atribuir um índice global a cada match
+    matches.forEach((m, i) => {
+      m.globalIndex = i;
+    });
+
+    matches.sort((a,b) => {
+      if (a.paragraphIndex === b.paragraphIndex) {
+        return a.start - b.start;
+      }
+      return a.paragraphIndex - b.paragraphIndex;
+    });
+
+    const newParagraphs = [];
+    paragraphs.forEach((p, pIndex) => {
+      const text = p.textContent;
+      const pMatches = matches.filter(m => m.paragraphIndex === pIndex);
+      if (pMatches.length === 0) {
+        newParagraphs.push(p.innerHTML);
+      } else {
+        let lastIndex = 0;
+        let highlightedText = '';
+        pMatches.forEach((m) => {
+          highlightedText += text.substring(lastIndex, m.start);
+          highlightedText += `<mark class="highlight" data-match-index="${m.globalIndex}">${text.substring(m.start, m.end)}</mark>`;
+          lastIndex = m.end;
+        });
+        highlightedText += text.substring(lastIndex);
+        newParagraphs.push(highlightedText);
+      }
+    });
+
+    let updatedContent = '';
+    const allOriginalElements = lawContent.querySelectorAll('p, .grouping-header, .p-ementa, .preambulo-content, .preambulo-subtitle');
+    let pCount = 0;
+    allOriginalElements.forEach(el => {
+      if (el.tagName.toLowerCase() === 'p') {
+        updatedContent += `<p>${newParagraphs[pCount++]}</p>`;
+      } else {
+        updatedContent += el.outerHTML;
+      }
+    });
+
+    lawContent.innerHTML = updatedContent;
+    initGroupingHeaderEvents();
+
+    searchResultsContainer.innerHTML = '';
+    matches.forEach((m) => {
+      const btn = document.createElement('button');
+      btn.textContent = m.snippet + '...';
+      btn.setAttribute('data-target', m.globalIndex);
+      btn.addEventListener('click', () => {
+        const highlightEl = lawContent.querySelector(`mark.highlight[data-match-index="${m.globalIndex}"]`);
+        if (highlightEl) {
+          highlightEl.scrollIntoView({behavior: 'smooth', block: 'center'});
+        }
+      });
+      searchResultsContainer.appendChild(btn);
+    });
+  }
+
   function setTheme(theme) {
     if (theme === 'dark') {
       bodyElement.classList.add('dark-theme');
@@ -378,50 +462,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Inicializa o tema
   const savedTheme = localStorage.getItem('theme') || 'light';
   setTheme(savedTheme);
 
-  // Alterna o tema quando o botão é clicado
   themeToggleBtn.addEventListener('click', () => {
     const currentTheme = bodyElement.classList.contains('dark-theme') ? 'dark' : 'light';
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
   });
 
-  // Inicializar eventos dos grouping headers
   function initGroupingHeaderEvents() {
     const groupingHeaders = document.querySelectorAll('.grouping-header');
 
     groupingHeaders.forEach(header => {
       const expandIcon = header.querySelector('.expand-icon');
-      const headerType = header.getAttribute('data-type');
 
-      // Apenas headers com ícone de seta possuem conteúdo a expandir
       if (expandIcon) {
-        // Garantir que o ícone está na orientação correta com base na classe inicial
-        if (header.classList.contains('expanded')) {
-          // Nenhuma ação necessária, CSS já define a orientação
-        } else {
-          // Definir a orientação inicial para a direita
-          // CSS já faz isso baseado na classe
-        }
-
         header.addEventListener('click', (event) => {
-          // Prevenir a propagação do evento caso o clique seja no ícone
           if (event.target.classList.contains('expand-icon')) {
             event.stopPropagation();
           }
 
           if (header.classList.contains('is-sticky')) {
-            // Header está sticky: rolar para a posição original
             const headerId = header.id;
             const originalHeader = document.getElementById(headerId);
             if (originalHeader) {
               originalHeader.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
           } else {
-            // Header não está sticky: expandir/contrair
             const isExpanded = header.classList.contains('expanded');
             header.classList.toggle('expanded', !isExpanded);
             header.classList.toggle('collapsed', isExpanded);
@@ -434,7 +502,6 @@ document.addEventListener('DOMContentLoaded', () => {
               nextSibling = nextSibling.nextElementSibling;
             }
 
-            // Alternar visibilidade
             nextElements.forEach(element => {
               element.style.display = isExpanded ? 'none' : '';
             });
@@ -444,10 +511,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Configurar Intersection Observer para detectar headers sticky
   const sentinel = document.getElementById('sentinel');
   const observerOptions = {
-    root: null, // viewport
+    root: null,
     threshold: 0
   };
 
@@ -466,13 +532,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   observer.observe(sentinel);
 
-  // Função auxiliar para verificar se o header está no topo
   function isElementAtTop(element) {
     const rect = element.getBoundingClientRect();
     return rect.top <= 0 && rect.bottom > 0;
   }
 
-  // Eventos para Handles nas Telas Pequenas
   leftHandle.addEventListener('mouseenter', () => {
     leftSidebar.classList.add('open');
   });
@@ -505,7 +569,6 @@ document.addEventListener('DOMContentLoaded', () => {
     rightSidebar.classList.remove('open');
   });
 
-  // Listener para Redimensionamento da Janela
   window.addEventListener('resize', () => {
     if (window.innerWidth > 768) {
       leftSidebar.classList.remove('open');
