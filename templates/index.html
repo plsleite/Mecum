@@ -84,6 +84,14 @@
       <label for="search-text" class="visually-hidden">Buscar no texto da lei</label>
       <input type="text" id="search-text" placeholder="Buscar conteúdo da lei..." aria-describedby="search-text-desc">
       <span id="search-text-desc" class="visually-hidden">Digite para buscar no conteúdo da lei atual</span>
+      
+      <!-- Botões de Navegação (Inicialmente ocultos) -->
+      <div id="navigation-buttons" class="navigation-buttons hidden">
+        <button id="prev-occurrence" class="nav-button" disabled>Anterior</button>
+        <button id="next-occurrence" class="nav-button" disabled>Próximo</button>
+      </div>
+      
+      <!-- Resultados da Busca -->
       <div id="search-results"></div>
     </div>
   </aside>

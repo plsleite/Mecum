@@ -8,6 +8,7 @@
   --input-background: #fff;
   --input-text-color: #000;
   --highlight-color: #ff0;
+  --current-highlight-color: #ff6347; /* Tomate para destaque atual */
   --initial-element-color: #333;
   --icon-color: #aaa; /* Cor dos ícones no tema claro */
 }
@@ -21,6 +22,7 @@ body.dark-theme {
   --input-background: #1e1e1e;
   --input-text-color: #ffffff;
   --highlight-color: #555555;
+  --current-highlight-color: #ff6347; /* Mesmo tom para consistência */
   --initial-element-color: #ccc;
   --icon-color: #777; /* Cor dos ícones no tema escuro */
 }
@@ -139,7 +141,7 @@ body {
 
 .sidebar h1 a.home-link {
   font-family: 'Bungee Inline', cursive;
-  font-size: 50px;
+  font-size: 58px;
   margin: 0;
   line-height: 1;
   color: var(--text-color);
@@ -651,6 +653,42 @@ a:focus {
     background-color: var(--button-background-hover);
     outline: none;
   }
+
+  /* Estilos para os Botões de Navegação */
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .nav-button {
+    flex: 1;
+    padding: 8px 12px;
+    margin: 0 5px;
+    background-color: var(--button-background-hover);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-color);
+    transition: background-color 0.3s;
+  }
+
+  .nav-button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+  }
+
+  .nav-button:hover:not(:disabled),
+  .nav-button:focus:not(:disabled) {
+    background-color: var(--button-border-color);
+    outline: none;
+  }
+
+  /* Ocultar os Botões de Navegação Inicialmente */
+  .navigation-buttons.hidden {
+    display: none;
+  }
 }
 
 @media (min-width: 769px) {
@@ -708,6 +746,42 @@ a:focus {
     background-color: var(--button-background-hover);
     outline: none;
   }
+
+  /* Estilos para os Botões de Navegação */
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .nav-button {
+    flex: 1;
+    padding: 8px 12px;
+    margin: 0 5px;
+    background-color: var(--button-background-hover);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-color);
+    transition: background-color 0.3s;
+  }
+
+  .nav-button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+  }
+
+  .nav-button:hover:not(:disabled),
+  .nav-button:focus:not(:disabled) {
+    background-color: var(--button-border-color);
+    outline: none;
+  }
+
+  /* Ocultar os Botões de Navegação Inicialmente */
+  .navigation-buttons.hidden {
+    display: none;
+  }
 }
 
 /* Novo estilo para resultados de busca */
@@ -749,6 +823,7 @@ mark.highlight {
 }
 
 mark.highlight.current-highlight {
+  background-color: var(--current-highlight-color);
   animation: pulse 1s infinite;
 }
 

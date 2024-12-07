@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Referências aos elementos do DOM
   const searchLawsInput = document.getElementById('search-laws');
   const lawButtons = document.querySelectorAll('.law-button');
   const lawContent = document.getElementById('law-content');
@@ -12,15 +13,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const fontDropdown = document.getElementById('font-dropdown');
   const bodyElement = document.body;
   const searchResultsContainer = document.getElementById('search-results');
+  const navigationButtonsContainer = document.getElementById('navigation-buttons');
+  const prevButton = document.getElementById('prev-occurrence');
+  const nextButton = document.getElementById('next-occurrence');
   const lawCache = {};
   let currentLawId = null;
   let originalLawContent = null;
 
-  // Elementos para Handles
-  const leftHandle = document.querySelector('.left-handle');
-  const rightHandle = document.querySelector('.right-handle');
-  const leftSidebar = document.querySelector('.left-sidebar');
-  const rightSidebar = document.querySelector('.right-sidebar');
+  // Variáveis para Navegação entre Ocorrências
+  let currentMatchIndex = -1;
+  let totalMatches = 0;
 
   // Função para mostrar mensagens temporárias
   function showTemporaryMessage(message) {
@@ -287,6 +289,9 @@ document.addEventListener('DOMContentLoaded', () => {
             lawButtons.forEach(btn => btn.disabled = false);
           });
       }
+
+      // Resetar navegação entre ocorrências ao mudar de lei
+      resetNavigation();
     });
   });
 
@@ -346,6 +351,84 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 300);
   });
 
+  /* Funções para Navegação entre Ocorrências */
+
+  // Resetar navegação entre ocorrências
+  function resetNavigation() {
+    currentMatchIndex = -1;
+    totalMatches = 0;
+    updateNavigationButtons();
+    removeCurrentHighlight();
+    // Ocultar os botões de navegação
+    navigationButtonsContainer.classList.add('hidden');
+  }
+
+  // Atualizar o estado dos botões de navegação
+  function updateNavigationButtons() {
+    if (totalMatches > 0) {
+      navigationButtonsContainer.classList.remove('hidden');
+      prevButton.disabled = false;
+      nextButton.disabled = false;
+    } else {
+      navigationButtonsContainer.classList.add('hidden');
+      prevButton.disabled = true;
+      nextButton.disabled = true;
+    }
+
+    // Resetar os botões se não houver mais ocorrências
+    if (currentMatchIndex < 0 || currentMatchIndex >= totalMatches) {
+      prevButton.disabled = true;
+      nextButton.disabled = true;
+    }
+  }
+
+  // Definir a ocorrência atual
+  function setCurrentMatch(index) {
+    // Remover destaque anterior
+    removeCurrentHighlight();
+
+    // Atualizar o índice atual
+    currentMatchIndex = index;
+
+    // Adicionar destaque atual
+    const highlightEl = lawContent.querySelector(`mark.highlight[data-match-index="${index}"]`);
+    if (highlightEl) {
+      highlightEl.classList.add('current-highlight');
+      highlightEl.scrollIntoView({behavior: 'smooth', block: 'center'});
+    }
+
+    updateNavigationButtons();
+  }
+
+  // Remover o destaque atual
+  function removeCurrentHighlight() {
+    const currentEl = lawContent.querySelector('mark.highlight.current-highlight');
+    if (currentEl) {
+      currentEl.classList.remove('current-highlight');
+    }
+  }
+
+  // Event listeners para os botões de navegação
+  prevButton.addEventListener('click', () => {
+    if (totalMatches === 0) return;
+
+    let newIndex = currentMatchIndex - 1;
+    if (newIndex < 0) {
+      newIndex = totalMatches - 1; // Loop para a última ocorrência
+    }
+    setCurrentMatch(newIndex);
+  });
+
+  nextButton.addEventListener('click', () => {
+    if (totalMatches === 0) return;
+
+    let newIndex = currentMatchIndex + 1;
+    if (newIndex >= totalMatches) {
+      newIndex = 0; // Loop para a primeira ocorrência
+    }
+    setCurrentMatch(newIndex);
+  });
+
   // Função para destacar palavras-chave e gerar resultados
   function handleSearchInLawContent(query) {
     if (!currentLawId || !originalLawContent) {
@@ -356,6 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!query) {
       lawContent.innerHTML = originalLawContent;
       searchResultsContainer.innerHTML = '';
+      resetNavigation();
       initGroupingHeaderEvents();
       return;
     }
@@ -376,6 +460,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (words.length === 0) {
         lawContent.innerHTML = originalLawContent;
         searchResultsContainer.innerHTML = '';
+        resetNavigation();
         initGroupingHeaderEvents();
         return;
       }
@@ -431,6 +516,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Nenhum destaque
       lawContent.innerHTML = originalLawContent;
       searchResultsContainer.innerHTML = '<p>Nenhum resultado encontrado.</p>';
+      resetNavigation();
       initGroupingHeaderEvents();
       return;
     }
@@ -485,7 +571,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     lawContent.innerHTML = updatedContent;
 
-    // Atualizar events de grouping headers
+    // Atualizar eventos de grouping headers
     initGroupingHeaderEvents();
 
     // Gerar lista de resultados na sidebar
@@ -498,15 +584,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const highlightEl = lawContent.querySelector(`mark.highlight[data-match-index="${m.globalIndex}"]`);
         if (highlightEl) {
           highlightEl.scrollIntoView({behavior: 'smooth', block: 'center'});
-          // Adicionar animação de destaque
-          highlightEl.classList.add('current-highlight');
-          setTimeout(() => {
-            highlightEl.classList.remove('current-highlight');
-          }, 1000); // Remover a classe após a animação
+          // Atualizar o índice atual e destacar a ocorrência
+          setCurrentMatch(m.globalIndex);
         }
       });
       searchResultsContainer.appendChild(btn);
     });
+
+    // Atualizar navegação
+    currentMatchIndex = -1; // Resetar
+    totalMatches = matches.length;
+    updateNavigationButtons();
   }
 
   // Função para alternar tema
@@ -537,6 +625,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTheme(newTheme);
   });
 
+  // Função para inicializar eventos dos headers de agrupamento
   function initGroupingHeaderEvents() {
     const groupingHeaders = document.querySelectorAll('.grouping-header');
 
@@ -577,6 +666,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Sentinela para Intersection Observer
   const sentinel = document.getElementById('sentinel');
   const observerOptions = {
     root: null,
@@ -602,6 +692,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const rect = element.getBoundingClientRect();
     return rect.top <= 0 && rect.bottom > 0;
   }
+
+  // Handles das Sidebars
+  const leftHandle = document.querySelector('.left-handle');
+  const rightHandle = document.querySelector('.right-handle');
+  const leftSidebar = document.querySelector('.left-sidebar');
+  const rightSidebar = document.querySelector('.right-sidebar');
 
   leftHandle.addEventListener('mouseenter', () => {
     leftSidebar.classList.add('open');
