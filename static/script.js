@@ -519,7 +519,7 @@ document.addEventListener('DOMContentLoaded', () => {
             start: index,
             end: index + exactPhrase.length,
             word: originalText.substring(index, index + exactPhrase.length),
-            snippet: originalText.substring(Math.max(0, index - 30), Math.min(originalText.length, index + exactPhrase.length + 30))
+            snippet: originalText.substring(Math.max(0, index - 50), Math.min(originalText.length, index + exactPhrase.length + 50)) // Aumentado para 50 caracteres
           });
         }
       } else {
@@ -528,14 +528,22 @@ document.addEventListener('DOMContentLoaded', () => {
           const normalizedMatch = normalizeText(match[0]);
           const start = normalizedText.indexOf(normalizedMatch, regex.lastIndex - match[0].length);
           const end = start + normalizedMatch.length;
-          const snippetStart = Math.max(0, start - 30);
-          const snippetEnd = Math.min(originalText.length, end + 30);
-          const snippet = originalText.substring(snippetStart, snippetEnd).trim();
+          const snippetStart = Math.max(0, start - 50); // Aumentado para 50 caracteres
+          const snippetEnd = Math.min(originalText.length, end + 50); // Aumentado para 50 caracteres
+          let snippet = originalText.substring(snippetStart, snippetEnd).trim();
+
+          // Realçar a palavra-chave no snippet
+          const keyword = match[0];
+          const boldKeyword = `<strong>${keyword}</strong>`;
+          // Substituir a primeira ocorrência da palavra-chave no snippet por bold
+          const regexKeyword = new RegExp(`(${escapeRegExp(keyword)})`, 'i');
+          snippet = snippet.replace(regexKeyword, boldKeyword);
+
           matches.push({
             paragraphIndex: pIndex,
             start: start,
             end: end,
-            word: originalText.substring(start, end),
+            word: keyword,
             snippet: snippet
           });
         }
@@ -612,7 +620,7 @@ document.addEventListener('DOMContentLoaded', () => {
     searchResultsContainer.innerHTML = '';
     matches.forEach((m) => {
       const btn = document.createElement('button');
-      btn.textContent = m.snippet + '...';
+      btn.innerHTML = `${m.snippet}...`; // Alterado para innerHTML
       btn.setAttribute('data-target', m.globalIndex);
       btn.addEventListener('click', () => {
         const highlightEl = lawContent.querySelector(`mark.highlight[data-match-index="${m.globalIndex}"]`);
@@ -778,3 +786,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+/* Função para escapar caracteres especiais em expressões regulares */
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& significa toda a string que foi correspondida
+}
