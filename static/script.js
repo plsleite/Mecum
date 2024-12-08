@@ -352,6 +352,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 300);
   });
 
+  /* Adicionado: Navegação com as teclas Enter, Setas para Baixo e Setas para Cima no campo de busca */
+  searchTextInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      nextButton.click();
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      nextButton.click();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      prevButton.click();
+    }
+  });
+
   /* Funções para Navegação entre Ocorrências */
 
   // Resetar navegação entre ocorrências
