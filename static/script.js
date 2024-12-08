@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const navigationButtonsContainer = document.getElementById('navigation-buttons');
   const prevButton = document.getElementById('prev-occurrence');
   const nextButton = document.getElementById('next-occurrence');
+  const searchCountElement = document.getElementById('search-count'); // Adicionado
   const lawCache = {};
   let currentLawId = null;
   let originalLawContent = null;
@@ -361,6 +362,11 @@ document.addEventListener('DOMContentLoaded', () => {
     removeCurrentHighlight();
     // Ocultar os botões de navegação
     navigationButtonsContainer.classList.add('hidden');
+    // Resetar a contagem de resultados
+    searchCountElement.textContent = '';
+    // Remover a classe 'selected' de todos os botões de resultados
+    const allResultButtons = searchResultsContainer.querySelectorAll('button');
+    allResultButtons.forEach(btn => btn.classList.remove('selected'));
   }
 
   // Atualizar o estado dos botões de navegação
@@ -390,7 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Atualizar o índice atual
     currentMatchIndex = index;
 
-    // Adicionar destaque atual
+    // Adicionar destaque atual no conteúdo principal
     const highlightEl = lawContent.querySelector(`mark.highlight[data-match-index="${index}"]`);
     if (highlightEl) {
       highlightEl.classList.add('current-highlight');
@@ -398,6 +404,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     updateNavigationButtons();
+
+    // Atualizar contagem de resultados
+    searchCountElement.textContent = `Resultados: ${currentMatchIndex + 1}/${totalMatches}`;
+
+    // Atualizar a seleção na sidebar de resultados
+    const allResultButtons = searchResultsContainer.querySelectorAll('button');
+    allResultButtons.forEach(btn => btn.classList.remove('selected'));
+    const selectedButton = searchResultsContainer.querySelector(`button[data-target="${index}"]`);
+    if (selectedButton) {
+      selectedButton.classList.add('selected');
+    }
   }
 
   // Remover o destaque atual
@@ -518,6 +535,8 @@ document.addEventListener('DOMContentLoaded', () => {
       searchResultsContainer.innerHTML = '<p>Nenhum resultado encontrado.</p>';
       resetNavigation();
       initGroupingHeaderEvents();
+      // Atualizar contagem
+      searchCountElement.textContent = 'Nenhum resultado encontrado.';
       return;
     }
 
@@ -591,10 +610,16 @@ document.addEventListener('DOMContentLoaded', () => {
       searchResultsContainer.appendChild(btn);
     });
 
-    // Atualizar navegação
-    currentMatchIndex = -1; // Resetar
+    // Atualizar navegação e selecionar o primeiro resultado
     totalMatches = matches.length;
-    updateNavigationButtons();
+    if (totalMatches > 0) {
+      setCurrentMatch(0);
+    } else {
+      resetNavigation();
+    }
+
+    // Atualizar contagem de resultados
+    // Removido: searchCountElement.textContent = `Resultados encontrados: ${totalMatches}`;
   }
 
   // Função para alternar tema

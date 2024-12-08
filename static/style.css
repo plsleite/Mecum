@@ -789,25 +789,35 @@ a:focus {
   margin-top: 10px;
 }
 
+/* Estilo para a contagem de resultados */
+.search-count {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+/* Estilo para os botões de resultados da busca */
 #search-results button {
   display: block;
   width: 100%;
-  text-align: left;
-  padding: 5px;
-  margin-bottom: 5px;
-  background: var(--button-background-hover);
+  padding: 8px 12px;
+  margin-bottom: 4px;
   border: none;
-  border-radius: 4px;
+  background: none;
+  text-align: left;
   cursor: pointer;
-  font-size: 14px;
-  color: var(--text-color);
-  opacity: 0;
-  transform: translateY(-10px);
-  animation: fadeIn 0.3s forwards;
+  border-radius: 4px;
+  transition: background-color 0.3s;
 }
 
+/* Estilo para o botão de resultado quando o mouse está sobre ele */
 #search-results button:hover {
-  background: var(--button-border-color);
+  background-color: #e0e0e0; /* Ajuste para a cor de hover desejada */
+}
+
+/* Estilo para o botão de resultado selecionado */
+#search-results button.selected {
+  background-color: #e0e0e0; /* Mesma cor do hover */
 }
 
 @keyframes fadeIn {
