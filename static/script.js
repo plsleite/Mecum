@@ -532,7 +532,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (matches.length === 0) {
       // Nenhum destaque
       lawContent.innerHTML = originalLawContent;
-      searchResultsContainer.innerHTML = '<p>Nenhum resultado encontrado.</p>';
+      // Remover a linha abaixo para suprimir a mensagem na sidebar
+      // searchResultsContainer.innerHTML = '<p>Nenhum resultado encontrado.</p>';
       resetNavigation();
       initGroupingHeaderEvents();
       // Atualizar contagem

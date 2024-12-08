@@ -807,17 +807,32 @@ a:focus {
   text-align: left;
   cursor: pointer;
   border-radius: 4px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, color 0.3s;
+  color: #000000; /* Cor de texto padrão para tema claro */
 }
 
 /* Estilo para o botão de resultado quando o mouse está sobre ele */
 #search-results button:hover {
-  background-color: #e0e0e0; /* Ajuste para a cor de hover desejada */
+  background-color: #e0e0e0; /* Cor de hover para tema claro */
+  color: #000000; /* Cor de texto para tema claro */
 }
 
 /* Estilo para o botão de resultado selecionado */
 #search-results button.selected {
-  background-color: #e0e0e0; /* Mesma cor do hover */
+  background-color: #e0e0e0; /* Mesma cor do hover no tema claro */
+  font-weight: bold;
+  color: #000000; /* Cor de texto para tema claro */
+}
+
+/* Estilos para o tema escuro */
+body.dark-theme #search-results button {
+  color: #ffffff; /* Cor de texto padrão para tema escuro */
+}
+
+body.dark-theme #search-results button:hover,
+body.dark-theme #search-results button.selected {
+  background-color: #555555; /* Cor de hover e seleção para tema escuro */
+  color: #ffffff; /* Cor de texto para tema escuro */
 }
 
 @keyframes fadeIn {
